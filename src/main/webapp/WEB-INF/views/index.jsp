@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-seok
+<h1>Main</h1>
 </body>
 </html>
