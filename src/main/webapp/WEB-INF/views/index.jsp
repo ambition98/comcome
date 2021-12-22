@@ -7,9 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD
-김효은테스트
-=======
+김효은 김효은김효은
 <h1>Main</h1>
 
 
