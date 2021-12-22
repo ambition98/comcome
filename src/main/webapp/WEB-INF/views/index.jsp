@@ -8,6 +8,9 @@
 </head>
 <body>
 <h1>Main</h1>
+<<<<<<< HEAD
 <h1>성공합시다</h1>
+=======
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 </body>
 </html>
