@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 김효은테스트
+=======
+<h1>Main</h1>
+
+
+
+
+
+
+asdf
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 </body>
 </html>
