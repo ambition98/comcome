@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h1>Main</h1>
 <h1>성공합시다</h1>
 </body>
 </html>
