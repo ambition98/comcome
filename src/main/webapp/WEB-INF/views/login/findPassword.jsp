@@ -29,38 +29,26 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Sign In</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
+				<h3>Find your Password</h3>
+				
 			</div>
+			
 			<div class="card-body">
-				<form name="frm1" method="post" action="<c:url value='/login/sign-in'/>">
+				<form name="frm1" method="post" action="<c:url value='/login/find-password'/>">
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="text" class="form-control" id="email" name="email" 
-						value="${cookie.ck_email.value }" >
+					
+					
 						
 					</div>
+					<b id ="yourhp">이메일</b>
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password" class="form-control"  id="password" name="password">
-					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox" name="chkSave" id="chkSave" 
-							<c:if test="${!empty cookie.ck_email }"> checked="checked" 
-							</c:if>
-						>
-						<label for="chkSave">Remember Me</label>
+						
+						
+						<input type="text" class="form-control"  id="eamil" name="email">
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
+						
+						<input type="submit" value="Find" class="btn float-right login_btn">
 					</div>
 				</form>
 			</div>

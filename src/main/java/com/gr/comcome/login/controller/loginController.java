@@ -98,4 +98,183 @@ public class loginController {
 		return "common/message";
 		
 	}
+	
+	//http://localhost:9091/comcome/login/find-email
+	//아이디 찾기 페이지 뷰
+	@GetMapping("/find-email")
+	public String findEmail_get() {
+		logger.info("이메일 찾기 화면");
+		return "login/findEmail";
+	}
+	
+	@PostMapping("/find-email")
+	public String findEmail_post(
+			@RequestParam(required = false) String name, 
+			@RequestParam(required = false) String tel, 
+			Model model) {
+		
+		if(name == null || tel == null || name == ""|| tel == "") {
+			model.addAttribute("msg", "이름/전화번호를 입력해주세요");
+			model.addAttribute("url","/login/find-email" );
+			return "common/message";
+		}
+		
+		logger.info("이메일 찾기 처리, name={}, tel={}",name, tel);
+		
+		int result = loginService.FindEmailCheck(name, tel);
+		String msg = " ", url ="/login/find-email";
+		if(result == loginService.LOGIN_OK) {
+			//올바른 회원 정보이면, 이메일 알려주기
+			String dbEmail = loginService.selectEmailByName(name);
+			msg = "당신의 Email은 "+dbEmail+" 입니다.";
+			url = "/login/login-form";
+			
+		}else if(result == loginService.DISAGREE_TEL) {
+			//잘못된 전화번호이면 
+			msg = "전화번호가 일치하지 않습니다.";
+		}else if(result == loginService.EMAIL_NONE) {
+			msg = "회원정보가 존재하지 않습니다.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		
+		
+		return "common/message";
+	}
+	
+	//http://localhost:9091/comcome/login/find-password
+	//비밀번호 찾기 화면 
+	@GetMapping("/find-password")
+	public String findPassword_get() {
+		logger.info("비밀번호 찾기 화면");
+		return "/login/findPassword";
+	}
+	
+	
+	@PostMapping("/find-password")
+	public String findPassword_post(
+			@RequestParam(required = false) String email
+			,Model model
+			) {
+		
+		if(email ==null||email =="" ||email.isEmpty()) {
+			model.addAttribute("msg", "이메일을 입력해주세요");
+			model.addAttribute("url", "/login/find-password");
+			return "common/message";
+		}
+		
+		
+		logger.info("비밀번호 찾기 처리 , email={}",email);
+		String veriCode = getVerifiedCode();
+		int result = loginService.sendPassword(email, veriCode);
+		String msg = "이메일 전송이 실패하였습니다", url ="/login/find-password";
+		//이메일 전송 성공시에 
+		if(result == loginService.SEND_EMAIL) {
+			model.addAttribute("msg", "해당 이메일로 인증번호가 전송되었습니다.");
+			model.addAttribute("veriCode", veriCode);
+			model.addAttribute("email", email);
+			return "login/verifiedCodeForm";
+		}
+		
+		if(result == loginService.EMAIL_NONE) {
+			msg ="존재하지 않는 이메일입니다";
+		}else if (result == loginService.FAIL_TO_SEND_EMAIL) {
+			msg = "이메일 전송이 실패하였습니다.";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		
+		return "common/message";
+	}
+	
+	// 임시 비밀번호 생성
+		public String getVerifiedCode() {
+			char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+					'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+			String str = "";
+
+			int idx = 0;
+			for (int i = 0; i < 10; i++) {
+				idx = (int) (charSet.length * Math.random());
+				str += charSet[idx];
+			}
+			return str;
+		}
+		
+		@GetMapping("/verified")
+		public String verified_get() {
+			return "login/verifiedCodeForm";
+		}
+		
+		@PostMapping("/verified")
+		public String verified_post(
+				@RequestParam(required = false) String yourveriCode,
+				@RequestParam String veriCode,
+				@RequestParam String email
+				,Model model
+				) {
+			if(yourveriCode == null || yourveriCode.equals("") ||yourveriCode.isEmpty()) {
+				model.addAttribute("msg", "인증번호를 입력해주세요");
+				model.addAttribute("url", "/login/verified");
+				return "common/message";
+			}
+			logger.info("인증번호 확인 처리, yourveriCode={}, veriCode={}",yourveriCode, veriCode);
+			
+			
+			if(yourveriCode.equals(veriCode)) {
+				model.addAttribute("msg", "본인 인증에 성공하였습니다");
+				model.addAttribute("email", email);
+				return "login/updatePwd";
+			}
+			String msg = "본인 인증에 실패하였습니다",url = "/login/find-password";
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			
+			return "common/message";
+			
+		}
+		
+		@GetMapping("/update-pwd")
+		public String updatePwd_get() {
+			logger.info("비밀번호 재설정 화면");
+			return "login/updatePwd";
+		}
+		
+		@PostMapping("/update-pwd")
+		public String updatePwd(
+				@RequestParam String email,
+				@RequestParam(required = false) String password,
+				@RequestParam(required = false) String passwordCk,
+				Model model
+				) {
+			if(password == null || password.isEmpty() || passwordCk == null || passwordCk.isEmpty()) {
+				model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
+				model.addAttribute("url", "/login/update-pwd");
+				return "common/message";
+			}else if(!password.equals(passwordCk)) {
+				model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
+				model.addAttribute("url", "/login/update-pwd");
+				return "common/message";
+			}else if(password.equals(passwordCk)) {
+				//비밀번호 재설정 ! 
+				//이메일을 통해서 account_no를 가져온다! 
+				//비밀번호 재설정 ! 
+				model.addAttribute("msg", "비밀번호가 성공적으로 변경되었습니다");
+				model.addAttribute("url", "/login/login-form");
+				return "common/message";
+				
+			}
+			
+			
+			
+			return "common/message";
+		}
+	
+	
 }

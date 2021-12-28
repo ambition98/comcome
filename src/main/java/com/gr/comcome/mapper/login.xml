@@ -23,6 +23,23 @@
 		select * from account
 		where email = #{email}
 	</select>
+	<select id="selectTelByName" parameterType="string" resultType="string">
+		select tel from account
+		where name = #{name}
+	</select>
+	<select id="selectEmailByName" parameterType="string" resultType="string">
+		select email from account
+		where name = #{name}
+	</select>
+	<!-- //이메일로 이름 받아오기 
+	public String selectNameByEmail(String email); -->
+	
+	<select id="selectByName" parameterType="string" resultType="accountVO">
+		select * from account
+		where name = #{name}
+	</select>
+
+	
 	
 
 

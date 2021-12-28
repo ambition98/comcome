@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.comcome.admin.model.AdminDAO">
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
+		</if>		
+	</sql>
+	
+	<select id="selectAllMember" parameterType="searchVo" resultType="accountVO">
+		select *
+		from
+		(
+		    select rownum as RNUM, A.*
+		    from
+		    (
+		        select * from account
+		        <include refid="searchWhere"></include>
+		        order by account_no desc
+		    )A
+		)
+		<![CDATA[
+		where RNUM>#{firstRecordIndex} 
+			and RNUM<=#{firstRecordIndex}+ #{recordCountPerPage}]]>
+	</select>
+	
+	<select id="selectTotalRecord" parameterType="searchVo" resultType="int">
+		select count(*) from account
+		<include refid="searchWhere"></include>	
+	</select>
+	
+	<select id="selectByAccountNo" parameterType="int" resultType="accountVO">
+		select * from account
+		where account_no = #{account_no}
+	</select>
+
+
+
+</mapper>

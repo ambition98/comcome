@@ -25,42 +25,39 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/login/loginForm.css'/>" />
 </head>
 <body>
+<%
+	String msg=(String)request.getAttribute("msg");
+	String email=(String)request.getAttribute("email");
+%>
+	<script type="text/javascript">
+			alert("<%=msg%>");
+	</script>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Sign In</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
+				<h3>비밀번호 재설정</h3>
+				
 			</div>
+			
 			<div class="card-body">
-				<form name="frm1" method="post" action="<c:url value='/login/sign-in'/>">
+			<b id ="yourname">비밀번호</b>
+				<form name="frm1" method="post" action="<c:url value='/login/update-pwd'/>">
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="text" class="form-control" id="email" name="email" 
-						value="${cookie.ck_email.value }" >
+						<input type ="hidden" id ="email" name ="email" value="<%=email%>">
+						<input type="password" class="form-control" id="password" name="password" 
+						>
 						
 					</div>
+					<b id ="yourhp">비밀번호 확인</b>
 					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password" class="form-control"  id="password" name="password">
-					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox" name="chkSave" id="chkSave" 
-							<c:if test="${!empty cookie.ck_email }"> checked="checked" 
-							</c:if>
-						>
-						<label for="chkSave">Remember Me</label>
+						
+						
+						<input type="password" class="form-control"  id="passwordCk" name="passwordCk">
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
+						
+						<input type="submit" value="Find" class="btn float-right login_btn">
 					</div>
 				</form>
 			</div>
@@ -69,7 +66,7 @@
 					Don't have an account?<a href="#">Sign Up</a>
 				</div>
 				<div class="d-flex justify-content-center">
-					<a href="<c:url value='/login/find-email'/>">Forgot your Email?</a>
+					<a href="<c:url value='/login/find-password'/>">Forgot your password?</a>
 				</div>
 			</div>
 		</div>

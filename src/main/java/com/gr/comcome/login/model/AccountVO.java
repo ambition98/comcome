@@ -17,6 +17,7 @@ public class AccountVO {
 	private String card_no;
 	private Timestamp regdate;
 	
+	
 	public int getAccount_no() {
 		return account_no;
 	}

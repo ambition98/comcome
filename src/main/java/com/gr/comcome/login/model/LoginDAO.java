@@ -16,5 +16,12 @@ public interface LoginDAO {
 	
 	public AccountVO selectByEmail(String email);
 	
+	//select tel from account where name = ?
+	public String selectTelByName(String name);
+	//이름을 매개변수로 받아서 이메일 알려주기 
+	public String selectEmailByName(String name);
+	//이메일로 VO 받아오기 
+	public AccountVO selectNameByEmail(String email);
 
+	
 }
