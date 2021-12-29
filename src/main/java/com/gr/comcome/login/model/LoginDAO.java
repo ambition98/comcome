@@ -2,7 +2,8 @@ package com.gr.comcome.login.model;
 
 import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
+@Mapper//sql이랑 직접 소통하는 애 ! 
+
 public interface LoginDAO {
 	
 	
@@ -22,6 +23,8 @@ public interface LoginDAO {
 	public String selectEmailByName(String name);
 	//이메일로 VO 받아오기 
 	public AccountVO selectNameByEmail(String email);
+	//비밀번호 재설정
+	public int updatePassword(HashVO hashvo);
 
 	
 }

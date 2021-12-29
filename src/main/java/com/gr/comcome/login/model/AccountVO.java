@@ -4,10 +4,13 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Data
 public class AccountVO {
-
+    
 	private int accountNo;
 	private String email;
 	private String name;

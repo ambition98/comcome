@@ -18,5 +18,9 @@ public interface LoginService {
 	public int FindEmailCheck(String name, String tel);	
 	public String selectEmailByName(String name);
 	public int sendPassword(String email, String veriCode);
+	//비밀번호 재설정 
+	public int updatePassword(HashVO hashvo);
+	
+ 
 	}
 

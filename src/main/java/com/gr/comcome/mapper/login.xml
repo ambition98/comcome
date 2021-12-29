@@ -4,10 +4,12 @@
 <mapper namespace="com.gr.comcome.login.model.LoginDAO">
 	
 	
+	
 	<select id="countEmail" parameterType="string" resultType="integer">
 				select count(*) from account
 				where email=#{email}
 	</select>
+	
 	<select id="selectAccountNo" parameterType="string" resultType="integer">
 			select account_no from account
 			where email=#{email}
@@ -38,6 +40,14 @@
 		select * from account
 		where name = #{name}
 	</select>
+	
+	<!-- //비밀번호 재설정
+	public int updatePassword(HashVO hashvo); -->
+	<update id="updatePassword" parameterType="hashVO">
+		update hash
+		set salt = #{salt}, digest = #{digest}
+		where account_no = #{account_no}
+	</update>
 
 	
 	

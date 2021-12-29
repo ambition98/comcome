@@ -18,15 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.login.model.AccountVO;
+import com.gr.comcome.login.model.HashVO;
 import com.gr.comcome.login.model.LoginService;
 import com.gr.comcome.util.HashingUtil;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/login") 
 public class loginController {
 
 	private Logger logger  
 	 = LoggerFactory.getLogger(loginController.class);
+	
 	
 	private LoginService loginService;
 	private HashingUtil hashingUtil;
@@ -165,6 +167,7 @@ public class loginController {
 	}
 	
 	
+	//http://localhost:9091/comcome/login/find-password?email=123@naver.com
 	@PostMapping("/find-password")
 	public String findPassword_post(
 			@RequestParam(required = false) String email
@@ -179,8 +182,11 @@ public class loginController {
 		
 		
 		logger.info("비밀번호 찾기 처리 , email={}",email);
+		
+		//인증번호 불러오기 
 		String veriCode = getVerifiedCode();
 		int result = loginService.sendPassword(email, veriCode);
+		
 		String msg = "이메일 전송이 실패하였습니다", url ="/login/find-password";
 		//이메일 전송 성공시에 
 		if(result == loginService.SEND_EMAIL) {
@@ -203,7 +209,7 @@ public class loginController {
 		return "common/message";
 	}
 	
-	// 임시 비밀번호 생성
+	// 인증번호 생성
 		public String getVerifiedCode() {
 			char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 					'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -276,14 +282,28 @@ public class loginController {
 			}else if(password.equals(passwordCk)) {
 				//비밀번호 재설정 ! 
 				//이메일을 통해서 account_no를 가져온다! 
+				AccountVO accountVO = loginService.selectByEmail(email);
+				
 				//비밀번호 재설정 ! 
 				//salt 만들기 ..salt 
 				String salt = hashingUtil.makeNewSalt();
 				//암호화 된 digest .. update hash set salt = salt , digest = saltPwd where account_no =?
-			    String saltPwd = hashingUtil.hashing(password, salt);
-				
-				model.addAttribute("msg", "비밀번호가 성공적으로 변경되었습니다");
-				model.addAttribute("url", "/login/login-form");
+			    String digest = hashingUtil.hashing(password, salt);
+			    
+			    HashVO hashvo = new HashVO();
+			    hashvo.setAccount_no(accountVO.getAccountNo());
+			    hashvo.setDigest(digest);
+			    hashvo.setSalt(salt);
+			    
+			    String msg = "비밀번호 재설정이 실패하였습니다", url ="/login/find-password";
+			    
+			    int result = loginService.updatePassword(hashvo);
+			    if(result>0) {
+			    	msg = "비밀번호가 성공적으로 변경되었습니다";
+			    	url = "/login/login-form";
+			    }
+				model.addAttribute("msg", msg);
+				model.addAttribute("url", url);
 				return "common/message";
 				
 			}

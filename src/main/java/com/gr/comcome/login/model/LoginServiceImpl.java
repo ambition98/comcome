@@ -75,7 +75,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public int sendPassword(String email, String veriCode) {
+	public int sendPassword(String email, String veriCode) {//인증번호를 이메일로 넘기는 메서드 
 		// 이메일 있나 없나 체크
 		Integer ExistingEmail = loginDao.countEmail(email);
 		// 랜덤으로 생성된 인증번호
@@ -95,6 +95,11 @@ public class LoginServiceImpl implements LoginService {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public int updatePassword(HashVO hashvo) {
+		return loginDao.updatePassword(hashvo);
 	}
 	
 
