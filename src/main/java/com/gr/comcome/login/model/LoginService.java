@@ -1,5 +1,7 @@
 package com.gr.comcome.login.model;
 
+import java.security.NoSuchAlgorithmException;
+
 public interface LoginService {
 
 	//로그인 시 필요한 상수 
@@ -12,7 +14,7 @@ public interface LoginService {
 	public static final int SEND_EMAIL=5;
 	public static final int FAIL_TO_SEND_EMAIL=6;
 	
-	public int loginCheck(String email, String password);
+	public int loginCheck(String email, String password) throws NoSuchAlgorithmException;
 	public AccountVO selectByEmail(String email);
 
 	public int FindEmailCheck(String name, String tel);	

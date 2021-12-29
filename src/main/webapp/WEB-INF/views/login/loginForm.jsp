@@ -31,9 +31,12 @@
 			<div class="card-header">
 				<h3>Sign In</h3>
 				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
+					<!--<span><i class="fab fa-facebook-square"></i></span>
 					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span>-->
+					
+					<a href = "https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code
+					"><img alt="카카오 로그인" src="<c:url value='/resources/images/kakao_button.png'/>"></a>
 				</div>
 			</div>
 			<div class="card-body">
@@ -61,6 +64,7 @@
 					</div>
 					<div class="form-group">
 						<input type="submit" value="Login" class="btn float-right login_btn">
+						
 					</div>
 				</form>
 			</div>

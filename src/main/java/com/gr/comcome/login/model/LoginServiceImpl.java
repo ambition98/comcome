@@ -1,26 +1,31 @@
 package com.gr.comcome.login.model;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gr.comcome.login.service.MailService;
+import com.gr.comcome.util.HashingUtil;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
 	private final LoginDAO loginDao;
 	private final MailService mailService;
+	private HashingUtil hashingUtil;
 
+	
 	@Autowired
-	public LoginServiceImpl(LoginDAO loginDao, MailService mailService) {
+	public LoginServiceImpl(LoginDAO loginDao, MailService mailService, HashingUtil hashingUtil) {
 		this.loginDao = loginDao;
 		this.mailService = mailService;
+		this.hashingUtil = hashingUtil;
 	}
 
 	// 로그인 체크
-	public int loginCheck(String email, String password) {
+	public int loginCheck(String email, String password) throws NoSuchAlgorithmException {
 
 		Integer ExistingEmail = loginDao.countEmail(email);
 		int result = 0;
@@ -31,9 +36,20 @@ public class LoginServiceImpl implements LoginService {
 		} else if (ExistingEmail > 0) {
 			// 이메일이 존재하면 accountNo 받아오기
 			Integer accountNo = loginDao.selectAccountNo(email);
-			// 수정 : 비밀번호 일치 하면!
-			result = LOGIN_OK; // 이메일이 존재하고, 비밀번호가 일치하면 로그인 오케이
-
+			// DAO에서 accountNo로 Hashtable 받아오기
+			HashVO hashVO = loginDao.selectHash(accountNo);
+			//vo.salt와 사용자가 입력한 password를 암호화하여 Yourdigest 만들기 
+			String yourDigest = hashingUtil.hashing(password, hashVO.getSalt() );
+			//Yourdigest(사용자의 비밀번호를 암호화한것과)와 vo.digest 일치여부 확인하기 
+			//일치 하면 로그인 오케이 
+			if(yourDigest.equals(hashVO.getDigest())){
+				result = LOGIN_OK;
+			}else {
+				result = DISAGREE_PWD;
+			}
+			 // 이메일이 존재하고, 비밀번호가 일치하면 로그인 오케이
+			//불일치 하면 비밀번호가 일치하지 않습니다. 
+			
 		}
 
 		/*

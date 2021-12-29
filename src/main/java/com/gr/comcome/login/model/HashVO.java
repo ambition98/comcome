@@ -1,8 +1,14 @@
 package com.gr.comcome.login.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Data
+@Getter
+@Setter
+@ToString
 public class HashVO {
 	
 	private int account_no;
