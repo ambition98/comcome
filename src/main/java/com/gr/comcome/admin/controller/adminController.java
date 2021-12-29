@@ -50,7 +50,9 @@ public class adminController {
 		
 		List<AccountVO> list = adminService.selectAllMember(searchVO);
 		logger.info("전체조회 결과 list.size={}", list.size());
-		
+		for(AccountVO vo : list) {
+			logger.info(vo.toString());
+		}
 		//4
 		int totalRecord=adminService.selectTotalRecord(searchVO);
 		pagingInfo.setTotalRecord(totalRecord);

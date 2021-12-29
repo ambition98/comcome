@@ -6,6 +6,9 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class HashingUtil {
 	private final int SALT_SIZE = 16;
 	private final int KEY_STRETCHING_CNT = 10000;

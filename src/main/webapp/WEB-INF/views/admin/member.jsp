@@ -53,17 +53,17 @@
 		  <!--게시판 내용 반복문 시작  -->		  
 		  <c:forEach var="vo" items="${list }">
 			<tr>
-				<td>${vo.account_no}</td>
+				<td>${vo.accountNo}</td>
 				<td>${vo.email}</td>
 				<td style="text-align:left">
 					<a href
-		="<c:url value='/admin/detail?account_no=${vo.account_no}'/>">
+		="<c:url value='/admin/detail?account_no=${vo.accountNo}'/>">
 						${vo.name}
 					</a>
 				</td>
 				<td>${vo.address}</td>
 				<td>${vo.tel}</td>
-				<td>${vo.card_no}</td>
+				<td>${vo.cardNo}</td>
 				<td><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/>
 				</td>
 			</tr>

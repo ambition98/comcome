@@ -1,5 +1,7 @@
 package com.gr.comcome.login.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.login.model.AccountVO;
 import com.gr.comcome.login.model.LoginService;
+import com.gr.comcome.util.HashingUtil;
 
 @Controller
 @RequestMapping("/login")
@@ -26,11 +29,20 @@ public class loginController {
 	 = LoggerFactory.getLogger(loginController.class);
 	
 	private LoginService loginService;
+	private HashingUtil hashingUtil;
+	
 	
 	@Autowired
-	public void loginController(LoginService loginService) {
+    public loginController( LoginService loginService, HashingUtil hashingUtil) {
 		this.loginService = loginService;
+		this.hashingUtil = hashingUtil;
 	}
+
+
+
+	
+	
+	
 	
 	//http://localhost:9091/comcome/login/login-form
 	@GetMapping("/login-form")
@@ -252,7 +264,7 @@ public class loginController {
 				@RequestParam(required = false) String password,
 				@RequestParam(required = false) String passwordCk,
 				Model model
-				) {
+				) throws NoSuchAlgorithmException {
 			if(password == null || password.isEmpty() || passwordCk == null || passwordCk.isEmpty()) {
 				model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
 				model.addAttribute("url", "/login/update-pwd");
@@ -265,6 +277,11 @@ public class loginController {
 				//비밀번호 재설정 ! 
 				//이메일을 통해서 account_no를 가져온다! 
 				//비밀번호 재설정 ! 
+				//salt 만들기 ..salt 
+				String salt = hashingUtil.makeNewSalt();
+				//암호화 된 digest .. update hash set salt = salt , digest = saltPwd where account_no =?
+			    String saltPwd = hashingUtil.hashing(password, salt);
+				
 				model.addAttribute("msg", "비밀번호가 성공적으로 변경되었습니다");
 				model.addAttribute("url", "/login/login-form");
 				return "common/message";
