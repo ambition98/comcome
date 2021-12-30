@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.account.model.HashVO;
-import com.gr.comcome.util.HashingUtil;
+import com.gr.comcome.common.HashingUtil;
 
 @Controller
 @RequestMapping("/account")

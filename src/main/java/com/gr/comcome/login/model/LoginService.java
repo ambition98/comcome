@@ -2,6 +2,9 @@ package com.gr.comcome.login.model;
 
 import java.security.NoSuchAlgorithmException;
 
+import com.gr.comcome.account.model.AccountVO;
+import com.gr.comcome.account.model.HashVO;
+
 public interface LoginService {
 
 	//로그인 시 필요한 상수 

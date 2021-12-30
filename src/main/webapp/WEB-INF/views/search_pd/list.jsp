@@ -11,6 +11,10 @@
 .search_pd_container {
 	background: skyblue;
 }
+
+.pd_thumbnail div{
+	display: inline-block;
+}
 </style>
 </head>
 <body>
