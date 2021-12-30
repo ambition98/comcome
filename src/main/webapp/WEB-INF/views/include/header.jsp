@@ -6,6 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/bootstrap.min.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/font-awesome.min.css"' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/nice-select.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/jquery-ui.min.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/owl.carousel.min.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/slicknav.min.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/style.css' />" type="text/css">
+    
+    <script src="<c:url value='/resources/js/base/jquery-3.3.1.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/bootstrap.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/jquery.nice-select.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/query-ui.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/jquery.slicknav.js' />"></script>
+    <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/main.js' />"></script>
 </head>
 <body>
     <header class="header">
@@ -93,27 +109,40 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>카테고리</span>
                         </div>
                         <ul>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fresh Meat</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Vegetables</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fruit &amp; Nut Gifts</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fresh Berries</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Ocean Foods</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Butter &amp; Eggs</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fastfood</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fresh Onion</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Papayaya &amp; Crisps</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Oatmeal</a></li>
-                            <li><a href="https://technext.github.io/ogani/shop-grid.html#">Fresh Bananas</a></li>
+                        	<li><a href="<c:url value="/searchpd/list"/>" >노트북 전체</a></li>
+                        	<c:import url="/category" />
                         </ul>
                     </div>
+                    <!-- <div>
+	                    <ul id="size_cat">
+							<li>sub1</li>
+							<li>sub2</li>
+							<li>sub3</li>
+						</ul>
+                    </div> -->
+                    <!-- <div class="hero__categories">
+                    	<ul>
+                    		<li><a href="#">Fresh Meat</a></li>
+                            <li><a href="#">Vegetables</a></li>
+                            <li><a href="#">Fruit &amp; Nut Gifts</a></li>
+                            <li><a href="#">Fresh Berries</a></li>
+                            <li><a href="#">Ocean Foods</a></li>
+                            <li><a href="#">Butter &amp; Eggs</a></li>
+                            <li><a href="#">Fastfood</a></li>
+                            <li><a href="#">Fresh Onion</a></li>
+                            <li><a href="#">Papayaya &amp; Crisps</a></li>
+                            <li><a href="#">Oatmeal</a></li>
+                            <li><a href="#">Fresh Bananas</a></li>
+                    	</ul>
+                    </div> -->
                 </div>
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="https://technext.github.io/ogani/shop-grid.html#">
+                            <form action="<c:url value="/searchpd/list" />">
                                 <div class="hero__search__categories">
                                     All Categories
                                     <span class="arrow_carrot-down"></span>
