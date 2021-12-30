@@ -21,4 +21,5 @@ public interface ConstUtil {
 	int UPLOAD_FILE_FLAG=1; //자료실 업로드
 	int UPLOAD_IMAGE_FLAG=2; //상품 등록시 이미지 업로드
 	
+
 }
