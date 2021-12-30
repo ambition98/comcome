@@ -23,6 +23,9 @@
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
+    
+    
+    
 </head>
 <body>
 <%-- <%@ include file="include/category.jsp"%> --%>
@@ -31,3 +34,4 @@
 </body>
 </html>
 <%@ include file="include/footer.jsp"%>
+<%@ include file="mypageinc/mypageMain.jsp"%>
