@@ -572,7 +572,7 @@ ol {
 	position: relative;
 }
 
-.hero.hero-normal .hero__categories ul {
+.hero.hero-normal .hero__categories ul:not(.size_cat) {
 	display: none;
 	position: absolute;
 	left: 0;
