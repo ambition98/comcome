@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gr.comcome.login.model.LoginDAO">
+	
+	
+	
+	<select id="countEmail" parameterType="string" resultType="integer">
+				select count(*) from account
+				where email=#{email}
+	</select>
+	
+	<select id="selectAccountNo" parameterType="string" resultType="integer">
+			select account_no from account
+			where email=#{email}
+	</select>
+	<!-- 	//이메일이 존재하면 hash 테이블에서 salt와 digest 가져옴
+	public HashVO selectHash(int accountNo);  -->
+	<select id="selectHash" parameterType="int" resultType="hashVO">
+			select salt, digest from hash
+			where account_no = #{account_no}
+	</select>
+<!-- 	public String selectByEmail(String email); -->
+	<select id="selectByEmail" parameterType="string" resultType="accountVO">
+		select * from account
+		where email = #{email}
+	</select>
+	<select id="selectTelByName" parameterType="string" resultType="string">
+		select tel from account
+		where name = #{name}
+	</select>
+	<select id="selectEmailByName" parameterType="string" resultType="string">
+		select email from account
+		where name = #{name}
+	</select>
+	<!-- //이메일로 이름 받아오기 
+	public String selectNameByEmail(String email); -->
+	
+	<select id="selectByName" parameterType="string" resultType="accountVO">
+		select * from account
+		where name = #{name}
+	</select>
+	
+	<!-- //비밀번호 재설정
+	public int updatePassword(HashVO hashvo); -->
+	<update id="updatePassword" parameterType="hashVO">
+		update hash
+		set salt = #{salt}, digest = #{digest}
+		where account_no = #{account_no}
+	</update>
+	
+	<insert id="insertAccountForKako" parameterType="accountVO">
+		insert into account(email, name)
+		values(#{email}, #{name})
+	</insert>
+
+	
+	
+
+
+</mapper>
