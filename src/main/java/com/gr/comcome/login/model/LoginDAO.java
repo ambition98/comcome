@@ -26,5 +26,8 @@ public interface LoginDAO {
 	//비밀번호 재설정
 	public int updatePassword(HashVO hashvo);
 
+	//카카오 로그인시에 자동 회원가입 
+	public int insertAccountForKako(AccountVO accountVO);
+	
 	
 }

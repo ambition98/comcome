@@ -48,6 +48,11 @@
 		set salt = #{salt}, digest = #{digest}
 		where account_no = #{account_no}
 	</update>
+	
+	<insert id="insertAccountForKako" parameterType="accountVO">
+		insert into account(email, name)
+		values(#{email}, #{name})
+	</insert>
 
 	
 	

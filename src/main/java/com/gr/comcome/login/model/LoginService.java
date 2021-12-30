@@ -23,6 +23,10 @@ public interface LoginService {
 	//비밀번호 재설정 
 	public int updatePassword(HashVO hashvo);
 	
+	public int insertAccountForKako(AccountVO accountVO);
+	//카카오 이메일이 회원 테이블에 있는지 없는지 확인 
+	public Integer countEmail(String email);
+	
  
 	}
 

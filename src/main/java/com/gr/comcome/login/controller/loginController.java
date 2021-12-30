@@ -29,6 +29,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gr.comcome.login.model.AccountVO;
 import com.gr.comcome.login.model.HashVO;
+import com.gr.comcome.login.model.KakaoProfile;
 import com.gr.comcome.login.model.LoginService;
 import com.gr.comcome.login.model.OauthToken;
 import com.gr.comcome.util.HashingUtil;
@@ -53,6 +54,12 @@ public class loginController {
 
 
 
+	
+	@GetMapping("/index")
+	public String index() {
+		logger.info("인덱스 화면");
+		return "/index";
+	}
 	
 	
 	
@@ -327,7 +334,9 @@ public class loginController {
 		}
 		
 		@GetMapping("/auth/kakao/callback")
-		public @ResponseBody String kakaoCallback(String code) { //Data를 리턴 해주는 컨트롤러 함수
+		public String kakaoCallback(String code,
+				HttpServletRequest request, 
+				Model model) { //Data를 리턴 해주는 컨트롤러 함수
 			
 			
 			//POST방식으로 key = value 데이터를 요청(카카오쪽으로)
@@ -387,15 +396,91 @@ public class loginController {
 			
 			//Http 요청하기 -post 방식으로 그리고 response 변수의응답 받음 
 			ResponseEntity<String> response2 = rt2.exchange(
-					" https://kapi.kakao.com",
+					"https://kapi.kakao.com/v2/user/me",
 					HttpMethod.POST,
 					kakaoProfileRequest2,
 					String.class
 			);
 			
 			
+			ObjectMapper objectMapper2 = new ObjectMapper();
+			KakaoProfile kakaoProfile = null;
 			
-			return  response.getBody();
+			try {
+				kakaoProfile = objectMapper2.readValue(response2.getBody(),KakaoProfile.class);
+				
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
+			
+			//account 오브젝트 : name, email
+			System.out.println("카카오 아이디(번호) : "+kakaoProfile.getId());
+			System.out.println("카카오 이메일(번호) : "+kakaoProfile.getKakao_account().getEmail());
+			
+			
+			
+			System.out.println("컴컴 서버 유저네임 : "+ kakaoProfile.getProperties().nickname);
+			System.out.println("컴컴 서버 이메일 : "+kakaoProfile.getKakao_account().getEmail());
+			
+			
+			//가입자 혹은 비가입자 체크해서 처리 
+			
+			
+			String kakaoUsername = kakaoProfile.getProperties().nickname;
+			String kakaoEmail = kakaoProfile.getKakao_account().getEmail();
+			
+			//eamil 로 회원 찾기 
+			int ExistingKEmail = loginService.countEmail(kakaoEmail);
+			AccountVO accountVO = new AccountVO();
+			//이메일이 있으면
+			String msg = "로그인에 실패하였습니다", url = "/login/login-form";
+			if(ExistingKEmail > 0) {
+				logger.info("이미 존재하는 유저");
+				//이메일 통해서 회원 정보 가지고 오기 
+				accountVO = loginService.selectByEmail(kakaoEmail);
+				msg = accountVO.getName()+"님 환영합니다.";
+				url = "/login/index";
+				
+				//세션에 저장 
+				HttpSession session = request.getSession();
+				session.setAttribute("email", accountVO.getEmail());
+				session.setAttribute("name", accountVO.getName());
+				
+			}else{
+				//name, email을 vo에 넣고 
+				accountVO.setName(kakaoUsername);
+				accountVO.setEmail(kakaoEmail);
+				//회원가입 시킨다.
+				int result = loginService.insertAccountForKako(accountVO);
+				//회원가입 성공하면
+				if(result >0) {
+					logger.info("회원가입 성공");
+					//세션에 저장할 정보 가져오고 
+					accountVO = loginService.selectByEmail(kakaoEmail);
+					msg = accountVO.getName()+"님 환영합니다.";
+					url = "/login/index";
+					//세션에 저장 
+					HttpSession session = request.getSession();
+					session.setAttribute("email", accountVO.getEmail());
+					session.setAttribute("name", accountVO.getName());
+					
+				}else {
+					logger.info("로그인 처리 실패 ");
+					msg = "로그인에 실패하였습니다";
+					url = "/login/login-form";
+				}
+				
+			}
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			logger.info("처리 완료");
+			return "common/message";
+				
+		
+			
 		}
+		
 	
 }

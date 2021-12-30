@@ -118,6 +118,16 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.updatePassword(hashvo);
 	}
 	
+	@Override
+	public int insertAccountForKako(AccountVO accountVO) {
+		return loginDao.insertAccountForKako(accountVO);
+	}
+	
+	@Override
+	public Integer countEmail(String email) {
+		return loginDao.countEmail(email);
+	}
+	
 
 	
 

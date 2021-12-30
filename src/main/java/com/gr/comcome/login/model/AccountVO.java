@@ -12,12 +12,12 @@ import lombok.ToString;
 public class AccountVO {
     
 	private int accountNo;
-	private String email;
-	private String name;
-	private String address;
-	private String tel;
-	private String isVerified;
-	private String cardNo;
+	private String email; 
+	private String name; 
+	private String address; 
+	private String tel; 
+	private String isVerified;  
+	private String cardNo; 
 	private Timestamp regdate;
 	
 	
