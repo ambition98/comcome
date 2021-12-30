@@ -2,6 +2,9 @@ package com.gr.comcome.login.model;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gr.comcome.account.model.AccountVO;
+import com.gr.comcome.account.model.HashVO;
+
 @Mapper//sql이랑 직접 소통하는 애 ! 
 
 public interface LoginDAO {

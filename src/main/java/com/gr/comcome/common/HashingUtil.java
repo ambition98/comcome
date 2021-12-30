@@ -1,4 +1,4 @@
-package com.gr.comcome.util;
+package com.gr.comcome.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

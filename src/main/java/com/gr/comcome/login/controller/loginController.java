@@ -27,12 +27,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gr.comcome.login.model.AccountVO;
-import com.gr.comcome.login.model.HashVO;
+import com.gr.comcome.account.model.AccountVO;
+import com.gr.comcome.account.model.HashVO;
+import com.gr.comcome.common.HashingUtil;
 import com.gr.comcome.login.model.KakaoProfile;
 import com.gr.comcome.login.model.LoginService;
 import com.gr.comcome.login.model.OauthToken;
-import com.gr.comcome.util.HashingUtil;
 
 @Controller
 @RequestMapping("/login") 
@@ -311,7 +311,7 @@ public class loginController {
 			    String digest = hashingUtil.hashing(password, salt);
 			    
 			    HashVO hashvo = new HashVO();
-			    hashvo.setAccount_no(accountVO.getAccountNo());
+			    hashvo.setAccountNo(accountVO.getAccountNo());
 			    hashvo.setDigest(digest);
 			    hashvo.setSalt(salt);
 			    
