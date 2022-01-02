@@ -81,4 +81,13 @@ public class adminController {
 	}
 	
 	
+	//http://localhost:9091/comcome/admin/popup
+	@RequestMapping("/popup")
+	public String popup() {
+		return "admin/popup";
+	}
+	
+	
+	
+	
 }

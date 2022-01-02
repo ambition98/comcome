@@ -116,7 +116,7 @@ public class loginController {
 			}
 			
 			msg = accVo.getName()+" 님 로그인 되었습니다";
-			url ="/index";
+			url ="/login/index";
 		}else if(result == loginService.DISAGREE_PWD) {
 			msg ="비밀번호가 일치하지 않습니다.";
 		}else if(result == loginService.EMAIL_NONE) {
@@ -160,7 +160,22 @@ public class loginController {
 		if(result == loginService.LOGIN_OK) {
 			//올바른 회원 정보이면, 이메일 알려주기
 			String dbEmail = loginService.selectEmailByName(name);
-			msg = "당신의 Email은 "+dbEmail+" 입니다.";
+			//@의 index 찾기 
+			int index = dbEmail.indexOf('@');
+			//뒷자리 추출
+			String secretion = dbEmail.substring(index-4, index);
+			//****
+			String star = "";
+			for(int i =0; i<secretion.length(); i++) {
+				star+="*";
+			}
+			//뒷자리만 *로 바꾸기 
+			String dbFinalEmail = dbEmail.replace(secretion,star);
+			
+			logger.info("index={}, secretion={}, star={}, dbFinalEmail={}",index
+					, secretion, star, dbFinalEmail);
+			
+			msg = "당신의 Email은 "+dbFinalEmail+" 입니다.";
 			url = "/login/login-form";
 			
 		}else if(result == loginService.DISAGREE_TEL) {
