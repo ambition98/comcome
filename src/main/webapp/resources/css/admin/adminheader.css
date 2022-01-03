@@ -1,0 +1,14 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Numans%27");
+
+
+img#comcomlogo {
+    width: 150px;
+    height: 50px;
+    margin-left: 20px;
+}
+
+body{
+	font-family: 'Numans', sans-serif;
+}
+

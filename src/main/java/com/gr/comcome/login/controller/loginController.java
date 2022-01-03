@@ -28,6 +28,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.account.model.HashVO;
+import com.gr.comcome.admin.model.AdminService;
+import com.gr.comcome.admin.model.AdminServiceImpl;
+import com.gr.comcome.admin.model.AdminVO;
 import com.gr.comcome.common.HashingUtil;
 import com.gr.comcome.login.model.KakaoProfile;
 import com.gr.comcome.login.model.LoginService;
@@ -42,19 +45,23 @@ public class loginController {
 	private Logger logger  
 	 = LoggerFactory.getLogger(loginController.class);
 	
+	private AdminService adminService;
 	private LoginService loginService;
 	private HashingUtil hashingUtil;
-	
-	
+
 	@Autowired
-    public loginController( LoginService loginService, HashingUtil hashingUtil) {
+	public loginController( AdminService adminService, LoginService loginService,
+			HashingUtil hashingUtil) {
+		super();
+		this.adminService = adminService;
 		this.loginService = loginService;
 		this.hashingUtil = hashingUtil;
 	}
 
 
 
-	//http://localhost:9091/comcome/login/login-form
+
+	//http://localhost:9091/comcome/login/index
 	@GetMapping("/index")
 	public String index() {
 		logger.info("인덱스 화면");
@@ -82,6 +89,7 @@ public class loginController {
 			Model model
 			) throws NoSuchAlgorithmException {
 		
+	
 		if(email == null || password==null || email == "" || password == "") {
 			model.addAttribute("msg", "이메일/비밀번호를 입력해주세요");
 			model.addAttribute("url", "/login/login-form");
@@ -91,37 +99,77 @@ public class loginController {
 		logger.info("로그인 처리, 파라미터 "
 				+ "email={}, password={}, chkSave={}", email, password, chkSave);
 	
-	    
-		
 		String msg ="로그인 처리 실패!", url ="/login/login-form";
-		int result = loginService.loginCheck(email, password);
-		if(result == loginService.LOGIN_OK) {
-			AccountVO accVo = loginService.selectByEmail(email);
-			
-			//[1] 세션에 아이디 저장 
-			HttpSession session = request.getSession();
-			session.setAttribute("email", accVo.getEmail());
-			session.setAttribute("name", accVo.getName());
-			
-			//[2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
-			Cookie ck = new Cookie("ck_email", accVo.getEmail());
-			ck.setPath("/");
-			
-			if(chkSave !=null) {
-				ck.setMaxAge(1000*24*60*60);
-				response.addCookie(ck);
-			}else {
-				ck.setMaxAge(0);  //쿠키 제거
-				response.addCookie(ck);	
+		// 만약 관리자 계정이면,  
+		if(email.indexOf("admin") != -1) {
+			logger.info("관리자 계정 처리 ");
+			// int result = adminService.loginCheck(email, password);
+			 int result = adminService.loginCheck(email,password);
+			 if(result == adminService.LOGIN_OK){
+				  AdminVO adminVO = adminService.selectByEmail(email);
+				  logger.info("adminVO={}", adminVO);
+				  HttpSession session = request.getSession();
+				  session.setAttribute("email", adminVO.getEmail());
+				  session.setAttribute("adminNo", adminVO.getAdminNo());
+				  
+				//[2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
+					Cookie ck = new Cookie("ck_email", adminVO.getEmail());
+					ck.setPath("/");
+					
+					if(chkSave !=null) {
+						ck.setMaxAge(1000*24*60*60);
+						response.addCookie(ck);
+					}else {
+						ck.setMaxAge(0);  //쿠키 제거
+						response.addCookie(ck);	
+					}
+				  
+				  msg = "관리자님 환영합니다";
+				  url ="/admin/main";
+				 
+			 }else if(result == adminService.DISAGREE_PWD) {
+					msg ="비밀번호가 일치하지 않습니다.";
+			 }else if(result == adminService.EMAIL_NONE) {
+					msg = "해당 이메일이 존재하지 않습니다";
+			 }
+		}else {//일반로그인 
+			logger.info("일반 계정 처리");
+			int result = loginService.loginCheck(email, password);
+			if(result == loginService.LOGIN_OK) { 
+				
+				AccountVO accVo = loginService.selectByEmail(email);
+				
+				//[1] 세션에 아이디 저장 
+				HttpSession session = request.getSession();
+				session.setAttribute("email", accVo.getEmail());
+				session.setAttribute("name", accVo.getName());
+				session.setAttribute("accountNo", accVo.getAccountNo());
+				//[2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
+				Cookie ck = new Cookie("ck_email", accVo.getEmail());
+				ck.setPath("/");
+				
+				if(chkSave !=null) {
+					ck.setMaxAge(1000*24*60*60);
+					response.addCookie(ck);
+				}else {
+					ck.setMaxAge(0);  //쿠키 제거
+					response.addCookie(ck);	
+				}
+				
+				msg = accVo.getName()+" 님 로그인 되었습니다";
+				url ="/login/index";
+			}else if(result == loginService.DISAGREE_PWD) {
+				msg ="비밀번호가 일치하지 않습니다.";
+			}else if(result == loginService.EMAIL_NONE) {
+				msg = "해당 이메일이 존재하지 않습니다";
 			}
-			
-			msg = accVo.getName()+" 님 로그인 되었습니다";
-			url ="/login/index";
-		}else if(result == loginService.DISAGREE_PWD) {
-			msg ="비밀번호가 일치하지 않습니다.";
-		}else if(result == loginService.EMAIL_NONE) {
-			msg = "해당 이메일이 존재하지 않습니다";
 		}
+		
+		
+	
+		 
+		
+		
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
@@ -496,6 +544,8 @@ public class loginController {
 		
 			
 		}
+		
+	
 		
 	
 }

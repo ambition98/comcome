@@ -25,22 +25,28 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mypage/member.css'/>" />
-
+	     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/adminheader.css'/>" />
+   <!-- adminmain -->
+  
 
 </head>
 
 <body>
+<%
+String email=(String)session.getAttribute("email");
+%>
+
          <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">comcome</div>
+                <div class="sidebar-heading border-bottom bg-light"><img alt="컴컴로고" id="comcomlogo" src="<c:url value='/resources/img/comcome_wlogo.jpg'/>"></div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">기본정보수정</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">장바구니</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">쪽지함</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">회원탈퇴</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/admin/main'/>">회원 조회 및 검색</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">쪽지 보내기</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">게시글 관리</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">특가몰 관리</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">매출 통계</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">팝업 공지 등록</a>
                 </div>
             </div>
            <!--  Page content wrapper -->
@@ -52,16 +58,18 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                <li class="nav-item active"><a class="nav-link" href="#!">comcome</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#!">마이페이지</a></li>
+                                <li class="nav-item active"><a class="nav-link" href="#!">
+                                <% if(email==null || email.isEmpty()){ %>
+                                comcome
+                                <%}else{ %>
+                                <%=email %>
+                                <%} %></a></li>
+                                <li class="nav-item"></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" 
-                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">로그인</a>
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">로그인</a>
-                                        <a class="dropdown-item" href="#!">비밀번호찾기</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">회원가입</a>
+                                        <a class="dropdown-item" href="<c:url value='/admin/logout'/>">로그아웃</a>
                                     </div>
                                 </li>
                             </ul>

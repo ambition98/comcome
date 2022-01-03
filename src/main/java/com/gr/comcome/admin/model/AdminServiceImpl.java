@@ -33,4 +33,34 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.selectByAccountNo(account_no);
 	}
 	
+	@Override
+	public int loginCheck(String email, String password) {
+		//이메일이 존재하는지 안하는지 확인 
+		Integer ExistingEmail = adminDAO.countEmail(email);
+		
+		//이메일이 존재하지 않으면 
+		int result = 0;
+		if(ExistingEmail.equals(0)) {
+			//이메일이 존재하지 않습니다
+			result = EMAIL_NONE;
+		//이메일이 존재하면
+		}else if(ExistingEmail>0) {
+			//비밀번호 확인 
+			String dbPwd = adminDAO.checkPwd(email);
+			//비밀번호 일치하면
+			if(dbPwd.equals(password)) {
+				result = LOGIN_OK;
+			}else if(!dbPwd.equals(password)) {
+				result = DISAGREE_PWD;
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public AdminVO selectByEmail(String email) {
+	
+		return adminDAO.selectByEmail(email);
+	}
+	
 }
