@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,13 +33,14 @@ import com.gr.comcome.login.model.KakaoProfile;
 import com.gr.comcome.login.model.LoginService;
 import com.gr.comcome.login.model.OauthToken;
 
+
+
 @Controller
 @RequestMapping("/login") 
 public class loginController {
 
 	private Logger logger  
 	 = LoggerFactory.getLogger(loginController.class);
-	
 	
 	private LoginService loginService;
 	private HashingUtil hashingUtil;
@@ -54,7 +54,7 @@ public class loginController {
 
 
 
-	
+	//http://localhost:9091/comcome/login/login-form
 	@GetMapping("/index")
 	public String index() {
 		logger.info("인덱스 화면");
