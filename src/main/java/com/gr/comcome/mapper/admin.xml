@@ -54,6 +54,23 @@
 	     select * from admin
 	     where email = #{email}
 	</select>
+	<select id="selectAdminNoByEmail" parameterType="string" resultType="int">
+	 select admin_no from admin
+	 where email = #{email} 
+	</select>
+	<insert id="insertNotice" parameterType="noticeVO">
+	 insert into notice(admin_no, title, content,regdate)
+	 values(#{adminNo},#{title},#{content},sysdate)
+	</insert>
+	<select id="selectRecentNotice" resultType="noticeVO">
+		select * from 
+		(
+			select * from notice order by notice_no desc
+		) 
+		<![CDATA[
+		where rownum<=1
+		]]>
+	</select>
  
 
 </mapper>

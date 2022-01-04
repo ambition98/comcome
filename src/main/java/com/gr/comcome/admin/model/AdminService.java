@@ -13,10 +13,16 @@ public interface AdminService {
 		public static final int DISAGREE_PWD=2; //비번 불일치
 		int EMAIL_NONE=3; //아이디 존재하지 않음
 		
+		int INSERT_OK=4;
+		int INSERT_DISAGREE=5;
+		
 		
 	public List<AccountVO> selectAllMember(SearchVO searchVo);
 	int selectTotalRecord(SearchVO searchVo);
 	public AccountVO selectByAccountNo(int account_no);
 	public int loginCheck(String email, String password);
 	public AdminVO selectByEmail(String email);
+	public int insertNotice(String email, String title, String content);
+	NoticeVO selectRecentNotice();
+
 }

@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.admin.model.AdminService;
+import com.gr.comcome.admin.model.NoticeVO;
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
@@ -115,6 +117,65 @@ public class adminController {
 		session.removeAttribute("adminNo");
 		
 		return "redirect:/login/index";
+	}
+	
+	//localhost:9091/comcome/admin/popup-regi
+	@GetMapping("/popup-regi")
+	public String popupRegi() {
+		logger.info("팝업창 등록 화면 메인 없이");
+		return "admin/popupregi";
+	}
+	
+	//localhost:9091/comcome/admin/popup-regi-with-main
+	@RequestMapping("/popup-regi-with-main")
+	public String popupRegiWithMain() {
+		
+		return "admin/popupwithmain";
+	}
+	
+	//localhost:9091/comcome/admin/popup-regi
+	@RequestMapping("/popup-regi")
+	public String popupRegi_post(
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) String content,
+			@RequestParam String email,
+			 Model model) {
+		
+		if(title == null || content==null || title == "" || content == "") {
+			model.addAttribute("msg", "제목/내용을 입력해주세요");
+			model.addAttribute("url", "/admin/popup-regi-with-main");
+			return "common/message";
+		}
+		
+		
+		logger.info("팝업 등록 처리, title={}, content={}, email={}",title, content,email);
+		
+		
+		int result = adminService.insertNotice(email,title,content);
+		String msg = "공지 등록에 실패하였습니다", url = "/admin/popup-regi-with-main";
+		if(result==adminService.INSERT_OK) {
+			msg = "공지 등록이 완료되었습니다";
+			url = "/admin/main";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url",url);
+		
+		return "common/message";	
+		
+	}
+	
+	
+	//localhost:9091/comcome/admin/popup-view
+	@GetMapping("/popup-view")
+	public String popup_get(Model model) {
+		
+		NoticeVO vo = adminService.selectRecentNotice();
+		
+		model.addAttribute("vo", vo);
+		logger.info("팝업 화면 처리 ,vo={}",vo.toString());
+		
+		return "admin/popup";
 	}
 	
 	

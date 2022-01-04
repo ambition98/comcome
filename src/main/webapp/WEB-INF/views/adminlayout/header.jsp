@@ -46,7 +46,7 @@ String email=(String)session.getAttribute("email");
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">게시글 관리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">특가몰 관리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">매출 통계</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">팝업 공지 등록</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/admin/popup-regi-with-main'/>">팝업 공지 등록</a>
                 </div>
             </div>
            <!--  Page content wrapper -->

@@ -5,6 +5,61 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/popup.css'/>" />
+<style type="text/css">
+
+table {
+    border: solid 1px white;
+    height: 300px;
+    margin-top: 50px;
+}
+
+p#title {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+p#content {
+    color: white;
+    margin-top: 50px;
+}
+
+body {
+    background-color: #2d4755;
+}
+
+element.style {
+    margin: 0;
+    padding: 0;
+   
+}
+
+input[type="checkbox"] {
+    background-color: #a9b5bf;
+    /* color: #ed4755; */
+}
+
+
+
+
+element.style {
+    font-size: 11px;
+    color: #2d4755;
+    text-align: right;
+    background-color: #d9e5eb;
+    width: 10%;
+    font-weight: bold;
+}
+
+
+
+a {
+    text-decoration: none;
+    color: #2d4755;
+    font-size: 10px;
+}
+</style>
 <title>팝업 자동으로 뜨기</title>
 <script language="JavaScript">
 	function getCookie(name) {
@@ -55,8 +110,12 @@
   <tr>
     <Td colspan="2">
     <!-- 여기 바꾸기 -->
-      <img src="http://madalla.kr/script/img/a1.jpg" width="400" height="300">
-      
+     <div id="tandc">
+      <c:if test="${!empty vo }">
+      	<p id="title">${vo.title}</p>
+      	<p id="content">${vo.content}</p>	
+      </c:if>
+     </div>
     </td>
    </tr>
   <tr>

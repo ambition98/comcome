@@ -2,14 +2,21 @@ package com.gr.comcome.admin.model;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.common.SearchVO;
 
+
 @Service
 public class AdminServiceImpl implements AdminService{
+	
+	private Logger logger 
+	= LoggerFactory.getLogger(AdminServiceImpl.class);
+	
 	
 	private final AdminDAO adminDAO;
 	
@@ -61,6 +68,36 @@ public class AdminServiceImpl implements AdminService{
 	public AdminVO selectByEmail(String email) {
 	
 		return adminDAO.selectByEmail(email);
+	}
+	
+	
+	//공지창
+	@Override
+	public int insertNotice(String email, String title, String content) {
+
+		int adminNo = adminDAO.selectAdminNoByEmail(email);
+		
+		logger.info("관리자 번호, adminNo={}",adminNo);
+		NoticeVO vo = new NoticeVO();
+		
+		vo.setAdminNo(adminNo);
+		vo.setTitle(title);
+		vo.setContent(content);
+		logger.info("공지테이블 ,vo={}}",vo.toString());
+		int result = adminDAO.insertNotice(vo);
+		if(result >0) {
+			result = INSERT_OK;
+		}else {
+			result = INSERT_DISAGREE;
+		}
+		return result;
+		
+		
+	}
+	
+	@Override
+	public NoticeVO selectRecentNotice() {
+		return adminDAO.selectRecentNotice();
 	}
 	
 }
