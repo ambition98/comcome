@@ -17,8 +17,8 @@
 	                    <a href="https://technext.github.io/ogani/index.html"><img src="./Ogani _ Template_files/logo.png" alt=""></a>
 	                </div>
 	                <ul>
-	                    <li>Address: 60-49 Road 11378 New York</li>
-	                    <li>Phone: +65 11.188.888</li>
+	                    <li>주소 : 서울시 강남구 강남대로 6<br> 컴컴빌딩 12345</li>
+	                    <li>대표전화 : 1234-5677</li>
 	                    <li>Email: hello@colorlib.com</li>
 	                </ul>
 	            </div>
@@ -63,6 +63,9 @@
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12">
+	        	<div class="footer__copyright">
+	            	<div class="footer__copyright__text"><p>COMCOME Copyright ©COMCOME Corp. All Rights Reserved.</p></div>
+	            </div>
 	            <div class="footer__copyright">
 	                <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 	Copyright ©<script>document.write(new Date().getFullYear());</script>2021 All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
