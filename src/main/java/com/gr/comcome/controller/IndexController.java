@@ -22,6 +22,11 @@ public class IndexController {
 		return "/index";
 	}
 	
+	@RequestMapping("/message")
+	public String message() {
+		return "/common/message";
+	}
+	
 	@RequestMapping("/test")
 	public String testPage(Model model) {
 		model.addAttribute("testpage", "test123");

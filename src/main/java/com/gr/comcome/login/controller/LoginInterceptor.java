@@ -36,8 +36,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			 request.setAttribute("msg", "먼저 로그인하세요!!!!!!!!!!!!!");
 			 request.setAttribute("url", "/admin/login-with-main");
 					
-			RequestDispatcher dispatcher = 
-			request.getRequestDispatcher("WEB-INF/views/common/message.jsp");
+//			RequestDispatcher dispatcher = 
+//					request.getRequestDispatcher("WEB-INF/views/common/message.jsp");
+			 RequestDispatcher dispatcher = 
+						request.getRequestDispatcher("/message");
+			System.out.println(request.getContextPath());
 			dispatcher.forward(request, response);
 
 				return false;

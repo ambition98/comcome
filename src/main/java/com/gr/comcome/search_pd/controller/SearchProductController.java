@@ -99,8 +99,8 @@ public class SearchProductController {
 	
 	@ResponseBody
 	@PostMapping("/changelist")
-	public String changeList(@RequestBody String data) {
-		log.info("Enter list()");
+	public List<SearchProductVO> changeList(@RequestBody String data) {
+		log.info("Enter changelist()");
 		log.info(data);
 		Map<String, Object> map = new HashMap<>();
 		List<String> brandList = new ArrayList<>();
@@ -130,11 +130,16 @@ public class SearchProductController {
 		map.put("screenSize", screenSizeList);
 		map.put("cpu", cpuList);
 		map.put("memory", memoryList);
+		System.out.println(cpuList.size());
 		
-		List<SearchProductVO> voList = searchProductService.selectTest(map);
+		List<SearchProductVO> voList = searchProductService.selectByOption(map);
+		for(SearchProductVO vo : voList) {
+			System.out.println(vo.getName());
+			System.out.println(vo.getDetail());
+			System.out.println("---------------------------");
+		}
 		log.info("vo size: " + voList.size());
 		
-		
-		return "response test";
+		return voList;
 	}
 }
