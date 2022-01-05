@@ -8,25 +8,78 @@
 		from search_product
 	</select>
 	
-	<select id="selectByCategoryNo" parameterType="int"
+	<select id="selectByCategoryNo" parameterType="categoryVo"
 			resultType="searchProductVo">
 		select *
 		from search_product
-		where category_no = #{no}
+		where category_no = (select category_no
+							 from category
+							 where brand_no = #{brandNo} and screen_size_no = #{screenSizeNo})
 	</select>
 	
-	<select id="selectBySearchKeywordVo" parameterType="searchKeywordVo" 
+	<select id="selectByBrandNo" parameterType="Integer"
 			resultType="searchProductVo">
 		select *
 		from search_product
+		where category_no in (select category_no
+							  from category
+							  where brand_no = #{brandNo})
+	</select>
+	
+	<select id="selectByKeyword" parameterType="String" 
+			resultType="searchProductVo">
+		select *
+		from search_product
+		where lower(name) like '%'|| #{keyword} ||'%'
+	</select>
+	
+	<select id="selectByNo" parameterType="Integer" resultType="searchProductVo">
+		select *
+		from search_product
+		where search_product_no = #{no}
+	</select>
+	
+	<select id="selectByOption" parameterType="searchOption" resultType="searchProductVo">
+		select *
+		from search_product		
+		<where>
+			<foreach item="item" collection="#{brand}">
+				AND lower(name) like '%'|| #{item} ||'%'
+			</foreach>
+		</where>
+		
+	</select>
+	
+	<select id="selectTest" parameterType="map" resultType="searchProductVo">
+		select *
+		from search_product
+		<where>
+			<if test="brand != null">
+				<foreach item="item" collection="brand">
+					OR lower(name) like '%'|| #{item} ||'%'
+				</foreach>
+			</if>
+			AND
+			<if test="cpu != null">
+				<foreach item="item" collection="cpu">
+				OR lower(detail) like '%'|| #{item} ||'%'
+			</foreach>
+			</if>
+			AND
+			<if test="memory != null">
+				<foreach item="item" collection="memory">
+					OR lower(detail) like '%'|| #{item} ||'%'
+				</foreach>
+			</if>
+			AND
+			<if test="screenSize != null">
+				<foreach item="item" collection="screenSize">
+					OR lower(detail) like '%'|| #{item} ||'%'
+				</foreach>
+			</if>
+		</where>
 	</select>
 </mapper>
-
-
-
-
-
-
 
 
 

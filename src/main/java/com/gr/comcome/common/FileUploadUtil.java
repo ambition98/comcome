@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class FileUploadUtil {
-	
-	private static final Logger logger
-		=LoggerFactory.getLogger(FileUploadUtil.class);
 	
 	//파일 업로드 처리
 	public List<Map<String, Object>> fileUpload(HttpServletRequest request, 
@@ -45,7 +45,7 @@ public class FileUploadUtil {
 				Map<String, Object> map = new HashMap<>();
 				String originName=tempFile.getOriginalFilename();
 				long fileSize=tempFile.getSize(); //업로드한 파일 크기
-				logger.info("업로드 파일명={}, 파일 크기={}", originName, fileSize);
+				log.info("업로드 파일명={}, 파일 크기={}", originName, fileSize);
 				
 				//변경된 파일 이름 구하기
 				String fileName=getUniqueFileName(originName);
@@ -77,14 +77,14 @@ public class FileUploadUtil {
 			}else if(pathFlag==ConstUtil.UPLOAD_IMAGE_FLAG) { //상품등록
 				path=ConstUtil.IMAGE_FILE_UPLOAD_PATH_TEST;
 			}
-			logger.info("type={}", ConstUtil.FILE_UPLOAD_TYPE);
+			log.info("type={}", ConstUtil.FILE_UPLOAD_TYPE);
 		}else {  //deploy
 			if(pathFlag==ConstUtil.UPLOAD_FILE_FLAG) {  //자료실
 				path=ConstUtil.FILE_UPLOAD_PATH;
 			}else if(pathFlag==ConstUtil.UPLOAD_IMAGE_FLAG) { //상품등록
 				path=ConstUtil.IMAGE_FILE_UPLOAD_PATH;
 			}
-			logger.info("type={}", ConstUtil.FILE_UPLOAD_TYPE);
+			log.info("type={}", ConstUtil.FILE_UPLOAD_TYPE);
 			
 			//실제 물리적인 경로 구하기
 			//application.getRealPath()
@@ -92,7 +92,7 @@ public class FileUploadUtil {
 			path=request.getSession().getServletContext().getRealPath(path);
 		}
 		
-		logger.info("업로드 경로 : {}", path);
+		log.info("업로드 경로 : {}", path);
 		
 		return path;
 	}
@@ -111,7 +111,7 @@ public class FileUploadUtil {
 		
 		String time=getTimeStamp();
 		String result = fName+"_"+time+ext;
-		logger.info("변경된 파일명 : {}", result);
+		log.info("변경된 파일명 : {}", result);
 		
 		return result;
 	}
@@ -121,7 +121,7 @@ public class FileUploadUtil {
 		Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String str=sdf.format(d);
-		logger.info("현재시간:{}", str);
+		log.info("현재시간:{}", str);
 		
 		return str;
 	}
