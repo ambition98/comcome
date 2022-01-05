@@ -34,7 +34,43 @@
 		select * from account
 		where account_no = #{account_no}
 	</select>
-
-
+	<!-- 로그인 체크 : 이메일이 존재하는지 안하는지 확인 -->
+	
+	<select id="countEmail" parameterType="string" resultType="integer">
+		select count(*) from admin
+		where email = #{email}
+	</select>
+	
+		<!-- String checkPwd(String email); -->
+	<select id="checkPwd" parameterType="string" resultType="string">
+		select password from admin
+		where email = #{email}
+	</select>
+<!-- 	
+		//이메일 통해서 관리자 테이블 정보 가져오기
+	AdminVO selectByEmail(String email);
+ -->
+ 	<select id="selectByEmail" parameterType="string" resultType="adminVO">
+	     select * from admin
+	     where email = #{email}
+	</select>
+	<select id="selectAdminNoByEmail" parameterType="string" resultType="int">
+	 select admin_no from admin
+	 where email = #{email} 
+	</select>
+	<insert id="insertNotice" parameterType="noticeVO">
+	 insert into notice(admin_no, title, content,regdate)
+	 values(#{adminNo},#{title},#{content},sysdate)
+	</insert>
+	<select id="selectRecentNotice" resultType="noticeVO">
+		select * from 
+		(
+			select * from notice order by notice_no desc
+		) 
+		<![CDATA[
+		where rownum<=1
+		]]>
+	</select>
+ 
 
 </mapper>
