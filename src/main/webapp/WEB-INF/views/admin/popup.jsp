@@ -1,131 +1,120 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/popup.css'/>" />
-<style type="text/css">
-
-table {
-    border: solid 1px white;
-    height: 300px;
-    margin-top: 50px;
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script language="JavaScript">
+//head 태그 안에 스크립트 선언
+        function setCookie( name, value, expiredays ) {
+            var todayDate = new Date();
+            todayDate.setDate( todayDate.getDate() + expiredays ); 
+            document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+        }
+        function closePop() {
+            if ( document.pop_form.chkbox.checked ){
+                setCookie( "maindiv", "done" , 1 );
+            }
+            document.all['layer_popup'].style.visibility = "hidden";
+        }
+</script>
+ <script language="Javascript">
+    cookiedata = document.cookie;   
+    if ( cookiedata.indexOf("maindiv=done") < 0 ){     
+        document.all['layer_popup'].style.visibility = "visible";
+    }
+    else {
+        document.all['layer_popup'].style.visibility = "hidden";
+    }
+</script>
+</head>
+<style>
+font-family: SF Pro KR, SF Pro Display, SF Pro Icons, AOS Icons, Apple Gothic, HY Gulim, MalgunGothic, HY Dotum, Lexi Gulim, Helvetica Neue, Helvetica, Arial, sans-serif;
+.layerPopup img{
+margin-bottom : 20px;}
+.layerPopup:before {display:block; content:""; position:fixed; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,.5); z-index:9000}
+.layerPopup .layerBox {    z-index:10000;   
+position:fixed; left:85%; top:48%; transform:translate(-50%, -50%); padding:30px; background:#fff; border-radius:6px; }
+.layerPopup .layerBox .title {margin-bottom:10px; padding-bottom:10px; font-weight:600; border-bottom:1px solid #d9d9d9;}
+.layerPopup .layerBox .btnTodayHide {
+font-size:14px; font-weight:600; color:black; 
+float: left;text-decoration:none;width: 150px; 
+height : 30px;line-height:30px;border:black solid 1px; text-align : center;text-decoration:none;
 }
-
-p#title {
-    color: white;
-    text-align: center;
-    font-size: 20px;
+.layerPopup div{
+	display : inline;
 }
-
-p#content {
-    color: white;
-    margin-top: 50px;
+.layerPopup form{
+	margin-top : 5px;
+	font-size:16px; font-weight:600;
+	weight: 100%;
+	height : 30px;
+	line-height:30px
 }
-
-body {
-    background-color: #2d4755;
+.layerPopup #close {
+font-size:16px; font-weight:600; width: 40px; height : 30px;color:black; float: right; line-height:30px; text-align : center;text-decoration:underline;
 }
-
-element.style {
-    margin: 0;
-    padding: 0;
-   
+.layerPopup a{
+	text-decoration : none;
+	color : black;width: 50px;height : 40px;
 }
-
-input[type="checkbox"] {
-    background-color: #a9b5bf;
-    /* color: #ed4755; */
+label {
+    font-size: 10px;
 }
-
-
-
-
-element.style {
-    font-size: 11px;
-    color: #2d4755;
-    text-align: right;
-    background-color: #d9e5eb;
-    width: 10%;
-    font-weight: bold;
-}
-
-
 
 a {
     text-decoration: none;
-    color: #2d4755;
-    font-size: 10px;
+    font-size: 15px;
+}
+
+form {
+    border-top: solid 1px #ead9d9;
+}
+
+body {
+    /* width: 150px; */
+}
+
+h4.title {
+    font-size: medium;
+}
+
+p#content {
+    font-size: 13px;
+}
+
+p#title {
+    font-size: 13px;
+    font-weight: bolder;
+}
+
+h4.title {
+    color: steelblue;
 }
 </style>
-<title>팝업 자동으로 뜨기</title>
-<script language="JavaScript">
-	function getCookie(name) {
-		var nameOfCookie = name + "=";
-		var x = 0
-		while (x <= document.cookie.length) {
-			var y = (x + nameOfCookie.length);
-			if (document.cookie.substring(x, y) == nameOfCookie) {
-				if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
-					endOfCookie = document.cookie.length;
-				return unescape(document.cookie.substring(y, endOfCookie));
-			}
-			x = document.cookie.indexOf(" ", x) + 1;
-			if (x == 0)
-				break;
-		}
-		return "";
-	}
-	function openCookieWin() {
-		if (getCookie("ncook") != "done") {
-			noticeWindow = window.open("new.html", "",
-					"width=400, height=330, top=200,left=100");
-			noticeWindow.opener = self;
-		}
-	}
-	
-	
-	function setCookie(name,value,expiredays) {
-	var todayDate = new Date();
-	todayDate.setDate(todayDate.getDate() + expiredays);
-	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-	}
-
-	function closeWin() {
-	if(document.checkClose.ncook.checked == true) {
-	setCookie("ncook", "done" ,7);
-	}
-	self.close();
-	}
-	
-</script>
-
-
-</head>
-<body style="margin:0;padding:0;background-color:#000000;">
-<center> <form name="checkClose">
-<table cellpadding="0" cellspacing="0">
-  <tr>
-    <Td colspan="2">
-    <!-- 여기 바꾸기 -->
-     <div id="tandc">
-      <c:if test="${!empty vo }">
-      	<p id="title">${vo.title}</p>
-      	<p id="content">${vo.content}</p>	
-      </c:if>
-     </div>
-    </td>
-   </tr>
-  <tr>
-   <Td style="font-size:11px;color:#ffffff; background-color:#000;text-align:center;width:90%;">
-      <input type="checkbox" name="ncook">다음부터 이 창을 띄우지 않음
-  </td>
-  <td style="font-size:11px;color:#ffffff;text-align:right;background-color:#000;width:10%;font-weight:bold;">
-       <a href="#" onClick="closeWin()">닫기</a>&nbsp;&nbsp;
-   </td>
-  </tr> </form>
-</table>
+<body>
+<div class="layerPopup" id="layer_popup" style="visibility: visible;">
+    <div class="layerBox">
+        <h4 class="title">Comcome 공지사항</h4>
+        <div class="cont">
+            <p>
+<!-- <img src="../images/popup.jpg" width=350 height=500 usemap="#popup" alt="event page"> -->
+            <c:if test="${!empty vo }">
+	      	<p id="title">${title}</p>
+	      	<p id="content">${content}</p>	
+	      </c:if>
+            </p>
+        </div>
+          <form name="pop_form">
+        <div id="check" ><input type="checkbox" name="chkbox" value="checkbox" id='chkbox' >
+        <label for="chkbox">&nbsp&nbsp오늘 하루동안 보지 않기</label></div>
+		<div id="close" ><a href="javascript:closePop();">닫기</a></div>    
+		</form>
+	</div>
+</div>
 </body>
 </html>
