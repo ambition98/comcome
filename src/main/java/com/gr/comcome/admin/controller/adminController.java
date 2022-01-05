@@ -177,13 +177,13 @@ public class adminController {
 	// localhost:9091/comcome/admin/login
 	@GetMapping("/login")
 	public String adminlogin() {
-		return "admin/adminlogin";
+		return "/admin/adminlogin";
 	}
 
 	// localhost:9091/comcome/admin/login-with-main
 	@GetMapping("/login-with-main")
 	public String adminwithmain() {
-		return "admin/adminloginwithmain";
+		return "/admin/adminloginwithmain";
 	}
 
 	//관리자 로그인 
