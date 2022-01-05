@@ -8,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+String email=(String)session.getAttribute("email");
+String name=(String)session.getAttribute("name");
+%>
     <header class="header">
         <div class="container">
             <div class="row">
@@ -29,8 +33,12 @@
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">로그인</a></li>
+                            <% if(email==null || email.isEmpty()){ %>
+                            <li><a href="<c:url value='/login/login-form'/>">로그인</a></li>
+                             <%}else{ %>
+                             <li><a href="<c:url value='/login/logout'/>">로그아웃</a></li>
                             <li><a href="./contact.html">마이페이지</a></li>
+                              <%} %>
                         </ul>
                     </nav>
                 </div>
@@ -41,7 +49,11 @@
                             <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             <li><i class="fa-brands fa-app-store-ios"></i></li>
                         </ul>
+                          <% if(email==null || email.isEmpty()){ %>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
+                         <%}else{ %>
+                          <div class="header__cart__price"><%=name %>님💻</div>
+                         <%} %>
                     </div>
                 </div>
             </div>

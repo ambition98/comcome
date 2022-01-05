@@ -78,6 +78,22 @@ public class loginController {
 		logger.info("로그인 화면");
 		return "/login/loginForm";
 	}
+	
+	// localhost:9091/comcome/login/logout
+	@RequestMapping("/logout")
+	public String logout(HttpSession session, Model model) {
+		logger.info("로그아웃 처리");
+
+		// session.invalidate();
+		session.removeAttribute("email");
+		session.removeAttribute("accountNo");
+		session.removeAttribute("name");
+
+		model.addAttribute("msg", "로그아웃 되었습니다.");
+		model.addAttribute("url", "/login/index");
+		return "/common/message";
+		
+	}
 
 	// http://localhost:9091/comcome/login/sign-in
 	@PostMapping("/sign-in")
@@ -88,7 +104,7 @@ public class loginController {
 		if (email == null || password == null || email == "" || password == "") {
 			model.addAttribute("msg", "이메일/비밀번호를 입력해주세요");
 			model.addAttribute("url", "/login/login-form");
-			return "common/message";
+			return "/common/message";
 		}
 
 		logger.info("로그인 처리, 파라미터 " + "email={}, password={}, chkSave={}", email, password, chkSave);
@@ -129,7 +145,7 @@ public class loginController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 
-		return "common/message";
+		return "/common/message";
 
 	}
 
@@ -446,7 +462,7 @@ public class loginController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		logger.info("처리 완료");
-		return "common/message";
+		return "/common/message";
 
 	}
 

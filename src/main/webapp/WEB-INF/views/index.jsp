@@ -23,18 +23,10 @@
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
-<<<<<<< HEAD
-	 
-=======
->>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 
-<<<<<<< HEAD
- 
-
-=======
     <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
 	<script src="<c:url value='/resources/js/category.js' />"></script>
->>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
+
 </head>
 
 <body>
