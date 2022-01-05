@@ -28,10 +28,11 @@
 	<script src="<c:url value='/resources/js/category.js' />"></script>
 <style type="text/css">
 	.section {
-	}
-	.search_pd_container {
 		max-width: 1170px;
 		margin: auto;
+	}
+	.search_pd_container {
+		
 	}
 	
 	.search_pd {
@@ -80,6 +81,10 @@
 	.closeBubble {
 		cursor: pointer;
 	}
+	
+	.loading {
+		text-align: center;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -112,12 +117,19 @@
 		/* 카테고리 클릭 시 초기 설정 */
 		const brandNo = '${brandNo}';
 		const screenSizeNo = '${screenSizeNo}';
-
-		if(brandNo != '')
+		
+		
+		console.log('brandNo: '+ brandNo);
+		console.log('screenSizeNo: ' + screenSizeNo);
+		if(brandNo != '') {
 			$('#b'+brandNo).trigger('click');
+			console.log('enter1');
+		}
 			
-		if(screenSizeNo != '')
+		if(screenSizeNo != '') {
 			$('#s'+screenSizeNo).trigger('click');
+			console.log('enter2');
+		}
 		
 		$('.option_container').on('click', 'div .closeBubble', function() {
 			var optionBubble = '<div class="optionBubble">'+$(this).parent().html()+'</div>'
@@ -130,6 +142,9 @@
 		});
 		
 		function changeList() {
+			var loadingImg = '<div class="loading"><img src="<c:url value="/resources/img/search_pd/common/lodding.gif" />" /></div>';
+			$('.search_pd_container').html(loadingImg);
+			
 			var brandList = [];
 			var screenSizeList = [];
 			var cpuList = [];
@@ -184,7 +199,30 @@
 				,dataType:"text"
 				,contentType: "application/json"
 				,success: function(data){
-					console.log(data);
+					//console.log(data);
+					$('.search_pd_container').html('');
+					
+					var jsonObject = JSON.parse(data);
+					jsonObject.forEach(function(pd, i) {
+						console.log(pd);
+						
+						var pdThumbnail = '<div class="pd_thumbnail">'
+											+'<a href="<c:url value="/searchpd/detail?pdNo='+pd.searchProductNo+'" />">'
+											+'<img src="<c:url value="/resources/img/search_pd/thumbnail" />/'+ pd.thumbnail +'" />'
+											+'</a></div>';
+						var pdName = '<div class="pd_name">'
+					        			+'<a href="<c:url value="/searchpd/detail?pdNo='+pd.searchProductNo+'" />">'+ pd.name +'</a>'
+					        			+'</div>';
+					    var pdPrice = '<div class="pd_price">1,111,111</div>';
+					    
+					    var pdDiv = '<div class="search_pd">'
+					    			+ pdThumbnail + pdName + pdPrice + '</div>';
+						
+					    console.log(pdDiv);
+					    
+					    $('.search_pd_container').append(pdDiv);
+					});
+					
 				}
 				,error: function(status, error){
 					alert("에러발생 : "+status+", "+ error);
@@ -196,66 +234,61 @@
 </head>
 <body>
 <section class="section">
+	<div><h3>상품목록</h3></div>
+	<div class="change_list">
+		<div class="brand">
+			<div class="title">브랜드</div>
+			<div>
+				<label><input type="checkbox" name="brand" id="b1" value="삼성전자"/>삼성전자</label>
+				<label><input type="checkbox" name="brand" id="b2" value="Apple"/>Apple</label>
+				<label><input type="checkbox" name="brand" id="b3" value="LG전자"/>LG전자</label>
+				<label><input type="checkbox" name="brand" id="b4" value="DELL"/>DELL</label>
+				<label><input type="checkbox" name="brand" id="b5" value="MSI"/>MSI</label>
+				<label><input type="checkbox" name="brand" id="b6" value="레노버"/>레노버</label>
+				<label><input type="checkbox" name="brand" id="b7" value="한성컴퓨터"/>한성컴퓨터</label>
+			</div>
+		</div>
+		<div class="screen_size">
+			<div class="title">화면크기</div>
+			<div>
+				<label><input type="checkbox" name="screen_size" id="s1" value="17"/>17인치 이상</label>
+				<label><input type="checkbox" name="screen_size" id="s2" value="16"/>16인치대</label>
+				<label><input type="checkbox" name="screen_size" id="s3" value="15"/>15인치대</label>
+				<label><input type="checkbox" name="screen_size" id="s4" value="14"/>14인치대</label>
+				<label><input type="checkbox" name="screen_size" id="s5" value="13"/>13인치 이하</label>
+			</div>
+		</div>
+		<div class="cpu">
+			<div class="title">CPU</div>
+			<div>
+				<label><input type="checkbox" name="cpu" value="ARM"/>ARM</label>
+			</div>
+			<div>
+				<label><input type="checkbox" name="cpu" value="인텔 코어i3"/>인텔 i3</label>
+				<label><input type="checkbox" name="cpu" value="인텔 코어i5"/>인텔 i5</label>
+				<label><input type="checkbox" name="cpu" value="인텔 코어i7"/>인텔 i7</label>
+				<label><input type="checkbox" name="cpu" value="인텔 코어i9"/>인텔 i9</label>
+			</div>
+			<div>
+				<label><input type="checkbox" name="cpu" value="라이젠3"/>라이젠 3</label>
+				<label><input type="checkbox" name="cpu" value="라이젠5"/>라이젠 5</label>
+				<label><input type="checkbox" name="cpu" value="라이젠7"/>라이젠 7</label>
+				<label><input type="checkbox" name="cpu" value="라이젠9"/>라이젠 9</label>
+			</div>
+		</div>
+		<div class="memory">
+			<div class="title">Memory</div>
+			<div>
+				<label><input type="checkbox" name="memory" value="16"/>16GB 이상</label>
+				<label><input type="checkbox" name="memory" value="8"/>8GB</label>
+				<label><input type="checkbox" name="memory" value="4"/>4GB 이하</label>
+			</div>
+		</div>
+	</div>
+	<div class="option_container">
+	</div>
 	<div class="search_pd_container">
-		<div><h3>상품목록</h3></div>
-		<div class="change_list">
-			<div class="brand">
-				<div class="title">브랜드</div>
-				<div>
-					<label><input type="checkbox" name="brand" id="b1" value="삼성전자"/>삼성전자</label>
-					<label><input type="checkbox" name="brand" id="b2" value="Apple"/>Apple</label>
-					<label><input type="checkbox" name="brand" id="b3" value="LG전자"/>LG전자</label>
-					<label><input type="checkbox" name="brand" id="b4" value="DELL"/>DELL</label>
-					<label><input type="checkbox" name="brand" id="b5" value="MSI"/>MSI</label>
-					<label><input type="checkbox" name="brand" id="b6" value="레노버"/>레노버</label>
-					<label><input type="checkbox" name="brand" id="b7" value="한성컴퓨터"/>한성컴퓨터</label>
-				</div>
-			</div>
-			<div class="screen_size">
-				<div class="title">화면크기</div>
-				<div>
-					<label><input type="checkbox" name="screen_size" id="s1" value="17"/>17인치 이상</label>
-					<label><input type="checkbox" name="screen_size" id="s2" value="16"/>16인치대</label>
-					<label><input type="checkbox" name="screen_size" id="s3" value="15"/>15인치대</label>
-					<label><input type="checkbox" name="screen_size" id="s4" value="14"/>14인치대</label>
-					<label><input type="checkbox" name="screen_size" id="s5" value="13"/>13인치 이하</label>
-				</div>
-			</div>
-			<div class="cpu">
-				<div class="title">CPU</div>
-				<div>
-					<label><input type="checkbox" name="cpu" value="ARM"/>ARM</label>
-				</div>
-				<div>
-					<label><input type="checkbox" name="cpu" value="인텔 i3"/>인텔 i3</label>
-					<label><input type="checkbox" name="cpu" value="인텔 i5"/>인텔 i5</label>
-					<label><input type="checkbox" name="cpu" value="인텔 i7"/>인텔 i7</label>
-					<label><input type="checkbox" name="cpu" value="인텔 i9"/>인텔 i9</label>
-				</div>
-				<div>
-					<label><input type="checkbox" name="cpu" value="라이젠 3"/>라이젠 3</label>
-					<label><input type="checkbox" name="cpu" value="라이젠 5"/>라이젠 5</label>
-					<label><input type="checkbox" name="cpu" value="라이젠 7"/>라이젠 7</label>
-					<label><input type="checkbox" name="cpu" value="라이젠 9"/>라이젠 9</label>
-				</div>
-			</div>
-			<div class="memory">
-				<div class="title">Memory</div>
-				<div>
-					<label><input type="checkbox" name="memory" value="16"/>16GB 이상</label>
-					<label><input type="checkbox" name="memory" value="8"/>8GB</label>
-					<label><input type="checkbox" name="memory" value="4"/>4GB 이하</label>
-				</div>
-			</div>
-		</div>
-		<div class="option_container">
-<!-- 		<div class="optionBubble">
-				<span class="type">브랜드</span>
-				<span class="option">삼성전자 </span>
-				<span class="closeBubble">x</span>
-			</div> -->
-		</div>
-		<c:forEach var="vo" items="${searchPdList}">
+<%-- 		<c:forEach var="vo" items="${searchPdList}">
 			<div class="search_pd">
 				<div class="pd_thumbnail">
 					<a href="<c:url value="/searchpd/detail?pdNo=${vo.searchProductNo}" />">
@@ -270,7 +303,7 @@
 				</div>
 				<br>
 			</div>
-		</c:forEach>
+		</c:forEach> --%>
 	</div>
 </section>
 </body>
