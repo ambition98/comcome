@@ -11,6 +11,5 @@ public interface SearchProductService {
 	List<SearchProductVO> selectByBrandNo(int brandNo);
 	List<SearchProductVO> selectByKeyword(String keyword);
 	SearchProductVO selectByNo(int no);
-	List<SearchProductVO> selectByOption(SearchOption option);
-	List<SearchProductVO> selectTest(Map<String, Object> map);
+	List<SearchProductVO> selectByOption(Map<String, Object> map);
 }

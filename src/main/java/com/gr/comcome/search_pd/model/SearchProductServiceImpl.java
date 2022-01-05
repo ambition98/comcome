@@ -41,12 +41,7 @@ public class SearchProductServiceImpl implements SearchProductService{
 	}
 
 	@Override
-	public List<SearchProductVO> selectByOption(SearchOption option) {
-		return searchProductDao.selectByOption(option);
-	}
-
-	@Override
-	public List<SearchProductVO> selectTest(Map<String, Object> map) {
-		return searchProductDao.selectTest(map);
+	public List<SearchProductVO> selectByOption(Map<String, Object> map) {
+		return searchProductDao.selectByOption(map);
 	}
 }

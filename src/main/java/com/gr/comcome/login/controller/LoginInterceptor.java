@@ -16,9 +16,6 @@ import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapt
 
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-
-	
-
 	private static final Logger logger 
 	 = LoggerFactory.getLogger(LoginInterceptor.class);
 	
@@ -33,18 +30,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			logger.info("preHandle() 호출, email ={}", email);
 
 			if(email == null || email.isEmpty()) {
-			 request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
-			 request.setAttribute("url", "/admin/login-with-main");
-					
-			RequestDispatcher dispatcher = 
-					request.getRequestDispatcher("/message");
-			dispatcher.forward(request, response);
-			logger.info("preHandle() 처리 완료");	
-				return false;
-				
-		    }else {
-				return true; //다음 컨트롤러가 수행됨
-		    }
+        request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
+        request.setAttribute("url", "/admin/login-with-main");
+
+        RequestDispatcher dispatcher = 
+            request.getRequestDispatcher("/message");
+        dispatcher.forward(request, response);
+        logger.info("preHandle() 처리 완료");	
+        
+        return false;
+      }else {
+  			return true; //다음 컨트롤러가 수행됨
+		  }
 	}
 	
 	@Override
