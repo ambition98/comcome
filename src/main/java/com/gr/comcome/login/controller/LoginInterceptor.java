@@ -32,9 +32,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			
 			logger.info("preHandle() 호출, email ={}", email);
 
-			if(email ==null || email.isEmpty()) {
+			if(email == null || email.isEmpty()) {
 			 request.setAttribute("msg", "먼저 로그인하세요!!!!!!!!!!!!!");
-			 request.setAttribute("url", "/login/login-form");
+			 request.setAttribute("url", "/admin/login-with-main");
 					
 			RequestDispatcher dispatcher = 
 			request.getRequestDispatcher("WEB-INF/views/common/message.jsp");

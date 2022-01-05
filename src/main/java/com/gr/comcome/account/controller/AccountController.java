@@ -17,6 +17,7 @@ import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.account.model.HashVO;
 import com.gr.comcome.common.HashingUtil;
+import com.gr.comcome.login.model.LoginService;
 
 @Controller
 @RequestMapping("/account")
@@ -26,6 +27,8 @@ public class AccountController {
 	
 	private final AccountService accountService;
 	private HashingUtil hashingUtil;
+	
+	
 	
 	//DI - 생성자에 의한 종속객체 주입 
 	@Autowired
