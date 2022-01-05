@@ -33,13 +33,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			logger.info("preHandle() 호출, email ={}", email);
 
 			if(email == null || email.isEmpty()) {
-			 request.setAttribute("msg", "먼저 로그인하세요!!!!!!!!!!!!!");
+			 request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
 			 request.setAttribute("url", "/admin/login-with-main");
 					
 			RequestDispatcher dispatcher = 
-			request.getRequestDispatcher("WEB-INF/views/common/message.jsp");
+					request.getRequestDispatcher("/message");
 			dispatcher.forward(request, response);
-
+			logger.info("preHandle() 처리 완료");	
 				return false;
 				
 		    }else {

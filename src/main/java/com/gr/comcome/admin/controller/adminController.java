@@ -97,12 +97,12 @@ public class adminController {
 		model.addAttribute("list", list);
 		model.addAttribute("pagingInfo", pagingInfo);
 
-		return "admin/adminmain";
+		return "/admin/adminmain";
 	}
 
 	@GetMapping("/popupregi")
 	public String popupregi() {
-		return "admin/popupregi";
+		return "/admin/popupregi";
 	}
 
 	// localhost:9091/comcome/admin/logout
@@ -117,18 +117,13 @@ public class adminController {
 		return "redirect:/login/index";
 	}
 
-	// localhost:9091/comcome/admin/popup-regi
-	@GetMapping("/popup-regi")
-	public String popupRegi() {
-		logger.info("팝업창 등록 화면 메인 없이");
-		return "admin/popupregi";
-	}
+	
 
 	// localhost:9091/comcome/admin/popup-regi-with-main
 	@RequestMapping("/popup-regi-with-main")
 	public String popupRegiWithMain() {
 
-		return "admin/popupwithmain";
+		return "/admin/popupwithmain";
 	}
 
 	// localhost:9091/comcome/admin/popup-regi
@@ -177,13 +172,13 @@ public class adminController {
 	// localhost:9091/comcome/admin/login
 	@GetMapping("/login")
 	public String adminlogin() {
-		return "admin/adminlogin";
+		return "/admin/adminlogin";
 	}
 
 	// localhost:9091/comcome/admin/login-with-main
 	@GetMapping("/login-with-main")
 	public String adminwithmain() {
-		return "admin/adminloginwithmain";
+		return "/admin/adminloginwithmain";
 	}
 
 	//관리자 로그인 
@@ -242,5 +237,7 @@ public class adminController {
 		return "common/message";
 
 	}
+	
+	
 
 }
