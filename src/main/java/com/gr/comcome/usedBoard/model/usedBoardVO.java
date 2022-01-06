@@ -25,5 +25,6 @@ public class usedBoardVO {
 	private int step;
 	private String originalFileName;
 	private Timestamp regdate;
-	
+	private String email;
+	private int price;
 }

@@ -94,5 +94,3 @@
 		<input type="submit"  id ="searchbutton" value="검색">
     </form>
 </div>
-</body>
-</html>

@@ -20,5 +20,10 @@
 		insert into hash(account_no, salt, digest)
 		values(#{accountNo}, #{salt}, #{digest})
 	</insert>
+	
+	<select id="checkEmail" parameterType="string" resultType="int">
+		select count(*) from account
+		where email = #{email}
+	</select>
 
 </mapper>
