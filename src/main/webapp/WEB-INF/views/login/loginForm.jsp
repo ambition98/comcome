@@ -36,7 +36,7 @@
 					<span><i class="fab fa-twitter-square"></i></span>-->
 					
 					<a href = "https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code
-					"><img alt="카카오 로그인" src="<c:url value='/resources/images/kakao_button.png'/>"></a>
+					"><img alt="카카오 로그인" src="<c:url value='/resources/img/kakao_button.png'/>"></a>
 				</div>
 			</div>
 			<div class="card-body">

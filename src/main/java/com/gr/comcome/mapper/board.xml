@@ -8,10 +8,7 @@
 	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
 		</if>		
 	</sql>
-	<sql id="searchWhere2">
-	       	where ${groupNo} like '%' || #{groupNo} || '%'	
-	</sql>
-	
+
 	
 	
 	<insert id="insertBoard" parameterType="usedboardVo">
@@ -58,7 +55,7 @@
 		    from
 		    (
 		        select * from board
-		        <include refid="searchWhere2"></include>
+		        where groupNo=#{groupNo2}
 		        order by board_no desc
 		    )A
 		)

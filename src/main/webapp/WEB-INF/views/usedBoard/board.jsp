@@ -73,10 +73,7 @@
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
 							<ul>
-								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=1'/>">노트북</a></li>
-								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=2'/>">노트북 주변기기</a></li>
-								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=3'/>">기타 pc부품</a></li>
-
+								<c:import url="/category2" />
 							</ul>
 						</div>
 					</div>

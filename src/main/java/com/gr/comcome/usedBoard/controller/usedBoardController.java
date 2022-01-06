@@ -66,11 +66,11 @@ public class usedBoardController {
 		
 		return "/usedBoard/board";
 	}
-	
-	@RequestMapping("/categoryList")
-	public String categotyList(@RequestParam(defaultValue = "0") int groupNo,Model model) {
+	/*
+	@RequestMapping("/category2")
+	public String categotyList(Model model) {
 		//1
-		logger.info("글목록, 파라미터 groupNo=,", groupNo);
+		logger.info("중고게시판 카테고리 조회");
 		
 		//[1]paginnationInfo 객체 생성 - 계산해줌
 		PaginationInfo paginationInfo=new PaginationInfo();
@@ -81,7 +81,7 @@ public class usedBoardController {
 		//[2]searchVo에 값 세팅
 	
 		
-		List<usedBoardVO> list=usedBoardService.selectByGroupNo(groupNo);
+		
 		logger.info("전체조회 결과 list.size={}",list.size());
 		
 		//3.model에 결과 저장
@@ -89,9 +89,9 @@ public class usedBoardController {
 		model.addAttribute("pagingInfo",paginationInfo);
 		
 		
-		return "/usedBoard/board";
+		return "/usedBoard/category2";
 	}
-	
+	*/
 	@RequestMapping("/boardDetail")
 	public String detail(@RequestParam(defaultValue = "0") int boardNo, Model model) {
 		logger.info("글 상세보기 파라미터 boardNo={}", boardNo);

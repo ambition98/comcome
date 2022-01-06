@@ -1,19 +1,31 @@
 package com.gr.comcome.search_pd.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gr.comcome.category.model.CategoryService;
 import com.gr.comcome.category.model.CategoryVO;
-import com.gr.comcome.search_pd.model.SearchProductDAO;
+import com.gr.comcome.common.mallapi.NaverAPI;
 import com.gr.comcome.search_pd.model.SearchProductService;
 import com.gr.comcome.search_pd.model.SearchProductVO;
+import com.gr.comcome.search_pd.model.SearchOption;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,12 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequestMapping("/searchpd")
 public class SearchProductController {
-	private final CategoryService categoryService;
 	private final SearchProductService searchProductService;
+	private final NaverAPI naverApi;
 
-	public SearchProductController(CategoryService categoryService, SearchProductService searchProductService) {
-		this.categoryService = categoryService;
+	public SearchProductController(SearchProductService searchProductService, NaverAPI naverApi) {
 		this.searchProductService = searchProductService;
+		this.naverApi = naverApi;
 	}
 
 	@RequestMapping("/list")
@@ -35,35 +47,99 @@ public class SearchProductController {
 			,@RequestParam(value = "keyword", required = false) String keyword) {
 		
 		log.info("Enter list()");
-		log.info(keyword);
-		
-		String view = "/search_pd/list";
-		List<SearchProductVO> voList = null;
+		log.info("keyword: " + keyword);
+		log.info("vo: " + vo.toString()); //파라미터 전달 안해도 null은 아님
+		List<SearchProductVO> searchPdList = null;
 
-		//노트북 전체 카테고리 클릭 or url 직접 접근
-		if(vo == null && keyword == null) {
-			voList = searchProductService.selectAll(); 
-			model.addAttribute("voList", voList);
+		if(vo.getBrandNo() != 0 && vo.getScreenSizeNo() != 0) {
+			log.info("브랜드 & 사이즈 카테고리");
+			log.info(vo.toString());
+			searchPdList = searchProductService.selectByCategoryNo(vo);
+			model.addAttribute("brandNo", vo.getBrandNo());
+			model.addAttribute("screenSizeNo", vo.getScreenSizeNo());
+			//log.info("List size: " + searchPdList.size());
 			
-			return view;
+		} else if(vo.getBrandNo() != 0) {
+			log.info("브랜드 카테고리");
+			searchPdList = searchProductService.selectByBrandNo(vo.getBrandNo());
+			model.addAttribute("brandNo", vo.getBrandNo());
+			//log.info("List size: " + searchPdList.size());
+			
+		} else if(keyword != null) {
+			log.info("검색");
+			searchPdList = searchProductService.selectByKeyword(keyword.toLowerCase());
+			//log.info("List size: " + searchPdList.size());
+		} else {
+			log.info("전체 노트북 카테고리");
+			searchPdList = searchProductService.selectAll(); 
+			//log.info("List size: " + searchPdList.size());
+		}
+		
+		model.addAttribute("searchPdList", searchPdList);
+		
+		return "/search_pd/list";
+	}
+	
+	@RequestMapping("/detail")
+	public String detail(@RequestParam("pdNo") int pdNo) {
+		SearchProductVO vo = searchProductService.selectByNo(pdNo);
+		
+		try {
+			naverApi.getProduct(vo.getName());
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		
-		//vo = categoryService.selectCategoryNo(vo);
-		log.info(vo.toString());
-		
-		
-		
-		
-		
-		return view;
+		return "/search_pd/detail";
 	}
 	
-	@RequestMapping("/pd")
-	public String pd(Model model) {
-		log.info("Enter pd()");
+	@ResponseBody
+	@PostMapping("/changelist")
+	public List<SearchProductVO> changeList(@RequestBody String data) {
+		log.info("Enter changelist()");
+		log.info(data);
+		Map<String, Object> map = new HashMap<>();
+		List<String> brandList = new ArrayList<>();
+		List<String> screenSizeList = new ArrayList<>();
+		List<String> cpuList = new ArrayList<>();
+		List<String> memoryList = new ArrayList<>();
 		
-		return "/search_pd/pd";
+		JSONObject jObject = new JSONObject(data);
+		JSONArray jBrand = jObject.getJSONArray("brand");
+		JSONArray jScreenSize = jObject.getJSONArray("screenSize");
+		JSONArray jCpu = jObject.getJSONArray("cpu");
+		JSONArray jMemory = jObject.getJSONArray("memory");
+		
+		for(int i=0; i<jBrand.length(); i++)
+			brandList.add(jBrand.getString(i));
+		
+		for(int i=0; i<jScreenSize.length(); i++)
+			screenSizeList.add(jScreenSize.getString(i));
+		
+		for(int i=0; i<jCpu.length(); i++)
+			cpuList.add(jCpu.getString(i));
+		
+		for(int i=0; i<jMemory.length(); i++)
+			memoryList.add(jMemory.getString(i));
+		
+		map.put("brand", brandList);
+		map.put("screenSize", screenSizeList);
+		map.put("cpu", cpuList);
+		map.put("memory", memoryList);
+		System.out.println(cpuList.size());
+		
+		List<SearchProductVO> voList = searchProductService.selectByOption(map);
+		for(SearchProductVO vo : voList) {
+			System.out.println(vo.getName());
+			System.out.println(vo.getDetail());
+			System.out.println("---------------------------");
+		}
+		log.info("vo size: " + voList.size());
+		
+		return voList;
 	}
-	
 }
