@@ -34,4 +34,3 @@
 </body>
 </html>
 <%@ include file="include/footer.jsp"%>
-<%@ include file="mypageinc/mypageMain.jsp"%>

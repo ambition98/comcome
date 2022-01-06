@@ -12,5 +12,16 @@
 		update ACCOUNT set name=#{name}
 		where ACCOUNT_NO=#{ACCOUNT_NO}
 	</update>
+	
+	<select id="selectMainNotice" resultType="mypageVo">
+	select * from 
+	(
+	    select * from board order by accountNo desc
+	)
+	<![CDATA[
+	where rownum<=6
+	]]>
+	</select>
+	
 
 </mapper>

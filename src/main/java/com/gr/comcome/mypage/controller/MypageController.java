@@ -94,7 +94,25 @@ public class MypageController {
 	 * 
 	 * return "mypage/mypageDetail"; }
 	 */
+	@RequestMapping("/mypageMain")
+	public String mainNotice(Model model) {
+		logger.info("메인 페이지");
 		
+		List<MypageVO> list =mypageService.selectMainNotice();
+		logger.info("메인 프로필 조회 결과, list.size={}", list.size());
+		
+		model.addAttribute("mainList", list);
+		
+		return "mypageinc/mypageMain";
+	}
+	
+	@RequestMapping("/mypageindex")
+	public String index() {
+		logger.info("메인 페이지");
+		
+		return "mypageinc/mypageindex";
+	}
+	
 	
 	
 }

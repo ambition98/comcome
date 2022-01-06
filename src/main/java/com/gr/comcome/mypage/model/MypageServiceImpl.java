@@ -22,7 +22,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public int selectByNo(int mypageNo) {
+	public MypageVO selectByNo(int mypageNo) {
 		return mypageDao.selectByNo(mypageNo);
 		
 	
@@ -33,4 +33,16 @@ public class MypageServiceImpl implements MypageService {
 		return mypageDao.selectByName(name);
 		
 	}
+
+	@Override
+	public int updateProfile(MypageVO vo) {
+		return mypageDao.updateProfile(vo);
+	}
+
+	@Override
+	public List<MypageVO> selectMainNotice() {
+
+		return mypageDao.selectMainNotice();
+	}
+	
 }
