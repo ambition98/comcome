@@ -23,9 +23,9 @@
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
-    
+                                                          
     <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
-	<script src="<c:url value='/resources/js/category.js' />"></script>
+  	<script src="<c:url value='/resources/js/category.js' />"></script>
 </head>
 
 <body>

@@ -41,7 +41,7 @@ public class adminController {
 		// 1
 		logger.info("회원 목록 화면");
 
-		return "admin/member";
+		return "/admin/member";
 	}
 
 	@RequestMapping("/detail")
@@ -52,7 +52,7 @@ public class adminController {
 			model.addAttribute("msg", "잘못된 url입니다.");
 			model.addAttribute("url", "/board/list.do");
 
-			return "common/message";
+			return "/common/message";
 		}
 
 		AccountVO vo = adminService.selectByAccountNo(account_no);
@@ -60,14 +60,10 @@ public class adminController {
 
 		model.addAttribute("vo", vo);
 
-		return "login/detail";
+		return "/login/detail";
 	}
 
-	// http://localhost:9091/comcome/admin/popup
-	@RequestMapping("/popup")
-	public String popup() {
-		return "admin/popup";
-	}
+
 
 	// http://localhost:9091/comcome/admin/main
 	@RequestMapping("/main")
@@ -149,7 +145,7 @@ public class adminController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 
-		return "common/message";
+		return "/common/message";
 
 	}
 
@@ -166,7 +162,7 @@ public class adminController {
 		model.addAttribute("title", titlebr);
 		model.addAttribute("vo", vo);
 
-		return "admin/popup";
+		return "/admin/popup";
 	}
 
 	// localhost:9091/comcome/admin/login
@@ -234,7 +230,7 @@ public class adminController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);
 		
-		return "common/message";
+		return "/common/message";
 
 	}
 	

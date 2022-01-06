@@ -63,7 +63,11 @@ String email=(String)session.getAttribute("email");
                                 comcome
                                 <%}else{ %>
                                 <%=email %>
-                                <%} %></a></li>
+                                <%} %>
+                                <% if(email==null || email.isEmpty()){ %>
+                                
+                                <%}else{ %>
+                                </a></li>
                                 <li class="nav-item"></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" 
@@ -72,6 +76,7 @@ String email=(String)session.getAttribute("email");
                                         <a class="dropdown-item" href="<c:url value='/admin/logout'/>">로그아웃</a>
                                     </div>
                                 </li>
+                                 <%} %>
                             </ul>
                         </div>
                     </div>
