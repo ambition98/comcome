@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@include file="../adminlayout/header.jsp" %>
 <style>
-
-
+.container {
+    margin-top: 30px;
+}
 </style>
-<articl>
+<article>
 
 <c:import url="/admin/member"></c:import>
 </article>
