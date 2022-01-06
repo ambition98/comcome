@@ -48,9 +48,9 @@ public class SearchProductController {
 		
 		log.info("Enter list()");
 		log.info("keyword: " + keyword);
-		log.info("vo: " + vo.toString()); //파라미터 전달 안해도 null은 아님
+//		log.info("vo: " + vo.toString()); //파라미터 전달 안해도 null은 아님
 		List<SearchProductVO> searchPdList = null;
-
+		
 		if(vo.getBrandNo() != 0 && vo.getScreenSizeNo() != 0) {
 			log.info("브랜드 & 사이즈 카테고리");
 			log.info(vo.toString());
@@ -78,23 +78,6 @@ public class SearchProductController {
 		model.addAttribute("searchPdList", searchPdList);
 		
 		return "/search_pd/list";
-	}
-	
-	@RequestMapping("/detail")
-	public String detail(@RequestParam("pdNo") int pdNo) {
-		SearchProductVO vo = searchProductService.selectByNo(pdNo);
-		
-		try {
-			naverApi.getProduct(vo.getName());
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return "/search_pd/detail";
 	}
 	
 	@ResponseBody
@@ -133,13 +116,33 @@ public class SearchProductController {
 		System.out.println(cpuList.size());
 		
 		List<SearchProductVO> voList = searchProductService.selectByOption(map);
-		for(SearchProductVO vo : voList) {
-			System.out.println(vo.getName());
-			System.out.println(vo.getDetail());
-			System.out.println("---------------------------");
-		}
+//		for(SearchProductVO vo : voList) {
+//			System.out.println(vo.getName());
+//			System.out.println(vo.getDetail());
+//			System.out.println("---------------------------");
+//		}
 		log.info("vo size: " + voList.size());
 		
 		return voList;
+	}
+	
+	@RequestMapping("/detail")
+	public String detail(Model model, @RequestParam("pdNo") int pdNo) {
+		log.info("Enter detail()");
+		log.info("pdNo: " + pdNo);
+		SearchProductVO vo = searchProductService.selectByNo(pdNo);
+		
+		try {
+			naverApi.getProduct(vo.getName());
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("vo", vo);
+		
+		return "/search_pd/detail";
 	}
 }
