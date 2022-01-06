@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.account.model.AccountVO;
@@ -35,14 +36,15 @@ public class adminController {
 	@Autowired
 	private AdminService adminService;
 
-	// http://localhost:9091/comcome/admin/member
-	@RequestMapping("/member")
-	public String member_get() {
-		// 1
-		logger.info("회원 목록 화면");
-
-		return "/admin/member";
-	}
+	
+	  // http://localhost:9091/comcome/admin/member
+	  
+	  @RequestMapping("/member") public String member_get() { // 1
+	  logger.info("회원 목록 화면");
+	  
+	  return "/admin/member"; 
+	  }
+	 
 
 	@RequestMapping("/detail")
 	public String detail(@RequestParam(defaultValue = "0") int account_no, Model model) {
@@ -65,37 +67,6 @@ public class adminController {
 
 
 
-	// http://localhost:9091/comcome/admin/main
-	@RequestMapping("/main")
-	public String main_get(@ModelAttribute SearchVO searchVO, Model model) {
-		// 1
-		logger.info("회원 목록 화면, searchVo={}", searchVO);
-		// 2
-		PaginationInfo pagingInfo = new PaginationInfo();
-		pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
-		pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-		pagingInfo.setCurrentPage(searchVO.getCurrentPage());
-
-		// 3
-		searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-		searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
-		logger.info("값 셋팅 후 searchVo={}", searchVO);
-
-		List<AccountVO> list = adminService.selectAllMember(searchVO);
-		logger.info("전체조회 결과 list.size={}", list.size());
-		for (AccountVO vo : list) {
-			logger.info(vo.toString());
-		}
-		// 4
-		int totalRecord = adminService.selectTotalRecord(searchVO);
-		pagingInfo.setTotalRecord(totalRecord);
-
-		model.addAttribute("list", list);
-		model.addAttribute("pagingInfo", pagingInfo);
-
-		return "/admin/adminmain";
-	}
-
 	@GetMapping("/popupregi")
 	public String popupregi() {
 		return "/admin/popupregi";
@@ -107,7 +78,7 @@ public class adminController {
 		logger.info("로그아웃 처리");
 
 		// session.invalidate();
-		session.removeAttribute("email");
+		session.removeAttribute("emailadmin");
 		session.removeAttribute("adminNo");
 
 		return "redirect:/login/index";
@@ -115,11 +86,12 @@ public class adminController {
 
 	
 
+	//사이드바 + 팝업 공지 등록 화면 
 	// localhost:9091/comcome/admin/popup-regi-with-main
 	@RequestMapping("/popup-regi-with-main")
 	public String popupRegiWithMain() {
 
-		return "/admin/popupwithmain";
+		return "/adminview/popupwithmain";
 	}
 
 	// localhost:9091/comcome/admin/popup-regi
@@ -139,7 +111,7 @@ public class adminController {
 		String msg = "공지 등록에 실패하였습니다", url = "/admin/popup-regi-with-main";
 		if (result == adminService.INSERT_OK) {
 			msg = "공지 등록이 완료되었습니다";
-			url = "/admin/main";
+			url = "/admin/allmemberview";
 		}
 
 		model.addAttribute("msg", msg);
@@ -171,10 +143,11 @@ public class adminController {
 		return "/admin/adminlogin";
 	}
 
+	//사이드바 + 로그인 화면 
 	// localhost:9091/comcome/admin/login-with-main
 	@GetMapping("/login-with-main")
 	public String adminwithmain() {
-		return "/admin/adminloginwithmain";
+		return "/adminview/adminloginwithmain";
 	}
 
 	//관리자 로그인 
@@ -203,7 +176,7 @@ public class adminController {
 			AdminVO adminVO = adminService.selectByEmail(email);
 			logger.info("adminVO={}", adminVO);
 			HttpSession session = request.getSession();
-			session.setAttribute("email", adminVO.getEmail());
+			session.setAttribute("emailadmin", adminVO.getEmail());
 			session.setAttribute("adminNo", adminVO.getAdminNo());
 
 			// [2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
@@ -219,7 +192,7 @@ public class adminController {
 			}
 
 			msg = "관리자님 환영합니다";
-			url = "/admin/main";
+			url = "/admin/allmemberview";
 
 		} else if (result == adminService.DISAGREE_PWD) {
 			msg = "비밀번호가 일치하지 않습니다.";
@@ -233,6 +206,42 @@ public class adminController {
 		return "/common/message";
 
 	}
+	
+	
+    //회원 목록 화면 get, post
+	//localhost:9091/comcome/admin/allmemberview
+		@RequestMapping("/allmemberview")
+		public String main_Post(@ModelAttribute SearchVO searchVO, Model model) {
+			// 1
+			logger.info("회원 목록 화면, searchVo={}", searchVO);
+			// 2
+			PaginationInfo pagingInfo = new PaginationInfo();
+			pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+			pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			pagingInfo.setCurrentPage(searchVO.getCurrentPage());
+
+			// 3
+			searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			logger.info("값 셋팅 후 searchVo={}", searchVO);
+
+			List<AccountVO> list = adminService.selectAllMember(searchVO);
+			logger.info("전체조회 결과 list.size={}", list.size());
+			for (AccountVO vo : list) {
+				logger.info(vo.toString());
+			}
+			// 4
+			int totalRecord = adminService.selectTotalRecord(searchVO);
+			pagingInfo.setTotalRecord(totalRecord);
+
+			model.addAttribute("list", list);
+			model.addAttribute("pagingInfo", pagingInfo);
+
+			return "/adminview/allmember";
+		}
+		
+		
+	
 	
 	
 
