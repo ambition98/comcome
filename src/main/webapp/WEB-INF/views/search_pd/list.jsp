@@ -31,31 +31,37 @@
 		max-width: 1170px;
 		margin: auto;
 	}
-	.search_pd_container {
-		
-	}
 	
 	.search_pd {
-		margin: 10px 10px 10xp 10px;
-		padding: 10px 10px 10px 10px;
+		margin: 10px;
+		padding: 5px;
 		border-bottom: solid 1px rgb(210, 210, 210);
 	}
 	
-	
-	.search_pd div{
+	.search_pd div:not(.detail){
 		display: inline-block;
 	}
-	
+	.pd_thumbnail {
+		width: 12%;
+	}
 	.pd_name {
 		width: 70%;
-		margin-left: 30px;
+		margin: 0px 0px 15px 19px;
 	}
-	
+	.pd_name a {
+		font-size: 1.1em;
+		color: black;
+	}
+	.pd_name a:hover {
+		color: black;
+		
+	}
 	.pd_price {
+		width: 15%;
 	}
 	
-	.change_list div {
-		margin: 5px;
+	.title {
+		margin-bottom: 5px;
 	}
 	
 	.change_list input {
@@ -84,6 +90,19 @@
 	
 	.loading {
 		text-align: center;
+	}
+	.detail {
+		margin-top: 15px;
+		font-size: 0.85em;
+		color: rgb(180,180,180);
+	}
+	
+	.detail th {
+		width: 75px;
+	}
+	.pd_thumbnail{
+		position: relative;
+		top: 50px;
 	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -141,6 +160,7 @@
 			
 		});
 		
+		//bubble을 기준으로 데이터를 ajax로 가져오는 메서드
 		function changeList() {
 			var loadingImg = '<div class="loading"><img src="<c:url value="/resources/img/search_pd/common/lodding.gif" />" /></div>';
 			$('.search_pd_container').html(loadingImg);
@@ -205,20 +225,37 @@
 					var jsonObject = JSON.parse(data);
 					jsonObject.forEach(function(pd, i) {
 						console.log(pd);
+						var detail = JSON.parse(pd.detail);
 						
 						var pdThumbnail = '<div class="pd_thumbnail">'
 											+'<a href="<c:url value="/searchpd/detail?pdNo='+pd.searchProductNo+'" />">'
 											+'<img src="<c:url value="/resources/img/search_pd/thumbnail" />/'+ pd.thumbnail +'" />'
 											+'</a></div>';
+						/* var pdDetail = '<div class="detail">'
+										+'<span class="detailName"><b>cpu</b></span>'+detail.cpu+'<br>'
+										+'<span class="detailName"><b>memory</b></span>'+detail.memory+'<br>'
+										+'<span class="detailName"><b>gpu</b></span>'+detail.gpu+'<br>'
+										+'<span class="detailName"><b>무게</b></span>'+detail.weight+'<br>'
+										+'<span class="detailName"><b>용도</b></span>'+detail.usage+'<br>'
+										+'</div>' */
+						var pdDetail = '<div class="detail">'
+										+'<table>'
+										+'<tr><th>cpu</th><td>'+detail.cpu+'</td></tr>'
+										+'<tr><th>memory</th><td>'+detail.memory+'</td></tr>'
+										+'<tr><th>gpu</th><td>'+detail.gpu+'</td></tr>'
+										+'<tr><th>무게</th><td>'+detail.weight+'</td></tr>'
+										+'<tr><th>용도</th><td>'+detail.usage+'</td></tr>'
+										+'</table></div>'
 						var pdName = '<div class="pd_name">'
 					        			+'<a href="<c:url value="/searchpd/detail?pdNo='+pd.searchProductNo+'" />">'+ pd.name +'</a>'
+					        			+ pdDetail
 					        			+'</div>';
-					    var pdPrice = '<div class="pd_price">1,111,111</div>';
+					    var pdPrice = '<div class="pd_price">1,111,111 원</div>';
 					    
 					    var pdDiv = '<div class="search_pd">'
 					    			+ pdThumbnail + pdName + pdPrice + '</div>';
 						
-					    console.log(pdDiv);
+					    //console.log(pdDiv);
 					    
 					    $('.search_pd_container').append(pdDiv);
 					});
@@ -288,7 +325,8 @@
 	<div class="option_container">
 	</div>
 	<div class="search_pd_container">
-<%-- 		<c:forEach var="vo" items="${searchPdList}">
+		<!-- 검색의 경우에만 해당 구문 실행 (나머진 ajax) -->
+		<c:forEach var="vo" items="${searchPdList}">
 			<div class="search_pd">
 				<div class="pd_thumbnail">
 					<a href="<c:url value="/searchpd/detail?pdNo=${vo.searchProductNo}" />">
@@ -303,7 +341,7 @@
 				</div>
 				<br>
 			</div>
-		</c:forEach> --%>
+		</c:forEach>
 	</div>
 </section>
 </body>

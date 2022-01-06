@@ -18,6 +18,10 @@ public class AccountServiceImpl implements AccountService{
 	public int insertPwd(HashVO vo) {
 		return accountDao.insertPwd(vo);
 	}
+	
+	public int checkEmail(String email) {
+		return accountDao.checkEmail(email);
+	}
 //	
 //	public List<PersonVO> selectAll(SearchVO searchVo){
 //		return boardDao.selectAll(searchVo);

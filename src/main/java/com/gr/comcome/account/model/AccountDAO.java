@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AccountDAO {
 	public int insertAccount(AccountVO vo);
 	public int insertPwd(HashVO vo);
+	public int checkEmail(String email);
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
 //	public PersonVO selectByNo(int no);
