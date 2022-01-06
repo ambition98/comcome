@@ -8,25 +8,109 @@
 		from search_product
 	</select>
 	
-	<select id="selectByCategoryNo" parameterType="int"
+	<select id="selectByCategoryNo" parameterType="categoryVo"
 			resultType="searchProductVo">
 		select *
 		from search_product
-		where category_no = #{no}
+		where category_no = (select category_no
+							 from category
+							 where brand_no = #{brandNo} and screen_size_no = #{screenSizeNo})
 	</select>
 	
-	<select id="selectBySearchKeywordVo" parameterType="searchKeywordVo" 
+	<select id="selectByBrandNo" parameterType="Integer"
 			resultType="searchProductVo">
 		select *
 		from search_product
+		where category_no in (select category_no
+							  from category
+							  where brand_no = #{brandNo})
+	</select>
+	
+	<select id="selectByKeyword" parameterType="String" 
+			resultType="searchProductVo">
+		select *
+		from search_product
+		where lower(name) like '%'|| #{keyword} ||'%'
+	</select>
+	
+	<select id="selectByNo" parameterType="Integer" resultType="searchProductVo">
+		select *
+		from search_product
+		where search_product_no = #{no}
+	</select>
+	
+	<select id="selectByOption" parameterType="map" resultType="searchProductVo">
+		select *
+		from search_product
+		<where>
+			<if test="brand != null and brand.size != 0">
+				<foreach item="item" collection="brand" open="(" close=")" separator="or">
+					lower(name) like '%'|| #{item} ||'%'
+				</foreach>
+			</if>
+			<if test="cpu != null and cpu.size != 0">
+				AND
+				<foreach item="item" collection="cpu" open="(" close=")" separator="or">
+				lower(detail) like '%'|| #{item} ||'%'
+			</foreach>
+			</if>
+			<if test="memory != null and memory.size != 0">
+				AND
+				<foreach item="item" collection="memory" open="(" close=")" separator="or">
+					<choose>
+						<when test="item >= 16">
+							search_product_no in (select search_product_no 
+												  from search_pd_memory
+												  where memory &gt;= 16 )
+						</when>
+						<when test="item >= 8">
+							search_product_no in (select search_product_no 
+												  from search_pd_memory
+												  where memory &gt;= 8 and memory &lt; 16)
+						</when>
+						<otherwise>
+							search_product_no in (select search_product_no 
+												  from search_pd_memory
+												  where memory &lt;= 4 )
+						</otherwise>
+					</choose>
+				</foreach>
+			</if>
+			<if test="screenSize != null and screenSize.size != 0">
+				AND
+				<foreach item="item" collection="screenSize" open="(" close=")" separator="or">
+					<choose>
+						<when test="item >= 17">
+							search_product_no in (select search_product_no 
+												  from search_pd_screen_size
+												  where screen_size &gt;= 17 )
+						</when>
+						<when test="item >= 16">
+							search_product_no in (select search_product_no 
+												  from search_pd_screen_size
+												  where screen_size &gt;= 16 and screen_size &lt; 17)
+						</when>
+						<when test="item >= 15">
+							search_product_no in (select search_product_no 
+												  from search_pd_screen_size
+												  where screen_size &gt;= 15 and screen_size &lt; 16 )
+						</when>
+						<when test="item >= 14">
+							search_product_no in (select search_product_no 
+												  from search_pd_screen_size
+												  where screen_size &gt;= 14 and screen_size &lt; 15 )
+						</when>
+						<otherwise>
+							search_product_no in (select search_product_no 
+												  from search_pd_screen_size
+												  where screen_size &lt;= 13 )
+						</otherwise>
+					</choose>
+				</foreach>
+			</if>
+		</where>
 	</select>
 </mapper>
-
-
-
-
-
-
 
 
 

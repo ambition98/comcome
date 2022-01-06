@@ -18,20 +18,20 @@
     <script src="<c:url value='/resources/js/base/jquery-3.3.1.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/bootstrap.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/jquery.nice-select.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/query-ui.min.js' />"></script>
+    <script src="<c:url value='/resources/js/base/jquery-ui.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/jquery.slicknav.js' />"></script>
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
-    
-
+                                                          
     <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
-	  <script src="<c:url value='/resources/js/category.js' />"></script>
+  	<script src="<c:url value='/resources/js/category.js' />"></script>
 </head>
+
 <body>
 <%-- <%@ include file="include/category.jsp"%> --%>
 <%-- <%@ include file="inc/body.jsp"%> --%>
+<jsp:include page="admin/popup.jsp"/>
 </body>
 </html>
 <%@ include file="include/footer.jsp"%>
-<%@ include file="mypageinc/mypageMain.jsp"%>

@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+input#email {
+    width: 200px;
+}
+
+input#password {
+    width: 200px;
+}
+
+button.btn.btn-primary {
+    background-color: #d9e5eb;
+    border: none;
+    color: #2d4755;
+}
+
+form {
+    border: solid 1px gray;
+    width: 600px;
+    border-radius: 10px;
+    padding: 50px;
+}
+
+button.btn.btn-primary {
+    /* margin-right: 0px; */
+    margin-left: 400px;
+}
+
+input#email {
+    margin-left: 150px;
+    /* text-align: center; */
+    /* vertical-align: middle; */
+}
+
+form {
+    /* vertical-align: middle; */
+}
+
+label {
+    margin-left: 150px;
+}
+
+input#password {
+    margin-left: 150px;
+}
+
+#remember label {
+    margin: 0px;
+}
+
+input#chkSave {
+    margin-left: 150px;
+}
