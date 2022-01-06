@@ -25,5 +25,13 @@ public class usedBoardServiceImpl implements usedBoardService{
 	
 	public List<usedBoardVO> selectByGroupNo(int no){
 		return usedBoardDao.selectByGroupNo(no);
-	};
+	}
+	
+	public usedBoardVO selectByNo(int boardNo){
+		return usedBoardDao.selectByNo(boardNo);
+	}
+	
+	public int updateReadCount(int boardNo){
+		return usedBoardDao.updateReadCount(boardNo);
+	}
 }

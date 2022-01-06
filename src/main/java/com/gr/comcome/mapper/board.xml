@@ -8,6 +8,11 @@
 	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
 		</if>		
 	</sql>
+	<sql id="searchWhere2">
+	       	where ${groupNo} like '%' || #{groupNo} || '%'	
+	</sql>
+	
+	
 	
 	<insert id="insertBoard" parameterType="usedboardVo">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
@@ -39,17 +44,23 @@
 		<include refid="searchWhere"></include>	
 	</select>
 	
-	<select id="selectByNo" parameterType="int" resultType="usedBoardVo">
+		<select id="selectByNo" parameterType="int" resultType="usedBoardVo">
+		select * from board 
+		where board_no=#{boardNo}
+	</select>
+	
+	
+	<select id="selectByGroupNo" parameterType="int" resultType="usedBoardVo">
 		select *
 		from
 		(
 		    select rownum as RNUM, A.*
 		    from
 		    (
-		        select * from board 
-					where groupNo=#{groupNo}
-				 order by board_no desc
-		 	 )A
+		        select * from board
+		        <include refid="searchWhere2"></include>
+		        order by board_no desc
+		    )A
 		)
 		<![CDATA[
 		where RNUM>#{firstRecordIndex} 
@@ -58,7 +69,7 @@
 	
 	<update id="updateReadCount" parameterType="int">
 		update board set readcount=readcount+1					
-		where no=#{no}
+		where board_no=#{boardNo}
 	</update>
 	
 	<update id="updateBoard" parameterType="usedboardVo">

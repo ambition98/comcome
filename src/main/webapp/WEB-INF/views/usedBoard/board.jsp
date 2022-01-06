@@ -73,9 +73,9 @@
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
 							<ul>
-								<li><a href="#">노트북</a></li>
-								<li><a href="#">노트북 주변기기</a></li>
-								<li><a href="#">기타 pc부품</a></li>
+								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=1'/>">노트북</a></li>
+								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=2'/>">노트북 주변기기</a></li>
+								<li><a href="<c:url value='/usedBoard/categoryList?groupNo=3'/>">기타 pc부품</a></li>
 
 							</ul>
 						</div>
@@ -115,17 +115,18 @@
 						<c:forEach var="vo" items="${list}">
 							<div class="col-lg-3 col-md-4 col-sm-6">
 								<div class="blog__item">
-									<a href="#">
+									<a href="<c:url value='/usedBoard/countUpdate?boardNo=${vo.boardNo}'/>">
 										<div class="blog__item__pic" >
 											<img src="../resources/img/${vo.fileName}" alt=""
 												style="width:auto; height:auto; max-width:150px; max-height:100px; ">
 										</div>
 										<div class="blog__item__text">
-											<h5>제목 ${vo.title}</h5>
+											<h5> ${vo.title}</h5>
 											<ul>
 												<li><i class="fa category"></i>카테고리 ${vo.groupNo}</li>
 												<li><i class="calendar"></i> <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
-												<li><i class="count "></i> 조회수 ${vo.readcount}</li>
+												<li><i class="price"></i><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
+												<li><i class="count "></i> 조회수 : ${vo.readcount}</li>
 											</ul>
 											
 										</div>
@@ -142,7 +143,7 @@
 						<!-- 이전 블럭으로 이동 -->
 						<c:if test="${pagingInfo.firstPage>1 }">
 							<a
-								href="<c:url value='/board/list.do?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">
+								href="<c:url value='/usedBoard/list?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">
 								<img src="<c:url value='/resources/images/first.JPG'/>"
 								alt="이전블럭">
 							</a>
