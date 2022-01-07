@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../mypageinc/mypagetop.jsp"%>
 
-<article id="centerCon"  >
-	<c:import url="/mypage/mypageMain" ></c:import>
+<article id="centerCon">
+	<c:import url="/mypage/messagebox"></c:import>
 </article>
 
 
