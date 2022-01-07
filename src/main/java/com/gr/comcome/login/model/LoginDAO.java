@@ -9,7 +9,7 @@ import com.gr.comcome.account.model.HashVO;
 
 public interface LoginDAO {
 	
-	
+	public Integer countPwd(int accountNo);
 	public Integer countEmail(String email);
 	//이메일이 존재하면 계정 번호 가져온다, 사용자 이메일 확인
 	public Integer selectAccountNo(String email); 
@@ -28,7 +28,8 @@ public interface LoginDAO {
 	public AccountVO selectNameByEmail(String email);
 	//비밀번호 재설정
 	public int updatePassword(HashVO hashvo);
-
+    //비밀번호가 없을 시 비밀번호 등록
+	public int insertPassword(HashVO hashvo);
 	//카카오 로그인시에 자동 회원가입 
 	public int insertAccountForKako(AccountVO accountVO);
 	
