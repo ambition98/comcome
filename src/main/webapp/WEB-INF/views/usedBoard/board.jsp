@@ -72,11 +72,49 @@
 						</div>
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
-							<ul>
-								<c:import url="/category2" />
-							</ul>
+							<div class="panel">
+              					  <input type="button" id="button" name="button" value="노트북" "/>
+              					  <input type="button" id="button" name="button" value="노트북 주변기기"  "/>
+              					  <input type="button" id="button" name="button" value="기타 pc부품"  "/>
+   						    </div> 
 						</div>
 					</div>
+					<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+					<script type="text/javascript">
+ 
+				
+					$(function(){
+					    
+					    $("input:button[name='button']").on('click',function(){
+					        var kind = $(this).val();       //버튼이 클릭 되었을 시, 개별 버튼의 값이 kind 변수에 담겨집니다.
+					        $.ajax({
+					            
+					            url : "/comcome/usedBoard/list_ajax",
+					            type : "post",
+					            cache : false,
+					            headers : {"cache-control":"no-cache","pragma":"no-cache"},
+					            data : {
+					                 id : $(this).val(),
+					                "kind":kind    // 버튼의 value값에 따라 작동합니다.
+					                
+					            },
+					            success : function(data){
+					                console.log(data);
+					                $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
+					            },
+					            error:function(request, status, error) {
+					                alert("status : " + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					               }
+					        })//ajax
+					    });//button click
+					    
+					}); 
+					 
+					</script>
+					
+					
+					
+					
 					
 							<div class="searchdiv" >
 						<form name="frmSerch" method="post"
@@ -120,7 +158,7 @@
 										<div class="blog__item__text">
 											<h5> ${vo.title}</h5>
 											<ul>
-												<li><i class="fa category"></i>카테고리 ${vo.groupNo}</li>
+												<li><i class="fa category"></i>${vo.groupNo}</li>
 												<li><i class="calendar"></i> <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
 												<li><i class="price"></i><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
 												<li><i class="count "></i> 조회수 : ${vo.readcount}</li>

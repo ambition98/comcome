@@ -15,6 +15,7 @@ public interface usedBoardDAO {
 	public List<usedBoardVO> selectAll(SearchVO searchVo);
 	int selectTotalRecord(SearchVO searchVo);
 	public usedBoardVO selectByNo(int boardNo);
-	public List<usedBoardVO> selectByGroupNo(int no);
+	public List<usedBoardVO> selectByGroupNo(String no);
 	public int updateReadCount(int no);
+	int selectTotalRecord(int result);
 }
