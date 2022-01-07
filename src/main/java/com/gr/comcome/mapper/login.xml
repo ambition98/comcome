@@ -3,7 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gr.comcome.login.model.LoginDAO">
 	
-	
+<!-- 	public Integer countPwd(int accountNo); -->
+	<select id="countPwd" parameterType="int" resultType="integer">
+				select count(*) from hash
+				where account_no=#{account_no}
+	</select>
 	
 	<select id="countEmail" parameterType="string" resultType="integer">
 				select count(*) from account
@@ -46,8 +50,15 @@
 	<update id="updatePassword" parameterType="hashVO">
 		update hash
 		set salt = #{salt}, digest = #{digest}
-		where account_no = #{account_no}
+		where account_no = #{accountNo}
 	</update>
+	
+	<!--  //비밀번호가 없을 시 비밀번호 등록
+	public int insertPassword(HashVO hashvo); -->
+	<insert id="insertPassword" parameterType="hashVO">
+		insert into hash(account_no, salt, digest)
+		values(#{accountNo},#{salt},#{digest})
+	</insert>
 	
 	<insert id="insertAccountForKako" parameterType="accountVO">
 		insert into account(email, name)

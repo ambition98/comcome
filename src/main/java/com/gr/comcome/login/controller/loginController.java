@@ -55,6 +55,19 @@ public class loginController {
 		this.hashingUtil = hashingUtil;
 	}
 
+	// http://localhost:9091/comcome/login/popup3
+	@GetMapping("/popup3")
+	public String popup3(Model model) {
+		NoticeVO vo = adminService.selectRecentNotice();
+		String content = vo.getContent();
+		String contentbr = content.replaceAll("\n", "<br />");
+		String title = vo.getTitle();
+		String titlebr = title.replaceAll("\n", "<br />");
+		model.addAttribute("content", contentbr);
+		model.addAttribute("title", titlebr);
+		model.addAttribute("vo", vo);
+		return "/admin/popup3";
+	}
 	// http://localhost:9091/comcome/login/index
 	@GetMapping("/index")
 	public String index(Model model) {
@@ -311,10 +324,12 @@ public class loginController {
 			model.addAttribute("url", "/login/update-pwd");
 			return "common/message";
 		} else if (password.equals(passwordCk)) {
+			logger.info("비밀번호 재설정 처리");
 			// 비밀번호 재설정 !
 			// 이메일을 통해서 account_no를 가져온다!
 			AccountVO accountVO = loginService.selectByEmail(email);
 
+			logger.info("비밀번호 재설정 처리, accountVO={}",accountVO.toString());
 			// 비밀번호 재설정 !
 			// salt 만들기 ..salt
 			String salt = hashingUtil.makeNewSalt();
@@ -327,9 +342,11 @@ public class loginController {
 			hashvo.setDigest(digest);
 			hashvo.setSalt(salt);
 
+			logger.info("비밀번호 재설정 처리, hashvo={}",hashvo.toString());
 			String msg = "비밀번호 재설정이 실패하였습니다", url = "/login/find-password";
 
 			int result = loginService.updatePassword(hashvo);
+			logger.info("비밀번호 재설정 처리, result={}",result);
 			if (result > 0) {
 				msg = "비밀번호가 성공적으로 변경되었습니다";
 				url = "/login/login-form";
@@ -432,7 +449,8 @@ public class loginController {
 			HttpSession session = request.getSession();
 			session.setAttribute("email", accountVO.getEmail());
 			session.setAttribute("name", accountVO.getName());
-
+			session.setAttribute("accountNo", accountVO.getAccountNo());
+			
 		} else {
 			// name, email을 vo에 넣고
 			accountVO.setName(kakaoUsername);
@@ -450,6 +468,7 @@ public class loginController {
 				HttpSession session = request.getSession();
 				session.setAttribute("email", accountVO.getEmail());
 				session.setAttribute("name", accountVO.getName());
+				session.setAttribute("accountNo", accountVO.getAccountNo());
 
 			} else {
 				logger.info("로그인 처리 실패 ");
