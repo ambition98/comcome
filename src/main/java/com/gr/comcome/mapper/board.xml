@@ -47,7 +47,7 @@
 	</select>
 	
 	
-	<select id="selectByGroupNo" parameterType="int" resultType="usedBoardVo">
+	<select id="selectByGroupNo" parameterType="String" resultType="usedBoardVo">
 		select *
 		from
 		(
@@ -55,13 +55,11 @@
 		    from
 		    (
 		        select * from board
-		        where groupNo=#{groupNo2}
+		        where group_no=#{kind}
 		        order by board_no desc
 		    )A
 		)
-		<![CDATA[
-		where RNUM>#{firstRecordIndex} 
-			and RNUM<=#{firstRecordIndex}+ #{recordCountPerPage}]]>
+		
 	</select>
 	
 	<update id="updateReadCount" parameterType="int">

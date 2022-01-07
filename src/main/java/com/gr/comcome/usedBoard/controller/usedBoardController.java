@@ -2,7 +2,8 @@ package com.gr.comcome.usedBoard.controller;
 
 import java.util.List;
 
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
@@ -20,7 +22,9 @@ import com.gr.comcome.common.SearchVO;
 import com.gr.comcome.usedBoard.model.usedBoardService;
 import com.gr.comcome.usedBoard.model.usedBoardVO;
 
+import lombok.extern.java.Log;
 
+@Log
 @Controller
 @RequestMapping("/usedBoard")
 public class usedBoardController {
@@ -41,14 +45,15 @@ public class usedBoardController {
 		//1
 		logger.info("글목록, 파라미터 searchVo={},", searchVo);
 		
+		
 		//[1]paginnationInfo 객체 생성 - 계산해줌
 		PaginationInfo paginationInfo=new PaginationInfo();
 		paginationInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
-		paginationInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		paginationInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT2);
 		paginationInfo.setCurrentPage(searchVo.getCurrentPage());
 		
 		//[2]searchVo에 값 세팅
-		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT2);
 		searchVo.setFirstRecordIndex(paginationInfo.getFirstRecordIndex());
 		logger.info("값 세팅 후 searchVo={}",searchVo);
 		
@@ -128,5 +133,41 @@ public class usedBoardController {
 		
 		return "redirect:/usedBoard/boardDetail?boardNo="+boardNo;		
 	}
+	
+	
+
+	@RequestMapping(value ="/list_ajax")
+    public String list_expertmb_ajax(@ModelAttribute SearchVO searchVo,          //여기서는 ModelAndView를 사용하는게 중요 포인트입니다.
+    		@RequestParam(defaultValue = "0") String kind,
+            Model model) {
+        
+              //request에서 getParameter를 사용하여 kind 값을 불러옵니다.
+        
+        logger.info("파라미터 kind = {}",kind);
+        logger.info("파라미터 searchVo = {}",searchVo);
+       
+        /*
+        int result=0;
+        if("노트북".equals(kind))
+        {
+        	result=1;
+        }else if("노트북 주변기기".equals(kind)){
+        	result=2;
+        }else if("기타 pc부품".equals(kind)) {
+        	result=3;
+        }
+        
+        logger.info("result:{}",result);
+        */
+       
+        
+        List<usedBoardVO> list=usedBoardService.selectByGroupNo(kind);;
+		logger.info("전체조회 결과 list.size={}",list.size());
+        
+        model.addAttribute("list",list);
+      
+        return "/usedBoard/board";
+    }
+
 
 }

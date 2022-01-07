@@ -13,7 +13,7 @@ import lombok.ToString;
 public class usedBoardVO {
 	private int boardNo;
 	private int accountNo;
-	private int groupNo;
+	private String groupNo;
 	private int fileSize;
 	private String delFlag;
 	private String title;
