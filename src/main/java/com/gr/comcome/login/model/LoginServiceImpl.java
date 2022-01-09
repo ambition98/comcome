@@ -1,8 +1,9 @@
 package com.gr.comcome.login.model;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,12 @@ import com.gr.comcome.account.model.HashVO;
 import com.gr.comcome.common.HashingUtil;
 import com.gr.comcome.login.service.MailService;
 
+
 @Service
 public class LoginServiceImpl implements LoginService {
 
+	private Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+	
 	private final LoginDAO loginDao;
 	private final MailService mailService;
 	private HashingUtil hashingUtil;
@@ -117,7 +121,17 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Override
 	public int updatePassword(HashVO hashvo) {
-		return loginDao.updatePassword(hashvo);
+		//비밀번호가 있는지 체크 
+		logger.info("비밀번호 업데이트 처리 ,hashvo={}",hashvo.toString());
+		Integer checkPwd = loginDao.countPwd(hashvo.getAccountNo());
+		if(checkPwd.equals(0)) {
+		    logger.info("비밀번호 등록 처리, checkPwd={}", checkPwd);
+			return loginDao.insertPassword(hashvo);
+			
+		}else {
+			logger.info("비밀번호 수정 처리, checkPwd={}", checkPwd);
+			return loginDao.updatePassword(hashvo);
+		}
 	}
 	
 	@Override

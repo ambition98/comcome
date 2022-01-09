@@ -25,7 +25,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//컨트롤러 수행 이전에 먼저 수행되는 메서드
 		//클라이언트의 요청을 컨트롤ㄹ에 전달하기 전에 호출 
 			HttpSession session = request.getSession();
-			String email = (String)session.getAttribute("email");
+			String email = (String)session.getAttribute("emailadmin");
 			
 			logger.info("preHandle() 호출, email ={}", email);
 

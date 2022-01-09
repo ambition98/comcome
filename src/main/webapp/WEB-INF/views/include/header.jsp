@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+ <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
 </head>
 <body>
 <%
@@ -24,7 +25,7 @@ String name=(String)session.getAttribute("name");
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="../">Home</a></li>
-                            <li><a href="./shop-grid.html">중고거래</a></li>
+                            <li><a href="/comcome/usedBoard/list">중고거래</a></li>
                             <li><a href="#">특가상품</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>

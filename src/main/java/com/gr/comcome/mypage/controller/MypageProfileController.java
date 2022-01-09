@@ -23,7 +23,7 @@ public class MypageProfileController {
 	
 	@Autowired
 	private MypageService mypageService;
-	
+	/*
 	@RequestMapping(value="/mypageProFileEdit.do", method=RequestMethod.GET)
 	public String edit_get(@RequestParam(defaultValue = "0") int ACCOUNTNO, 
 			Model model) {
@@ -66,5 +66,5 @@ public class MypageProfileController {
 	  //4 
 	  return "common/message"; }
 	 
-	
+	*/
 }

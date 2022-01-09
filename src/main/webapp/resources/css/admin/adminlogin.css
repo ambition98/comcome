@@ -14,12 +14,7 @@ button.btn.btn-primary {
     color: #2d4755;
 }
 
-form {
-    border: solid 1px gray;
-    width: 600px;
-    border-radius: 10px;
-    padding: 50px;
-}
+
 
 button.btn.btn-primary {
     /* margin-right: 0px; */
@@ -27,13 +22,17 @@ button.btn.btn-primary {
 }
 
 input#email {
+    border-radius: 100px;
+    width: 250px;
     margin-left: 150px;
-    /* text-align: center; */
-    /* vertical-align: middle; */
+   
 }
 
 form {
-    /* vertical-align: middle; */
+
+    padding-left: 300px;
+    padding-top: 80px;
+    padding-bottom: 80px;
 }
 
 label {
@@ -41,6 +40,8 @@ label {
 }
 
 input#password {
+    border-radius: 100px;
+    width: 250px;
     margin-left: 150px;
 }
 
@@ -50,4 +51,22 @@ input#password {
 
 input#chkSave {
     margin-left: 150px;
+}
+
+.h2, h2 {
+    font-size: 30px;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+}
+
+button.btn.btn-primary {
+    /* margin-right: 0px; */
+    padding: 5px;
+    margin-left: 350px;
+    margin-top: 5px;
+}
+
+div#remember {
+    /* margin-top: 10px; */
+    padding-top: 27px;
 }

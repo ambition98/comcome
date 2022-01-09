@@ -90,6 +90,21 @@ $(function(){
     	    target:"#context-menu"
     	  });
     	});
+    
+    
+    function listReply(){
+        $.ajax({
+            type: "get",
+            url: "comcome/comment/list?boardNo=${vo.boardNo}",
+            success: function(result){
+            // responseText가 result에 저장됨.
+                $("#listReply").html(result);
+            },
+            error:function(request, status, error) {
+                alert("status : " + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+              }
+        });
+    }
 
     
     </script>
@@ -185,7 +200,8 @@ $(function(){
 				</div>
 			</div>
 
-
+			<div id="listReply"></div>
+			
 
 		</div>
 	</div>

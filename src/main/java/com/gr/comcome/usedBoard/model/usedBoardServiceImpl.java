@@ -23,7 +23,7 @@ public class usedBoardServiceImpl implements usedBoardService{
 		return usedBoardDao.selectTotalRecord(searchVo);
 	}
 	
-	public List<usedBoardVO> selectByGroupNo(int no){
+	public List<usedBoardVO> selectByGroupNo(String no){
 		return usedBoardDao.selectByGroupNo(no);
 	}
 	
@@ -33,5 +33,10 @@ public class usedBoardServiceImpl implements usedBoardService{
 	
 	public int updateReadCount(int boardNo){
 		return usedBoardDao.updateReadCount(boardNo);
+	}
+	
+	@Override
+	public int selectTotalRecord(int result) {
+		return usedBoardDao.selectTotalRecord(result);
 	}
 }
