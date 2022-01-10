@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,14 +9,17 @@
 </head>
 <body>
 <%
-	String msg=(String)request.getAttribute("msg");
+	/* String msg=(String)request.getAttribute("msg");
 	String url=(String)request.getAttribute("url");
 	String ctxPath=request.getContextPath();
-	url=ctxPath+url; //=> /mymvc + /pd/pdEdit.do => /mymvc/pd/pdEdit.do 
+	url=ctxPath+url; //=> /mymvc + /pd/pdEdit.do => /mymvc/pd/pdEdit.do */ 
 %>
 	<script type="text/javascript">
-		alert("<%=msg%>");
-		location.href="<%=url%>";
+		alert("${msg}");
+		if("${url}" == "goToBack")
+			history.go(-2);
+		else
+			location.href = "<c:url value="${url}" />";
 	</script>
 	
 </body>
