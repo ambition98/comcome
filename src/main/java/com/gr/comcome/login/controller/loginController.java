@@ -68,6 +68,7 @@ public class loginController {
 		model.addAttribute("vo", vo);
 		return "/admin/popup3";
 	}
+
 	// http://localhost:9091/comcome/login/index
 	@GetMapping("/index")
 	public String index(Model model) {
@@ -91,7 +92,7 @@ public class loginController {
 		logger.info("로그인 화면");
 		return "/login/loginForm";
 	}
-	
+
 	// localhost:9091/comcome/login/logout
 	@RequestMapping("/logout")
 	public String logout(HttpSession session, Model model) {
@@ -108,7 +109,7 @@ public class loginController {
 		model.addAttribute("msg", "로그아웃 되었습니다.");
 		model.addAttribute("url", "/login/index");
 		return "/common/message";
-		
+
 	}
 
 	// http://localhost:9091/comcome/login/sign-in
@@ -141,7 +142,7 @@ public class loginController {
 			session.setAttribute("address", accVo.getAddress());
 			session.setAttribute("tel", accVo.getTel());
 			session.setAttribute("cardNo", accVo.getCardNo());
-			
+
 			// [2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
 			Cookie ck = new Cookie("ck_email", accVo.getEmail());
 			ck.setPath("/");
@@ -174,7 +175,7 @@ public class loginController {
 	@GetMapping("/find-email")
 	public String findEmail_get() {
 		logger.info("이메일 찾기 화면");
-		return "login/findEmail";
+		return "login/findEmail2";
 	}
 
 	@PostMapping("/find-email")
@@ -193,24 +194,29 @@ public class loginController {
 		String msg = " ", url = "/login/find-email";
 		if (result == loginService.LOGIN_OK) {
 			// 올바른 회원 정보이면, 이메일 알려주기
+
 			String dbEmail = loginService.selectEmailByName(name);
-			// @의 index 찾기
-			int index = dbEmail.indexOf('@');
-			// 뒷자리 추출
-			String secretion = dbEmail.substring(index - 4, index);
-			// ****
-			String star = "";
-			for (int i = 0; i < secretion.length(); i++) {
-				star += "*";
+			if (dbEmail.length() > 17) {
+				// @의 index 찾기
+				int index = dbEmail.indexOf('@');
+				// 뒷자리 추출
+				String secretion = dbEmail.substring(index - 4, index);
+				// ****
+				String star = "";
+				for (int i = 0; i < secretion.length(); i++) {
+					star += "*";
+				}
+				// 뒷자리만 *로 바꾸기
+				String dbFinalEmail = dbEmail.replace(secretion, star);
+
+				logger.info("index={}, secretion={}, star={}, dbFinalEmail={}", index, secretion, star, dbFinalEmail);
+
+				msg = "당신의 Email은 " + dbFinalEmail + " 입니다.";
+				url = "/login/login-form";
+			}else {
+				msg = "당신의 Email은 " + dbEmail + " 입니다.";
+				url = "/login/login-form";
 			}
-			// 뒷자리만 *로 바꾸기
-			String dbFinalEmail = dbEmail.replace(secretion, star);
-
-			logger.info("index={}, secretion={}, star={}, dbFinalEmail={}", index, secretion, star, dbFinalEmail);
-
-			msg = "당신의 Email은 " + dbFinalEmail + " 입니다.";
-			url = "/login/login-form";
-
 		} else if (result == loginService.DISAGREE_TEL) {
 			// 잘못된 전화번호이면
 			msg = "전화번호가 일치하지 않습니다.";
@@ -229,7 +235,7 @@ public class loginController {
 	@GetMapping("/find-password")
 	public String findPassword_get() {
 		logger.info("비밀번호 찾기 화면");
-		return "/login/findPassword";
+		return "/login/findPassword2";
 	}
 
 	// http://localhost:9091/comcome/login/find-password?email=123@naver.com
@@ -254,7 +260,7 @@ public class loginController {
 			model.addAttribute("msg", "해당 이메일로 인증번호가 전송되었습니다.");
 			model.addAttribute("veriCode", veriCode);
 			model.addAttribute("email", email);
-			return "login/verifiedCodeForm";
+			return "login/verifiedCodeForm2";
 		}
 
 		if (result == loginService.EMAIL_NONE) {
@@ -284,9 +290,11 @@ public class loginController {
 		return str;
 	}
 
+	// http://localhost:9091/comcome/login/verified
+	// 비밀번호 인증번호 화면처리 
 	@GetMapping("/verified")
 	public String verified_get() {
-		return "login/verifiedCodeForm";
+		return "login/verifiedCodeForm2";
 	}
 
 	@PostMapping("/verified")
@@ -302,7 +310,7 @@ public class loginController {
 		if (yourveriCode.equals(veriCode)) {
 			model.addAttribute("msg", "본인 인증에 성공하였습니다");
 			model.addAttribute("email", email);
-			return "login/updatePwd";
+			return "login/updatePwd2";
 		}
 		String msg = "본인 인증에 실패하였습니다", url = "/login/find-password";
 
@@ -313,10 +321,12 @@ public class loginController {
 
 	}
 
+
+	// http://localhost:9091/comcome/login/update-pwd
 	@GetMapping("/update-pwd")
 	public String updatePwd_get() {
 		logger.info("비밀번호 재설정 화면");
-		return "login/updatePwd";
+		return "login/updatePwd2";
 	}
 
 	@PostMapping("/update-pwd")
@@ -336,7 +346,7 @@ public class loginController {
 			// 이메일을 통해서 account_no를 가져온다!
 			AccountVO accountVO = loginService.selectByEmail(email);
 
-			logger.info("비밀번호 재설정 처리, accountVO={}",accountVO.toString());
+			logger.info("비밀번호 재설정 처리, accountVO={}", accountVO.toString());
 			// 비밀번호 재설정 !
 			// salt 만들기 ..salt
 			String salt = hashingUtil.makeNewSalt();
@@ -349,11 +359,11 @@ public class loginController {
 			hashvo.setDigest(digest);
 			hashvo.setSalt(salt);
 
-			logger.info("비밀번호 재설정 처리, hashvo={}",hashvo.toString());
+			logger.info("비밀번호 재설정 처리, hashvo={}", hashvo.toString());
 			String msg = "비밀번호 재설정이 실패하였습니다", url = "/login/find-password";
 
 			int result = loginService.updatePassword(hashvo);
-			logger.info("비밀번호 재설정 처리, result={}",result);
+			logger.info("비밀번호 재설정 처리, result={}", result);
 			if (result > 0) {
 				msg = "비밀번호가 성공적으로 변경되었습니다";
 				url = "/login/login-form";
@@ -460,8 +470,7 @@ public class loginController {
 			session.setAttribute("tel", accountVO.getTel());
 			session.setAttribute("cardNo", accountVO.getCardNo());
 			session.setAttribute("address", accountVO.getAddress());
-			
-			
+
 		} else {
 			// name, email을 vo에 넣고
 			accountVO.setName(kakaoUsername);

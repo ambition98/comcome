@@ -8,12 +8,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ComCome 로그인</title>
+<title>ComCome 비밀번호 찾기</title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/account/sb-admin-2.min.css'/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/account/all.min.css'/>" />
 	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/login/findPassword.css'/>" /> 
 <style type="text/css">
 	#kakaoLogin {
 	    background: #F7DE2E;
@@ -51,32 +53,17 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Sign In!</h1>
+										<h1 class="h4 text-gray-900 mb-4">Find Your Password</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/sign-in'/>" name="frm1" method="post">
+									<form class="user" action="<c:url value='/login/find-password'/>" name="frm1" method="post">
 										<div class="form-group">
-											<input type="email" class="form-control form-control-user"
+											<input type="text" class="form-control form-control-user"
 												id="email" aria-describedby="emailHelp"
-												placeholder="email" name="email" value="${cookie.ck_email.value }">
+												placeholder="이메일" name="email" >
 										</div>
-										<div class="form-group">
-											<input type="password" class="form-control form-control-user"
-												id="password" placeholder="password" name="password">
-										</div>
-										<div class="form-group">
 										
-											<div class="custom-control custom-checkbox small">
-												<!-- 이메일 기억하기 체크박스 -->
-												<input type="checkbox" class="custom-control-input" name="chkSave" id="chkSave" 
-													<c:if test="${!empty cookie.ck_email }"> checked="checked"</c:if>
-												>
-												<label class="custom-control-label" for="chkSave">Remember Me</label>
-											</div>
-										</div>
-                                        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
-                                        <input type="button" value="Kakao Login" id="kakaoLogin" class="btn btn-primary btn-user btn-block" 
-                                        onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code' ">
-									</form>
+                                        <input type="submit" value="Find Your Password" class="btn btn-primary btn-user btn-block">
+                                       
 									<hr>
 									<div class="text-center">
 										<a class="small" href="#">회원가입</a>

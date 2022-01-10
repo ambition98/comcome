@@ -27,7 +27,7 @@
 	            <div class="footer__widget">
 	                <h6>Useful Links</h6>
 	                <ul>
-	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">About Us</a></li>
+	                    <li><a href="<c:url value='/aboutcomcome/intro'/>">About Us</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">About Our Shop</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">Secure Shopping</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">Delivery infomation</a></li>
