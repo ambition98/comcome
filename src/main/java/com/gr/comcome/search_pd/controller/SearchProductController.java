@@ -128,10 +128,17 @@ public class SearchProductController {
 	
 	@RequestMapping("/detail")
 	public String detail(Model model, @RequestParam("pdNo") int pdNo) {
-		log.info("Enter detail()");
-		log.info("pdNo: " + pdNo);
+		log.info("Enter detail(), pdNo: " + pdNo);
 		SearchProductVO vo = searchProductService.selectByNo(pdNo);
-		
+		if(vo == null) {
+			String url = "goToBack";
+			String msg = "존재하지 않는 상품입니다.";
+			
+			model.addAttribute("url", url);
+			model.addAttribute("msg", msg);
+			
+			return "forward:/message";
+		}
 		try {
 			naverApi.getProduct(vo.getName());
 			
