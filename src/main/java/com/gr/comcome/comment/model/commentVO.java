@@ -12,7 +12,7 @@ import lombok.ToString;
 public class commentVO {
 	private int no;
 	private int boardNo;
-	private int name;
+	private String name;
 	private String content;
 	private Timestamp regdate;
 	

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gr.comcome.comment.model.commentDAO">
+
+	<select id="selectByNo" parameterType="int"
+		resultType="commentVo">
+		select * from usedboard_comment
+		where board_no=#{boardNo}
+	</select>
+
+	<insert id="insertComment">
+		INSERT INTO usedboard_comment(	
+		board_no
+		,no
+		, name
+		, content
+		)
+		VALUES( 
+		#{boardNo}
+		, comment_seq.NEXTVAL
+		, #{name}
+		, #{content} )
+	</insert>
+	
+	<update id="updateComment" parameterType="commentVo">
+	</update>
+</mapper>

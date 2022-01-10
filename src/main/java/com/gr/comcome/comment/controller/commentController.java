@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.comment.model.commentService;
@@ -35,5 +36,15 @@ public class commentController {
 		
 		model.addAttribute("commentList",list);
 		return "/comment/list";	
+	}
+	
+	@RequestMapping(value = "/write" , method=RequestMethod.POST)
+	public String write(commentVO vo){
+		log.info("댓글 작성");
+		
+		commentService.insertComment(vo);
+		log.info("댓글 작성 결과 vo"+vo);
+		
+		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
 	}
 }
