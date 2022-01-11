@@ -58,7 +58,7 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Update Your Password</h1>
+										<h1 class="h4 text-gray-900 mb-4">비밀번호 재설정</h1>
 									</div>
 									<form class="user" action="<c:url value='/login/update-pwd'/>" name="frm1" method="post">
 										<div class="form-group">
@@ -72,7 +72,7 @@
 												id="passwordCk" placeholder="비밀번호 확인" name="passwordCk">
 										</div>
 										
-                                        <input type="submit" value="Update Your Password" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" value="비밀번호 재설정" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">

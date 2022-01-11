@@ -51,7 +51,7 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Sign In!</h1>
+										<h1 class="h4 text-gray-900 mb-4">로그인</h1>
 									</div>
 									<form class="user" action="<c:url value='/login/sign-in'/>" name="frm1" method="post">
 										<div class="form-group">
@@ -73,8 +73,8 @@
 												<label class="custom-control-label" for="chkSave">Remember Me</label>
 											</div>
 										</div>
-                                        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
-                                        <input type="button" value="Kakao Login" id="kakaoLogin" class="btn btn-primary btn-user btn-block" 
+                                        <input type="submit" value="로그인" class="btn btn-primary btn-user btn-block">
+                                        <input type="button" value="카카오 로그인" id="kakaoLogin" class="btn btn-primary btn-user btn-block" 
                                         onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code' ">
 									</form>
 									<hr>

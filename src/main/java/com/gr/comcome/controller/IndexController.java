@@ -3,11 +3,14 @@ package com.gr.comcome.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gr.comcome.admin.model.AdminService;
+import com.gr.comcome.admin.model.NoticeVO;
 import com.gr.comcome.category.model.CategoryVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +18,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class IndexController {
+	
+	private AdminService adminService;
+	
+	
+    
+	 @Autowired
+	public IndexController(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
+	// localhost:9091/comcome/
 	@RequestMapping("/")
-	public String index() {
+	public String index(Model model) {
 		log.info("Enter index()");
-		
+		NoticeVO vo = adminService.selectRecentNotice();
+		String content = vo.getContent();
+		String contentbr = content.replaceAll("\n", "<br />");
+		String title = vo.getTitle();
+		String titlebr = title.replaceAll("\n", "<br />");
+		model.addAttribute("content", contentbr);
+		model.addAttribute("title", titlebr);
+		model.addAttribute("vo", vo);
 		return "/index";
 	}
 	

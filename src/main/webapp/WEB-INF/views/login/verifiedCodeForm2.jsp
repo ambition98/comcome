@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ComCome 이메일 인증</title>
+<title>ComCome 비밀번호 찾기</title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/account/sb-admin-2.min.css'/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/account/all.min.css'/>" />
@@ -60,7 +60,7 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Verify Your Code</h1>
+										<h1 class="h4 text-gray-900 mb-4">인증번호 확인</h1>
 									</div>
 									<form class="user" action="<c:url value='/login/verified'/>" name="frm1" method="post">
 										<div class="form-group">
@@ -72,14 +72,14 @@
 										</div>
 										
 										
-                                        <input type="submit" value="verify" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" value="인증하기" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">
 										<a class="small" href="#">회원가입</a>
 									</div>
 									<div class="text-center">
-										<a class="small" href="<c:url value='/login/find-password'/>">비밀번호 찾기</a>
+										<a class="small" href="<c:url value='/login/find-email'/>">이메일 찾기</a>
 									</div>
 								</div>
 							</div>

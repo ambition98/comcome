@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/member2.css'/>" /> 
 
 <div class="container">
-  <h2>회원 관리</h2>
+  <h2>게시글 관리</h2>
   <c:if test="${!empty param.searchKeyword }">
 	<p>검색어 : ${param.searchKeyword },  
 		${pagingInfo.totalRecord} 건 검색되었습니다. </p>
@@ -27,13 +27,12 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>번호</th>
-        <th>이메일</th>
-        <th>이름</th>
-        <th>주소</th>
-        <th>전화번호</th>
-        <th>카드번호</th>
-        <th>가입일</th>
+        <th>글번호</th>
+        <th>제목</th> 
+        <th>내용</th>
+        <th>조회수</th>
+        
+        <th>작성일</th>
       </tr>
     </thead>
     <tbody>
@@ -46,14 +45,16 @@
 		  <!--게시판 내용 반복문 시작  -->		  
 		  <c:forEach var="vo" items="${list }">
 			<tr>
-				<td>${vo.accountNo}</td>
-				<td>${vo.email}</td>
+				<td>${vo.boardNo}</td>
 				<td style="text-align:left">
-						${vo.name}
-				</td>
-				<td>${vo.address}</td>
-				<td>${vo.tel}</td>
-				<td>${vo.cardNo}</td>
+					<a href
+		="<c:url value='/admin/detailwithmain?boardNo=${vo.boardNo}'/>">
+						${vo.title}
+					</a>
+				</td> 
+				<td>${vo.content}</td>
+				<td>${vo.readcount}</td>
+				
 				<td><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/>
 				</td>
 			</tr>
@@ -68,7 +69,7 @@
 	<!-- 이전 블럭으로 이동 -->
 	 <ul class="pagination">
 	<c:if test="${pagingInfo.firstPage>1 }">
-    <li class="page-item"><a class="page-link" href="<c:url value='/admin/allmemberview?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="<c:url value='/admin/boardwithmain?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">Previous</a></li>
     </c:if>	
     <!-- [1][2][3][4][5][6][7][8][9][10] -->
     <c:forEach var="i" begin="${pagingInfo.firstPage}" end="${pagingInfo.lastPage }">
@@ -76,12 +77,12 @@
    		<li class="page-item"><a class="page-link" href="javascript:void(0);">${i}</a></li>
    		</c:if>	
 		<c:if test="${i!=pagingInfo.currentPage }">	
-		<li class="page-item"><a class="page-link" href="<c:url value='/admin/allmemberview?currentPage=${i}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">${i}</a></li>
+		<li class="page-item"><a class="page-link" href="<c:url value='/admin/boardwithmain?currentPage=${i}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">${i}</a></li>
 		</c:if>	
     </c:forEach>
     <!-- 다음 블럭으로 이동 -->
     <c:if test="${pagingInfo.lastPage < pagingInfo.totalPage }">	
-    <li class="page-item"><a class="page-link" href="<c:url value='/admin/allmemberview?currentPage=${pagingInfo.lastPage+1}&&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">Next</a></li>
+    <li class="page-item"><a class="page-link" href="<c:url value='/admin/boardwithmain?currentPage=${pagingInfo.lastPage+1}&&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">Next</a></li>
   	</ul>
 	</c:if>	
 	
@@ -92,23 +93,20 @@
 
  <div class="divSearch">
    	<form name="frmSearch" method="post" id ="search"
-   		action='<c:url value="/admin/allmemberview"/>'>
+   		action='<c:url value="/admin/boardwithmain"/>'>
+   		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <select name="searchCondition" id ="searchsel">
-            <option value="tel" 
-            	<c:if test="${param.searchCondition=='tel' }">            	
+            <option value="title" 
+            	<c:if test="${param.searchCondition=='title' }">            	
             		selected="selected"
             	</c:if>
-            >전화번호</option>
-            <option value="email" 
-            	<c:if test="${param.searchCondition=='email' }">            	
+            >제목</option>
+            <option value="content" 
+            	<c:if test="${param.searchCondition=='content' }">            	
             		selected="selected"
             	</c:if>
-            >이메일</option>
-            <option value="name" 
-            	<c:if test="${param.searchCondition=='name' }">            	
-            		selected="selected"
-            	</c:if>
-            >이름</option>
+            >내용</option>
+          
         </select>   
         <input type="text" id ="searchinput" name="searchKeyword" title="검색어 입력"
         	value="${param.searchKeyword}">   

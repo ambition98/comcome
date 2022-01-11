@@ -49,7 +49,6 @@ public class loginController {
 
 	@Autowired
 	public loginController(AdminService adminService, LoginService loginService, HashingUtil hashingUtil) {
-		super();
 		this.adminService = adminService;
 		this.loginService = loginService;
 		this.hashingUtil = hashingUtil;
@@ -69,22 +68,19 @@ public class loginController {
 		return "/admin/popup3";
 	}
 
-	// http://localhost:9091/comcome/login/index
-	@GetMapping("/index")
-	public String index(Model model) {
-		logger.info("인덱스 화면");
-
-		NoticeVO vo = adminService.selectRecentNotice();
-		String content = vo.getContent();
-		String contentbr = content.replaceAll("\n", "<br />");
-		String title = vo.getTitle();
-		String titlebr = title.replaceAll("\n", "<br />");
-		model.addAttribute("content", contentbr);
-		model.addAttribute("title", titlebr);
-		model.addAttribute("vo", vo);
-		logger.info("팝업 화면 처리 ,vo={}", vo.toString());
-		return "/index";
-	}
+	/*
+	 * // http://localhost:9091/comcome/login/index
+	 * 
+	 * @GetMapping("/index") public String index(Model model) {
+	 * logger.info("인덱스 화면");
+	 * 
+	 * NoticeVO vo = adminService.selectRecentNotice(); String content =
+	 * vo.getContent(); String contentbr = content.replaceAll("\n", "<br />");
+	 * String title = vo.getTitle(); String titlebr = title.replaceAll("\n",
+	 * "<br />"); model.addAttribute("content", contentbr);
+	 * model.addAttribute("title", titlebr); model.addAttribute("vo", vo);
+	 * logger.info("팝업 화면 처리 ,vo={}", vo.toString()); return "/index"; }
+	 */
 
 	// http://localhost:9091/comcome/login/login-form
 	@GetMapping("/login-form")
@@ -107,7 +103,7 @@ public class loginController {
 		session.removeAttribute("cardNo");
 
 		model.addAttribute("msg", "로그아웃 되었습니다.");
-		model.addAttribute("url", "/login/index");
+		model.addAttribute("url", "/");
 		return "/common/message";
 
 	}
@@ -156,7 +152,7 @@ public class loginController {
 			}
 
 			msg = accVo.getName() + " 님 로그인 되었습니다";
-			url = "/login/index";
+			url = "/";
 		} else if (result == loginService.DISAGREE_PWD) {
 			msg = "비밀번호가 일치하지 않습니다.";
 		} else if (result == loginService.EMAIL_NONE) {
@@ -340,6 +336,7 @@ public class loginController {
 			model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
 			model.addAttribute("url", "/login/update-pwd");
 			return "common/message";
+	  
 		} else if (password.equals(passwordCk)) {
 			logger.info("비밀번호 재설정 처리");
 			// 비밀번호 재설정 !
@@ -460,7 +457,7 @@ public class loginController {
 			// 이메일 통해서 회원 정보 가지고 오기
 			accountVO = loginService.selectByEmail(kakaoEmail);
 			msg = accountVO.getName() + "님 환영합니다.";
-			url = "/login/index";
+			url = "/";
 
 			// 세션에 저장
 			HttpSession session = request.getSession();
@@ -483,7 +480,7 @@ public class loginController {
 				// 세션에 저장할 정보 가져오고
 				accountVO = loginService.selectByEmail(kakaoEmail);
 				msg = accountVO.getName() + "님 환영합니다.";
-				url = "/login/index";
+				url = "/";
 				// 세션에 저장
 				HttpSession session = request.getSession();
 				session.setAttribute("email", accountVO.getEmail());

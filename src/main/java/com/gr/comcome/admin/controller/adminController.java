@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.admin.model.AdminService;
@@ -26,6 +27,8 @@ import com.gr.comcome.admin.model.NoticeVO;
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
+import com.gr.comcome.usedBoard.model.usedBoardService;
+import com.gr.comcome.usedBoard.model.usedBoardVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +38,9 @@ public class adminController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private usedBoardService usedBoardService;
 
 	
 	  // http://localhost:9091/comcome/admin/member
@@ -46,24 +52,29 @@ public class adminController {
 	  }
 	 
 
-	@RequestMapping("/detail")
-	public String detail(@RequestParam(defaultValue = "0") int account_no, Model model) {
-		logger.info("글 상세보기 파라미터 no={}", account_no);
+	  //사이드바+상세보기 
+	  // http://localhost:9091/comcome/admin/detailwithmain
+	@RequestMapping("/detailwithmain")
+	public String detailwithmain(@RequestParam(defaultValue = "0") int boardNo, Model model) {
+		logger.info("글 상세보기 파라미터 no={}", boardNo);
 
-		if (account_no == 0) {
+		if (boardNo == 0) {
 			model.addAttribute("msg", "잘못된 url입니다.");
-			model.addAttribute("url", "/board/list.do");
+			model.addAttribute("url", "/admin/boardwithmain");
 
 			return "/common/message";
 		}
 
-		AccountVO vo = adminService.selectByAccountNo(account_no);
-		logger.info("상세보기 결과 vo={}", vo);
+		usedBoardVO vo = usedBoardService.selectByNo(boardNo);
+		logger.info("상세보기 결과 vo={}", vo.toString());
 
 		model.addAttribute("vo", vo);
 
-		return "/login/detail";
+		return "/adminview/boarddetailwithmain";
 	}
+	
+	
+	
 
 
 
@@ -81,7 +92,7 @@ public class adminController {
 		session.removeAttribute("emailadmin");
 		session.removeAttribute("adminNo");
 
-		return "redirect:/login/index";
+		return "redirect:/";
 	}
 
 	
@@ -134,7 +145,7 @@ public class adminController {
 		model.addAttribute("title", titlebr);
 		model.addAttribute("vo", vo);
 
-		return "/admin/popup";
+		return "/admin/popup3";
 	}
 
 	// localhost:9091/comcome/admin/login
@@ -241,6 +252,46 @@ public class adminController {
 		}
 		
 		
+		
+		//사이드바 + 중고 게시판 관리 
+		//localhost:9091/comcome/admin/boardwithmain
+		@RequestMapping(value = "/boardwithmain", method= {RequestMethod.GET, RequestMethod.POST})
+		public String boardwithmain(@ModelAttribute SearchVO searchVO, Model model) {
+			logger.info("중고 게시판 관리 + 사이드 화면 처리");
+			PaginationInfo pagingInfo = new PaginationInfo();
+			pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+			pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			pagingInfo.setCurrentPage(searchVO.getCurrentPage());
+
+			// 3
+			searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			logger.info("값 셋팅 후 searchVo={}", searchVO);
+			
+			List<usedBoardVO> list = usedBoardService.selectAll(searchVO);
+			logger.info("전체조회 결과 list.size={}", list.size());
+			for (usedBoardVO vo : list) {
+				logger.info(vo.toString());
+			}
+			
+			
+			  for(int i=0; i< list.size(); i++) { //만약 '내용' 컬럼이 10자가 넘으면
+			  if(list.get(i).getContent().length()>=10) {
+			  list.get(i).setContent(list.get(i).getContent().substring(0, 9)); } }
+			 
+			
+			
+			
+			int totalRecord = usedBoardService.selectTotalRecord(searchVO);
+			pagingInfo.setTotalRecord(totalRecord);
+
+			model.addAttribute("list", list);
+			model.addAttribute("pagingInfo", pagingInfo);
+			
+			return "/adminview/boardwithmain";
+		}
+		
+	
 	
 	
 	

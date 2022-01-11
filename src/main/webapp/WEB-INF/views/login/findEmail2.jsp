@@ -52,7 +52,7 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Find Your Email</h1>
+										<h1 class="h4 text-gray-900 mb-4">이메일 찾기</h1>
 									</div>
 									<form class="user" action="<c:url value='/login/find-email'/>" name="frm1" method="post">
 										<div class="form-group">
@@ -65,7 +65,7 @@
 												id="tel" placeholder="전화번호 ('-'없이 입력해주세요)" name="tel">
 										</div>
 										
-                                        <input type="submit" value="Find Your Email" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" value="이메일 찾기" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">
