@@ -2,6 +2,8 @@ package com.gr.comcome.search_pd.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gr.comcome.category.model.CategoryService;
 import com.gr.comcome.category.model.CategoryVO;
+import com.gr.comcome.common.GetImgFromDanawa;
 import com.gr.comcome.common.mallapi.NaverAPI;
+import com.gr.comcome.common.mallapi.Product;
 import com.gr.comcome.search_pd.model.SearchProductService;
 import com.gr.comcome.search_pd.model.SearchProductVO;
 import com.gr.comcome.search_pd.model.SearchOption;
@@ -131,7 +135,7 @@ public class SearchProductController {
 		log.info("Enter detail(), pdNo: " + pdNo);
 		SearchProductVO vo = searchProductService.selectByNo(pdNo);
 		if(vo == null) {
-			String url = "goToBack";
+			String url = "/searchpd/list";
 			String msg = "존재하지 않는 상품입니다.";
 			
 			model.addAttribute("url", url);
@@ -139,16 +143,30 @@ public class SearchProductController {
 			
 			return "forward:/message";
 		}
+		
+		//네이버에서 검색결과 가져오기
+		Map<String, Product> pdMap = null;
+		List<Product> pdList = new ArrayList<Product>();
 		try {
-			naverApi.getProduct(vo.getName());
-			
+			pdMap = naverApi.getProduct(vo.getName());
+			pdMap.forEach((key, value) -> {
+				pdList.add(value);
+			});
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Collections.sort(pdList);
 		
+		//다나와에서 이미지 추출
+		System.out.println("code: " + vo.getCode());
+		List<String> imgLinkList = new GetImgFromDanawa().getImg(vo.getCode());
+		
+		
+		model.addAttribute("pdList", pdList);
 		model.addAttribute("vo", vo);
+		model.addAttribute("imgLinkList", imgLinkList);
 		
 		return "/search_pd/detail";
 	}
