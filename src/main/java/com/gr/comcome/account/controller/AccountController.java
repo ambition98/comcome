@@ -91,6 +91,21 @@ public class AccountController {
 //		
 //	}
 	
+//	@RequestMapping(value="/checkUserEmail", method = RequestMethod.POST)
+//	public String checkemail_post(@RequestParam String email,Model model) {
+//		
+//		logger.info("이메일 파라미터, email={}", email);
+//		
+//		int cnt=accountService.checkEmail(email);
+//		logger.info("이메일 중복체크 결과, cnt={}", cnt);	 
+//		model.addAttribute("result", cnt);
+//		model.addAttribute("EXIST_EMAIL", accountService.EXIST_EMAIL);
+//		model.addAttribute("NON_EXIST_EMAIL", accountService.NON_EXIST_EMAIL);
+//		
+//		return "account/checkUserEmail";
+//		
+//	}
+	
 	@RequestMapping(value="/checkUserEmail", method = RequestMethod.POST)
 	public String checkemail_post(@RequestParam String email,Model model) {
 		
