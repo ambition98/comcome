@@ -134,7 +134,7 @@ public class adminController {
 		model.addAttribute("title", titlebr);
 		model.addAttribute("vo", vo);
 
-		return "/admin/popup";
+		return "/admin/popup3";
 	}
 
 	// localhost:9091/comcome/admin/login
