@@ -38,7 +38,7 @@ String name=(String)session.getAttribute("name");
                             <li><a href="<c:url value='/login/login-form'/>">로그인</a></li>
                              <%}else{ %>
                              <li><a href="<c:url value='/login/logout'/>">로그아웃</a></li>
-                            <li><a href="./contact.html">마이페이지</a></li>
+                             <li><a href="<c:url value='/mypage/index'/>">마이페이지</a></li>
                               <%} %>
                         </ul>
                     </nav>

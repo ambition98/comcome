@@ -32,6 +32,10 @@
 <%-- <%@ include file="include/category.jsp"%> --%>
 <%-- <%@ include file="inc/body.jsp"%> --%>
 <jsp:include page="admin/popup3.jsp"/>
+
+
+
+
 </body>
 </html>
 <%@ include file="include/footer.jsp"%>

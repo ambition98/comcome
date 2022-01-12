@@ -101,6 +101,9 @@ public class loginController {
 		session.removeAttribute("email");
 		session.removeAttribute("accountNo");
 		session.removeAttribute("name");
+		session.removeAttribute("address"); //104~106 삭제해야함 김회중!
+		session.removeAttribute("tel");
+		session.removeAttribute("cardNo");
 
 		model.addAttribute("msg", "로그아웃 되었습니다.");
 		model.addAttribute("url", "/login/index");
@@ -135,6 +138,9 @@ public class loginController {
 			session.setAttribute("email", accVo.getEmail());
 			session.setAttribute("name", accVo.getName());
 			session.setAttribute("accountNo", accVo.getAccountNo());
+			session.setAttribute("address", accVo.getAddress()); //138~140 삭제 해야함 
+	        session.setAttribute("tel", accVo.getTel());
+	        session.setAttribute("cardNo", accVo.getCardNo());
 			// [2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
 			Cookie ck = new Cookie("ck_email", accVo.getEmail());
 			ck.setPath("/");
@@ -451,6 +457,11 @@ public class loginController {
 			session.setAttribute("name", accountVO.getName());
 			session.setAttribute("accountNo", accountVO.getAccountNo());
 			
+			
+			session.setAttribute("tel", accountVO.getTel()); //삭제해야함
+	        session.setAttribute("cardNo", accountVO.getCardNo());
+	        session.setAttribute("address", accountVO.getAddress());
+	        
 		} else {
 			// name, email을 vo에 넣고
 			accountVO.setName(kakaoUsername);

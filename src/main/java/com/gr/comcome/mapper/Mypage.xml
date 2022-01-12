@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gr.comcome.model.MypageDAO">
+<mapper namespace="com.gr.comcome.mypage.model.MypageDAO">
 	<select id="selectByNo" parameterType="int" resultType="mypageVo">
 		select * from account
 		where account_no=#{account_no}
@@ -23,5 +23,28 @@
 	]]>
 	</select>
 	
+	<delete id="deleteHash" parameterType="int">
+		delete
+		from hash
+		where account_no=#{account_no}
+	</delete>
+	
+	<delete id="deleteAccountbyNo" parameterType="int">
+		delete
+		from account
+		where account_no=#{account_no}
+	</delete>
+	
+	<update id="UpdateHash" parameterType="int">
+		update hash 
+		set name=#{name}
+		where ACCOUNT_NO=#{ACCOUNT_NO}
+	
+	</update>
+	
+	<update id="UpdateAccountbyNo" parameterType="int">
+		update ACCOUNT set name=#{name}
+		where ACCOUNT_NO=#{ACCOUNT_NO}
+	</update>
 
 </mapper>
