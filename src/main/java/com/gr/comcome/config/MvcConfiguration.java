@@ -6,14 +6,17 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.gr.comcome.login.controller.LoginInterceptor;
+
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		
-//		registry.addInterceptor(new LoginInterceptor())
-//		.addPathPatterns("/shop/cart/*", "/shop/order/*","/member/memberEdit.do","/member/memberOut.do");
+		registry.addInterceptor(new LoginInterceptor())
+		.excludePathPatterns("/admin/login-with-main","/admin/login","/admin/message")
+		.addPathPatterns( "/admin/*");
 //		
 //		registry.addInterceptor(new AdminLoginInterceptor())
 //		.excludePathPatterns("/admin/login/adminLogin.do")

@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+input#email {
+    width: 200px;
+}
+
+input#password {
+    width: 200px;
+}
+
+button.btn.btn-primary {
+    background-color: #d9e5eb;
+    border: none;
+    color: #2d4755;
+}
+
+
+
+button.btn.btn-primary {
+    /* margin-right: 0px; */
+    margin-left: 400px;
+}
+
+input#email {
+    border-radius: 100px;
+    width: 250px;
+    margin-left: 150px;
+   
+}
+
+form {
+
+    padding-left: 300px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+label {
+    margin-left: 150px;
+}
+
+input#password {
+    border-radius: 100px;
+    width: 250px;
+    margin-left: 150px;
+}
+
+#remember label {
+    margin: 0px;
+}
+
+input#chkSave {
+    margin-left: 150px;
+}
+
+.h2, h2 {
+    font-size: 30px;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+}
+
+button.btn.btn-primary {
+    /* margin-right: 0px; */
+    padding: 5px;
+    margin-left: 350px;
+    margin-top: 5px;
+}
+
+div#remember {
+    /* margin-top: 10px; */
+    padding-top: 27px;
+}

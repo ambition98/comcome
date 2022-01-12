@@ -7,5 +7,8 @@ import com.gr.comcome.common.SearchVO;
 public interface usedBoardService {
 	public List<usedBoardVO> selectAll(SearchVO searchVo);
 	int selectTotalRecord(SearchVO searchVo);
-	public List<usedBoardVO> selectByGroupNo(int no);
+	public usedBoardVO selectByNo(int boardNo);
+	public List<usedBoardVO> selectByGroupNo(String no);
+	public int updateReadCount(int no);
+	int selectTotalRecord(int result);
 }

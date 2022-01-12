@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="pos" value="0" />
+<c:set var="pos" value="40" />
 <%-- <c:forEach var="vo" items="${brandList}"> --%>
 <c:forEach var="vo" items="${brandList}">
 	<li class="brand_list">
