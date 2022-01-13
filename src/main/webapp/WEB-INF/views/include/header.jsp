@@ -6,7 +6,10 @@
 <head>
 <meta charset="UTF-8">
 
+<<<<<<< HEAD
+=======
 <title>ComCome</title>
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
  <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
 
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">

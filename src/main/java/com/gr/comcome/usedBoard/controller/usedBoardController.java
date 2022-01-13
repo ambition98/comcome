@@ -2,20 +2,22 @@ package com.gr.comcome.usedBoard.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cassandra.CassandraProperties.Request;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gr.comcome.comment.model.commentService;
+import com.gr.comcome.comment.model.commentVO;
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
@@ -34,9 +36,12 @@ public class usedBoardController {
 	
 	private final usedBoardService usedBoardService;
 	
+	private final commentService commentService;
+	
 	@Autowired
-	public usedBoardController(usedBoardService boardService) {
+	public usedBoardController(usedBoardService boardService,commentService commentService) {
 		this.usedBoardService=boardService;
+		this.commentService=commentService;
 		logger.info("생성자주입!");
 	}
 
@@ -111,7 +116,11 @@ public class usedBoardController {
 		usedBoardVO vo=usedBoardService.selectByNo(boardNo);
 		logger.info("상세보기 결과 vo={}", vo);
 		
+		List<commentVO> list2=commentService.selectByNo(boardNo);
+		log.info("상세보기 결과 댓글list="+list2);
+		
 		model.addAttribute("vo", vo);
+		model.addAttribute("list2",list2);
 		
 		return "usedBoard/boardDetail";
 	}
@@ -135,7 +144,7 @@ public class usedBoardController {
 	}
 	
 	
-
+	
 	@RequestMapping(value ="/list_ajax")
     public String list_expertmb_ajax(@ModelAttribute SearchVO searchVo,          //여기서는 ModelAndView를 사용하는게 중요 포인트입니다.
     		@RequestParam(defaultValue = "0") String kind,
