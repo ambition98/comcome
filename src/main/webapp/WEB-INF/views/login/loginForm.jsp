@@ -26,7 +26,34 @@
 
 </head>
 <body class="bg-gradient-primary">
+<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
+	<script type="text/javascript">
 
+$(function(){
+	
+	
+	$("#deletevo").on("click", function(){
+        if($('#email').val().length<1){ 
+            alert("아이디을 입력 해주세요."); 
+            $('#email').focus(); 
+            event.preventDefault(); 
+        }else if($('#password').val().length<1){ 
+            alert("비밀번호를 입력하세요"); 
+            $('#password').focus(); 
+            event.preventDefault();
+        }else{
+        var formObj = $("form[name='frm1']");
+          formObj.attr("action", "/comcome/login/sign-in");
+          formObj.submit();
+        }
+        });
+	
+});
+
+</script>
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -53,7 +80,7 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">로그인</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/sign-in'/>" name="frm1" method="post">
+									<form class="user" <%-- action="<c:url value='/login/sign-in'/>" --%> name="frm1" method="post">
 										<div class="form-group">
 											<input type="email" class="form-control form-control-user"
 												id="email" aria-describedby="emailHelp"
@@ -73,7 +100,7 @@
 												<label class="custom-control-label" for="chkSave">Remember Me</label>
 											</div>
 										</div>
-                                        <input type="submit" value="로그인" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" id="deletevo" value="로그인" class="btn btn-primary btn-user btn-block">
                                         <input type="button" value="카카오 로그인" id="kakaoLogin" class="btn btn-primary btn-user btn-block" 
                                         onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code' ">
 									</form>

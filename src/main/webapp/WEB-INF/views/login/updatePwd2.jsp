@@ -34,6 +34,62 @@
 	<script type="text/javascript">
 			alert("<%=msg%>");
 	</script>
+<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
+	<script type="text/javascript">
+
+$(function(){
+	
+	
+	
+	$("#deletevo").on("click", function(){
+        if($('#password').val().length<1){ 
+            alert("비밀번호를 입력 해주세요."); 
+            $('#password').focus(); 
+            event.preventDefault(); 
+        }else if($('#passwordCk').val().length<1){ 
+            alert("비밀번호 확인란을 입력하세요"); 
+            $('#passwordCk').focus(); 
+            event.preventDefault();
+        }else if($('#password').val() != $(
+		'#passwordCk').val()){
+        	 alert("비밀번호와 비밀번호 확인이 일치하지 않습니다"); 
+             $('#password').focus(); 
+             event.preventDefault();
+        }else if(!validate_pwd($('#password').val())){
+			return false;
+		}else{
+        	var formObj = $("form[name='frm1']");
+          formObj.attr("action", "/comcome/login/update-pwd");
+          formObj.submit();
+        }
+        });
+	
+	
+	
+	function validate_pwd(pwd){
+		var idRegExp = /^[a-zA-z0-9]{8,16}$/; 
+		if(!idRegExp.test(pwd)){
+			alert('숫자와 영문자 조합으로 8~16자리를 사용해야 합니다.');
+			return false;
+		}
+
+		var checkNum = pwd.search(/[0-9]/g); // 숫자사용
+		var checkEng = pwd.search(/[a-z]/ig); // 영문사용
+
+		if(checkNum <0 || checkEng <0){
+			alert("숫자와 영문자를 조합하여야 합니다.");
+			return false;
+		}
+		return true;
+		
+	}
+	
+});
+
+</script>
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -60,7 +116,7 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">비밀번호 재설정</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/update-pwd'/>" name="frm1" method="post">
+									<form class="user" <%-- action="<c:url value='/login/update-pwd'/>" --%> name="frm1" method="post">
 										<div class="form-group">
 										<input type ="hidden" id ="email" name ="email" value="<%=email%>">
 											<input type="password" class="form-control form-control-user"
@@ -72,7 +128,7 @@
 												id="passwordCk" placeholder="비밀번호 확인" name="passwordCk">
 										</div>
 										
-                                        <input type="submit" value="비밀번호 재설정" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" id="deletevo" value="비밀번호 재설정" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">

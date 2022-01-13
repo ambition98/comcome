@@ -14,7 +14,7 @@ public class usedBoardVO {
 	private int boardNo;
 	private int accountNo;
 	private String groupNo;
-	private int fileSize;
+	private long fileSize;
 	private String delFlag;
 	private String title;
 	private int readcount;

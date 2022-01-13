@@ -101,8 +101,8 @@
 		update board
 		set title=#{title}, content=#{content}
 		<if test="fileName != null and fileName != ''">
-			, filename=#{fileName}, fileSize=#{fileSize},
-			originalFileName=#{originalFileName}
+			, file_name=#{fileName}, file_size=#{fileSize},
+			original_file_name=#{originalFileName, jdbcType=VARCHAR}
 		</if>		
 		where board_no=#{boardNo}
 	</update>

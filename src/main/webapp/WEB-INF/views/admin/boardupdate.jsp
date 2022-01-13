@@ -10,7 +10,7 @@
 		</div>
 			<div class="panel-body">
 			<form name="frmWrite" method="post" enctype="multipart/form-data"
-			action="<c:url value='/admin/updateboard'/>" >
+			<%-- action="<c:url value='/admin/updateboard'/>" --%> >
 				
 				<c:if test="${!empty boardNo }">
 					<h4><input type="text" id="title" aria-describedby="emailHelp"

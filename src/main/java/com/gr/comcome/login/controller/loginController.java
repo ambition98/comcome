@@ -110,15 +110,11 @@ public class loginController {
 
 	// http://localhost:9091/comcome/login/sign-in
 	@PostMapping("/sign-in")
-	public String signIn(@RequestParam(required = false) String email, @RequestParam(required = false) String password,
+	public String signIn(@RequestParam String email, @RequestParam String password,
 			@RequestParam(required = false) String chkSave, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws NoSuchAlgorithmException {
 
-		if (email == null || password == null || email == "" || password == "") {
-			model.addAttribute("msg", "이메일/비밀번호를 입력해주세요");
-			model.addAttribute("url", "/login/login-form");
-			return "/common/message";
-		}
+		
 
 		logger.info("로그인 처리, 파라미터 " + "email={}, password={}, chkSave={}", email, password, chkSave);
 
@@ -176,14 +172,10 @@ public class loginController {
 	}
 
 	@PostMapping("/find-email")
-	public String findEmail_post(@RequestParam(required = false) String name,
-			@RequestParam(required = false) String tel, Model model) {
+	public String findEmail_post(@RequestParam String name,
+			@RequestParam String tel, Model model) {
 
-		if (name == null || tel == null || name == "" || tel == "") {
-			model.addAttribute("msg", "이름/전화번호를 입력해주세요");
-			model.addAttribute("url", "/login/find-email");
-			return "common/message";
-		}
+		
 
 		logger.info("이메일 찾기 처리, name={}, tel={}", name, tel);
 
@@ -237,13 +229,9 @@ public class loginController {
 
 	// http://localhost:9091/comcome/login/find-password?email=123@naver.com
 	@PostMapping("/find-password")
-	public String findPassword_post(@RequestParam(required = false) String email, Model model) {
+	public String findPassword_post(@RequestParam String email, Model model) {
 
-		if (email == null || email == "" || email.isEmpty()) {
-			model.addAttribute("msg", "이메일을 입력해주세요");
-			model.addAttribute("url", "/login/find-password");
-			return "common/message";
-		}
+		
 
 		logger.info("비밀번호 찾기 처리 , email={}", email);
 
@@ -295,13 +283,9 @@ public class loginController {
 	}
 
 	@PostMapping("/verified")
-	public String verified_post(@RequestParam(required = false) String yourveriCode, @RequestParam String veriCode,
+	public String verified_post(@RequestParam String yourveriCode, @RequestParam String veriCode,
 			@RequestParam String email, Model model) {
-		if (yourveriCode == null || yourveriCode.equals("") || yourveriCode.isEmpty()) {
-			model.addAttribute("msg", "인증번호를 입력해주세요");
-			model.addAttribute("url", "/login/verified");
-			return "common/message";
-		}
+		
 		logger.info("인증번호 확인 처리, yourveriCode={}, veriCode={}", yourveriCode, veriCode);
 
 		if (yourveriCode.equals(veriCode)) {
@@ -327,18 +311,9 @@ public class loginController {
 	}
 
 	@PostMapping("/update-pwd")
-	public String updatePwd(@RequestParam String email, @RequestParam(required = false) String password,
-			@RequestParam(required = false) String passwordCk, Model model) throws NoSuchAlgorithmException {
-		if (password == null || password.isEmpty() || passwordCk == null || passwordCk.isEmpty()) {
-			model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
-			model.addAttribute("url", "/login/update-pwd");
-			return "common/message";
-		} else if (!password.equals(passwordCk)) {
-			model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
-			model.addAttribute("url", "/login/update-pwd");
-			return "common/message";
-	  
-		} else if (password.equals(passwordCk)) {
+	public String updatePwd(@RequestParam String email, @RequestParam String password,
+			@RequestParam String passwordCk, Model model) throws NoSuchAlgorithmException {
+		
 			logger.info("비밀번호 재설정 처리");
 			// 비밀번호 재설정 !
 			// 이메일을 통해서 account_no를 가져온다!
@@ -370,9 +345,9 @@ public class loginController {
 			model.addAttribute("url", url);
 			return "common/message";
 
-		}
+		
 
-		return "common/message";
+	
 	}
 
 	@GetMapping("/auth/kakao/callback")

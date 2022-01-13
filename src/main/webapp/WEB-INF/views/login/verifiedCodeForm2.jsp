@@ -35,7 +35,30 @@
 	<script type="text/javascript">
 		alert("<%=msg%>");
 	</script>
+<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
+	<script type="text/javascript">
 
+$(function(){
+	
+	
+	$("#deletevo").on("click", function(){
+        if($('#yourveriCode').val().length<1){ 
+            alert("인증번호를 입력 해주세요."); 
+            $('#yourveriCode').focus(); 
+            event.preventDefault(); 
+        }else{
+        var formObj = $("form[name='frm1']");
+          formObj.attr("action", "/comcome/login/verified");
+          formObj.submit();
+        }
+        });
+	
+});
+
+</script>
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -62,7 +85,7 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">인증번호 확인</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/verified'/>" name="frm1" method="post">
+									<form class="user" <%-- action="<c:url value='/login/verified'/>" --%> name="frm1" method="post">
 										<div class="form-group">
 										    <input type ="hidden" id ="veriCode" name ="veriCode" value="<%=veriCode%>">
 											<input type ="hidden" id ="email" name ="email" value="<%=email%>">
@@ -72,7 +95,7 @@
 										</div>
 										
 										
-                                        <input type="submit" value="인증하기" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" id="deletevo" value="인증하기" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">

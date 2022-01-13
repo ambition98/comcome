@@ -154,15 +154,10 @@ public class adminController {
 
 	// localhost:9091/comcome/admin/popup-regi
 	@RequestMapping("/popup-regi")
-	public String popupRegi_post(@RequestParam(required = false) String title,
-			@RequestParam(required = false) String content, @RequestParam String email, Model model) {
+	public String popupRegi_post(@RequestParam String title,
+			@RequestParam String content, @RequestParam String email, Model model) {
 
-		if (title == null || content == null || title == "" || content == "") {
-			model.addAttribute("msg", "제목/내용을 입력해주세요");
-			model.addAttribute("url", "/admin/popup-regi-with-main");
-			return "common/message";
-		}
-
+		
 		logger.info("팝업 등록 처리, title={}, content={}, email={}", title, content, email);
 
 		int result = adminService.insertNotice(email, title, content);
@@ -359,21 +354,21 @@ public class adminController {
 		@PostMapping("/updateboard")
 		public String updateboard(@ModelAttribute usedBoardVO usedBoardVO, 
 				HttpServletRequest request) {
-			logger.info("글쓰기 처리, 파라미터 vo={}", usedBoardVO);
+			logger.info("중고게시판 글쓰기 처리, 파라미터 vo={}", usedBoardVO);
 			
 			//파일 업로드 처리
-			String fileName="", originName="";
+			String fileName="", originalFileName="";
 			int fileSize=0;
 			
 			try {
 				List<Map<String, Object>> fileList 
-					= fileUploadUtil.fileUpload(request, originName);
+					= fileUploadUtil.fileUpload(request, "boardtest");
 				for(int i=0;i<fileList.size();i++) {
 					 Map<String, Object> map=fileList.get(i);
 					 
 					 fileName=(String) map.get("fileName");
-					 originName=(String) map.get("originalFileName");
-					 fileSize=(int) map.get("fileSize");				 
+					 originalFileName=(String) map.get("originalFileName");
+					 fileSize=(int)(long) map.get("fileSize");				 
 				}
 				
 				logger.info("파일 업로드 성공, fileName={}", fileName);
@@ -384,7 +379,7 @@ public class adminController {
 			}
 			
 			usedBoardVO.setFileName(fileName);
-			usedBoardVO.setOriginalFileName(originName);
+			usedBoardVO.setOriginalFileName(originalFileName);
 			usedBoardVO.setFileSize(fileSize);
 			
 			int cnt=usedBoardService.updateBoardByAdmin(usedBoardVO);

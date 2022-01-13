@@ -27,7 +27,38 @@
 
 </head>
 <body class="bg-gradient-primary">
+<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
+	<script type="text/javascript">
 
+$(function(){
+	
+	$("input:text[numberOnly]").on("keyup", function() {
+	      $(this).val($(this).val().replace(/[^0-9]/g,""));
+	   });
+	
+	$("#deletevo").on("click", function(){
+        if($('#name').val().length<1){ 
+            alert("이름을 입력 해주세요."); 
+            $('#name').focus(); 
+            event.preventDefault(); 
+        }else if($('#tel').val().length<1){ 
+            alert("전화번호를 입력하세요"); 
+            $('#tel').focus(); 
+            event.preventDefault();
+        }else{
+        var formObj = $("form[name='frm1']");
+          formObj.attr("action", "/comcome/login/find-email");
+          formObj.submit();
+        }
+        });
+	
+});
+
+</script>
+	
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -54,7 +85,7 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">이메일 찾기</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/find-email'/>" name="frm1" method="post">
+									<form class="user" <%-- action="<c:url value='/login/find-email'/>" --%> name="frm1" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
 												id="name" aria-describedby="emailHelp"
@@ -62,10 +93,10 @@
 										</div>
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
-												id="tel" placeholder="전화번호 ('-'없이 입력해주세요)" name="tel">
+												id="tel" placeholder="전화번호 ('-'없이 입력해주세요)" name="tel" numberOnly>
 										</div>
 										
-                                        <input type="submit" value="이메일 찾기" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" id="deletevo" value="이메일 찾기" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">

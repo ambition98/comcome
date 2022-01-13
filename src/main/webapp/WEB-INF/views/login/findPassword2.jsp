@@ -28,7 +28,31 @@
 
 </head>
 <body class="bg-gradient-primary">
+<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
+	<script type="text/javascript">
 
+$(function(){
+	
+
+	
+	$("#deletevo").on("click", function(){
+        if($('#email').val().length<1){ 
+            alert("이메일을 입력 해주세요."); 
+            $('#email').focus(); 
+            event.preventDefault(); 
+        }else{
+        var formObj = $("form[name='frm1']");
+          formObj.attr("action", "/comcome/login/find-password");
+          formObj.submit();
+        }
+        });
+	
+});
+
+</script>
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -55,14 +79,14 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">비밀번호 찾기</h1>
 									</div>
-									<form class="user" action="<c:url value='/login/find-password'/>" name="frm1" method="post">
+									<form class="user" <%-- action="<c:url value='/login/find-password'/>" --%> name="frm1" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
 												id="email" aria-describedby="emailHelp"
 												placeholder="이메일" name="email" >
 										</div>
 										
-                                        <input type="submit" value="비밀번호 찾기" class="btn btn-primary btn-user btn-block">
+                                        <input type="submit" id="deletevo" value="비밀번호 찾기" class="btn btn-primary btn-user btn-block">
                                        
 									<hr>
 									<div class="text-center">
