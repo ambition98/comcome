@@ -84,7 +84,7 @@ public class NaverAPI {
 		while ((line = br.readLine()) != null) {
 			sb.append(line);
 		}
-		System.out.println(sb);
+		//System.out.println(sb);
 		
 		JSONObject MainObj;
 		Map<String, Product> productMap = new HashMap<>();
