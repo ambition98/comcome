@@ -22,9 +22,6 @@ public interface MypageService {
 	int CheckPwd(int accountNo, String password) throws NoSuchAlgorithmException;
 	int DeleteAccount(int accountNo);
 	
-	AccountVO selectByaccountNo(int accountNo);
-	int UpdateAccount(AccountVO vo);
-//	boolean CheckPwd(AccountVO vo);
-//	int UpdateAccount(int accountNo);
-	int UpdateAccount(int accountNo);
+	int UpdateAccount(AccountVO accountVo); //저장을 하면 serviceImpl에 오류가 뜸
+	//120~129줄
 }

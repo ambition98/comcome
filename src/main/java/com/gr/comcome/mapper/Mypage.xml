@@ -8,10 +8,10 @@
 		where account_no=#{account_no}
 	</select>
 	
-	<update id="updateMypage" parameterType="mypageVo">
+<!-- 	<update id="updateMypage" parameterType="mypageVo">
 		update ACCOUNT set name=#{name}
 		where ACCOUNT_NO=#{ACCOUNT_NO}
-	</update>
+	</update> -->
 	
 	<select id="selectMainNotice" resultType="mypageVo">
 	select * from 
@@ -35,16 +35,14 @@
 		where account_no=#{account_no}
 	</delete>
 	
-	<update id="UpdateHash" parameterType="int">
-		update hash 
-		set name=#{name}
-		where ACCOUNT_NO=#{ACCOUNT_NO}
 	
+	<update id="UpdateAccount" parameterType="AccountVO"> 
+		update account set name=#{name}
+		where email=#{email}
 	</update>
 	
-	<update id="UpdateAccountbyNo" parameterType="int">
-		update ACCOUNT set name=#{name}
-		where ACCOUNT_NO=#{ACCOUNT_NO}
-	</update>
-
+	<!-- 빈공간에 메서드 붙이기 -->
+	<!-- 아이디는 메서드이름 parameterType="괄호안에 있는 매개변수 " resultType="select 에서만 사용가능 
+	반환타입이랑 매칭"  dao로 돌아가기 -->
+	
 </mapper>

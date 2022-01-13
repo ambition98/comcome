@@ -1,3 +1,4 @@
+
 package com.gr.comcome.category.controller;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import com.gr.comcome.category.screensize.model.ScreenSizeVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+
 @Controller
 public class CategoryController {
 	private final CategoryService categoryService;
@@ -32,21 +34,16 @@ public class CategoryController {
 	@RequestMapping("/category")
 	public String category(Model model) {
 		log.info("Enter category()");
-		
+
 		List<CategoryVO> categoryList = categoryService.selectAllCategory();
 		List<BrandVO> brandList = brandsService.selectAllBrand();
 		List<ScreenSizeVO> screenSizeList = screenSizeService.selectAllScreenSize();
-		
+
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("brandList", brandList);
 		model.addAttribute("screenSizeList", screenSizeList);
-		
-//		for(BrandVO vo : brandList)
-//			log.info("brandVo: {}", vo);
-//		
-//		for(ScreenSizeVO vo : screenSizeList)
-//			log.info("screenSizeVo: {}", vo);
-		
+
+
 		return "/include/category";
 	}
 }

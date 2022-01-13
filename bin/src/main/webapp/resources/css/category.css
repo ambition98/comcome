@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.size_cat {
+	/* list-style: none;
+	display: inline-block;
+	position: absolute;
+	left: 260px;
+	
+	background: #ffffff;
+	cursor: pointer;
+	z-index: 9; */
+	
+	/* display: inline-block; */
+	position: absolute;
+	left: 0;
+	top: 46px;
+	width: 100%;
+	z-index: 9;
+	background: #ffffff;
+}
+
+.hide {
+	display: none;
+}
+
+.active {
+	display: "inline-block";
+}
+
+.test {
+	background: skyblue;
+}
+
+/* #size_cat_container {
+	position: absolute;
+} */
