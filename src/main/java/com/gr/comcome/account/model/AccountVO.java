@@ -19,4 +19,6 @@ public class AccountVO {
 	private String isVerified;
 	private String cardNo;
 	private Timestamp regdate;
+	private String zipcode;
+	private String addressDetail;
 }
