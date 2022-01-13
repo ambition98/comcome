@@ -98,7 +98,11 @@ public class loginController {
 		session.removeAttribute("email");
 		session.removeAttribute("accountNo");
 		session.removeAttribute("name");
+<<<<<<< HEAD
 		session.removeAttribute("address");
+=======
+		session.removeAttribute("address"); //104~106 삭제해야함 김회중!
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 		session.removeAttribute("tel");
 		session.removeAttribute("cardNo");
 
@@ -135,10 +139,16 @@ public class loginController {
 			session.setAttribute("email", accVo.getEmail());
 			session.setAttribute("name", accVo.getName());
 			session.setAttribute("accountNo", accVo.getAccountNo());
+<<<<<<< HEAD
 			session.setAttribute("address", accVo.getAddress());
 			session.setAttribute("tel", accVo.getTel());
 			session.setAttribute("cardNo", accVo.getCardNo());
 
+=======
+			session.setAttribute("address", accVo.getAddress()); //138~140 삭제 해야함 
+	        session.setAttribute("tel", accVo.getTel());
+	        session.setAttribute("cardNo", accVo.getCardNo());
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 			// [2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
 			Cookie ck = new Cookie("ck_email", accVo.getEmail());
 			ck.setPath("/");
@@ -464,10 +474,19 @@ public class loginController {
 			session.setAttribute("email", accountVO.getEmail());
 			session.setAttribute("name", accountVO.getName());
 			session.setAttribute("accountNo", accountVO.getAccountNo());
+<<<<<<< HEAD
 			session.setAttribute("tel", accountVO.getTel());
 			session.setAttribute("cardNo", accountVO.getCardNo());
 			session.setAttribute("address", accountVO.getAddress());
 
+=======
+			
+			
+			session.setAttribute("tel", accountVO.getTel()); //삭제해야함
+	        session.setAttribute("cardNo", accountVO.getCardNo());
+	        session.setAttribute("address", accountVO.getAddress());
+	        
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 		} else {
 			// name, email을 vo에 넣고
 			accountVO.setName(kakaoUsername);

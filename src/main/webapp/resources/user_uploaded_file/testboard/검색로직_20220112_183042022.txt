@@ -1,0 +1,31 @@
+검색알고리즘
+1. 검색어 검색
+ - keyword 파라미터 전달
+ - where name like ?
+2. 카테고리 선택
+ - category 파라미터 전달 
+ - where category_no = ?
+3. 세부항목 체크
+ - ajax 적용하여 체크하자마자 불러오기
+ - vo 적용
+ - 파라미터로 받아
+
+
+
+검색VO
+    0) 검색어
+    1) 제조사
+    2) 화면사이즈
+    3) cpu
+    4) 코어수(듀얼, 쿼드, 옥타, 헥사)
+    4) mem
+    5) 무게
+
+
+FK_ACCOUNT_TO_BOARD
+FK_ACCOUNT_TO_MESSAGE_RECV
+FK_ACCOUNT_TO_HASH
+FK_ACCOUNT_TO_MESSAGE
+FK_ACCOUNT_TO_RECENT_PRODUCT
+FK_ACCOUNT_TO_PD_ORDER
+FK_ACCOUNT_TO_WISHLIST

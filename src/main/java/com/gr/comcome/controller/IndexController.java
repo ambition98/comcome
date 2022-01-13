@@ -1,17 +1,29 @@
 package com.gr.comcome.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import javax.servlet.http.HttpServletRequest;
+
+>>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gr.comcome.admin.model.AdminService;
 import com.gr.comcome.admin.model.NoticeVO;
 import com.gr.comcome.category.model.CategoryVO;
+import com.gr.comcome.common.FileUploadUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,5 +72,27 @@ public class IndexController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("testmodel", "test456");
 		return map;
+	}
+	
+	@RequestMapping("/upload_test")
+	public String uploadPage() {
+		return "/upload_test";
+	}
+	
+	@RequestMapping("/upload")
+	public String upload(HttpServletRequest request) {
+		System.out.println("Enter upload()");
+		
+//		fileMap.forEach((key, value) -> {
+//			System.out.println("key: " + key);
+//			System.out.println("Name: " + value.getName());
+//			System.out.println("ContentType: " + value.getContentType());
+//			System.out.println("OriginalFilename: " + value.getOriginalFilename());
+//			System.out.println("-----------------------------");
+//		});
+		FileUploadUtil util = new FileUploadUtil();
+		List<Map<String, Object>> list = util.fileUpload(request, "testboard");
+		
+		return "";
 	}
 }
