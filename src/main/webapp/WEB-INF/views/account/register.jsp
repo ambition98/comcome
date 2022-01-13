@@ -25,38 +25,44 @@
 
 
 <style type="text/css">
-#test_btn1 {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	margin-right: -4px;
-	width: 50%;
-	opacity: 0.5;
-}
-
-#test_btn2 {
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-	margin-left: -3px;
-	width: 50%;
-}
 
 form.user .form-control-user {
 	font-size: 0.85rem;
+}
+
+.base {
+	width: 150%;
+}
+
+.base2 {
+	width: 50%;
 }
 
 form.user .btn-user {
 	font-size: 0.9rem;
 }
 
-#email{
-	width: 150%;
-}
-
-#btnChkEmail{
+#btnChkEmail {
 vertical-align:middle;
 	float: right;
 	width: 50%;
 	height:100%;
+}
+#btnChkAddress{
+vertical-align:middle;
+	float: right;
+	width: 50%;
+	height:100%;
+}
+input#zipcode {
+    width: 125px;
+    margin-left: 11px;
+}
+
+input#btnChkAddress {
+    width: 125px;
+    height: 50px;
+    margin-left: 3px;
 }
 
 </style>
@@ -92,10 +98,9 @@ vertical-align:middle;
 				}  
 			});
 	}); */
-	
 		function emailChk(){
 		    var width = '800';
-		    var height = '500';
+		    var height = '700';
 		    var left = Math.ceil(( window.screen.width - width )/2);
 		    var top = Math.ceil(( window.screen.height - height )/2);
 
@@ -104,6 +109,19 @@ vertical-align:middle;
 			 'width='+width+',height='+height+',left='+left+',top='+top+',location=yes,resizable=yes');
 		    //?email='+email
 		}
+	
+		function addressChk(){
+		    var width = '800';
+		    var height = '500';
+		    var left = Math.ceil(( window.screen.width - width )/2);
+		    var top = Math.ceil(( window.screen.height - height )/2);
+
+		    var email=$('#email').val();
+		    open('checkAddress','dup',
+			 'width='+width+',height='+height+',left='+left+',top='+top+',location=yes,resizable=yes');
+		    //?email='+email
+		}
+	
 </script>
 </head>
 </head>
@@ -124,7 +142,7 @@ vertical-align:middle;
 								<!-- 이메일 -->
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="email" class="form-control form-control-user"
+										<input type="email" class="form-control form-control-user base"
 										id="email" placeholder="이메일 주소" name="email">
 									</div>
 									<div class="col-sm-6">
@@ -153,18 +171,19 @@ vertical-align:middle;
 								
 								<!-- 주소 -->
 								<div class="form-group row">
+									<input type="email" class="form-control form-control-user base2"
+										id="zipcode" placeholder="우편번호" name="zipcode">
+									
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user"
-										id="address1" placeholder="주소" name="email">
+										id="address1" placeholder="주소" name="address">
 									</div>
-									<div class="col-sm-6">
-										<input type="button" value="주소찾기" id="btnChkEmail" 
-									class="btn btn-primary btn-user btn-block" onclick="emailChk()" title="새창열림">
-									</div>
+										<input type="button" value="주소찾기" id="btnChkAddress" 
+									class="btn btn-primary btn-user btn-block" onclick="addressChk()" title="새창열림">
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
-										id="address2" placeholder="주소 상세" name="address">
+										id="address2" placeholder="주소 상세" name="addressDetale">
 								</div>
 
 								<!-- 연락처 -->

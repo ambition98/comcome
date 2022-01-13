@@ -32,6 +32,7 @@ public class AccountController {
 	
 	private final AccountService accountService;
 	private HashingUtil hashingUtil;
+	private LoginService loginservice;
 	
 	
 	
@@ -86,26 +87,6 @@ public class AccountController {
 		return "account/checkUserEmail";
 	}
 	
-//	@RequestMapping(value="/register", method = RequestMethod.GET)
-//	public void emailConfirm_post(@ModelAttribute AccountVO accountVo) {
-//		
-//	}
-	
-//	@RequestMapping(value="/checkUserEmail", method = RequestMethod.POST)
-//	public String checkemail_post(@RequestParam String email,Model model) {
-//		
-//		logger.info("이메일 파라미터, email={}", email);
-//		
-//		int cnt=accountService.checkEmail(email);
-//		logger.info("이메일 중복체크 결과, cnt={}", cnt);	 
-//		model.addAttribute("result", cnt);
-//		model.addAttribute("EXIST_EMAIL", accountService.EXIST_EMAIL);
-//		model.addAttribute("NON_EXIST_EMAIL", accountService.NON_EXIST_EMAIL);
-//		
-//		return "account/checkUserEmail";
-//		
-//	}
-	
 	@RequestMapping(value="/checkUserEmail", method = RequestMethod.POST)
 	public String checkemail_post(@RequestParam String email,Model model) {
 		
@@ -120,5 +101,18 @@ public class AccountController {
 		return "account/checkUserEmail";
 		
 	}
+	
+	// 인증번호 생성
+		public String getVerifiedCode() {
+			char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+					'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+			String str = "";
+			int idx = 0;
+			for (int i = 0; i < 10; i++) {
+				idx = (int) (charSet.length * Math.random());
+				str += charSet[idx];
+			}
+			return str;
+		}
 
 }
