@@ -77,13 +77,40 @@ public class MypageController {
 		
 	}
 	
-	@GetMapping("/mypagemain")
-	public String messagebox() {
+	
+	
+	
+	@GetMapping("/mypageEdit")
+	public String profileEdit(HttpSession session, Model model) {
+		String name=(String) session.getAttribute("name");
+		logger.info("프로필 수정 화면, 파라미터 name={}", name);
 		
+		
+		MypageVO vo=mypageService.selectByName(name);
+		logger.info("프로필 수정 - 조회 결과 vo ={}",vo);
+		
+		model.addAttribute("vo",vo);
+		return "mypage/mypageEdit";
+		
+		
+	}
+	
+	@PostMapping("/mypageEdit")
+	public String edit_post(@ModelAttribute MypageVO vo, 
+			@RequestParam int Account_no , HttpSession session,
+			Model model) {
+		String name=(String) session.getAttribute("name");
+		vo.setNAME(name);
+		logger.info("프로필 수정처리 , 파라미터 vo={}",vo);
+		
+		if(vo.getNAME()==null || vo.getNAME().isEmpty()) {
+			vo.setNAME("");
+		}
 		      return "mypageinc/mypageMain";
 		     
-		    
+
 		}
+		
 	//메인 프로필 view
 	@GetMapping("/profile/profileDetail")
 	public String profile () {

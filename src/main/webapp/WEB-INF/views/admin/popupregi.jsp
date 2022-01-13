@@ -19,7 +19,7 @@ String email=(String)session.getAttribute("emailadmin");
 
 %>
 <div class="container">
-	<form name="f1" method="post"  action='<c:url value="/admin/popup-regi"/>'  >
+	<form name="frm1" method="post" <%--  action='<c:url value="/admin/popup-regi"/>'  --%> >
    		 <div class="form-group">
    		    <h2>공지 등록</h2>
       		<label for="usr">제목:</label>
@@ -31,7 +31,7 @@ String email=(String)session.getAttribute("emailadmin");
      		 <label for="comment">내용:</label>
       		<textarea class="form-control" rows="5" id="content" name="content" ></textarea>
     	</div>
-    	<button type="submit" class="btn btn-primary" onclick="loginChk()" >등록</button>
+    	<button type="submit" id="deletevo" class="btn btn-primary" >등록</button>
  	 </form>
  
 </div>

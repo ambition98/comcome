@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+body.bg-gradient-primary {}
+
+.text-center {
+}
+
+h1.h4.text-gray-900.mb-4 {
+    /* margin-bottom: 10px; */
+    padding-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+a.small {
+    /* padding-top: 100px; */
+    /* margin-top: 43px; */
+}
+
+.text-center {margin-top: 10px;}

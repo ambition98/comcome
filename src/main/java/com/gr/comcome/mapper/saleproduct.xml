@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gr.comcome.saleproduct.model.SaleProductDAO">	 
+	<sql id="searchWhere">
+		<if test="searchKeyword!=null and searchKeyword!=''">
+	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
+		</if>		
+	</sql>
+	
+	<insert id="insertProduct" parameterType="saleProductVO">
+		insert into sale_product(category_no, name, price)
+		values(#{categoryNo}, #{name},#{price} )
+	</insert>
+	
+	
+	<select id="selectAllProduct" parameterType="searchVo" resultType="saleProductVO">
+			select *
+			from
+			(
+			    select rownum as RNUM, A.*
+			    from
+			    (
+			        select * from sale_product 
+			        <include refid="searchWhere"></include>
+			        order by sale_product_no desc
+			    )A
+			)
+			<![CDATA[
+			where RNUM>#{firstRecordIndex} 
+				and RNUM<=#{firstRecordIndex}+ #{recordCountPerPage}]]>
+	</select>
+	
+	<select id="selectTotalRecord" parameterType="searchVo" resultType="int">
+		select count(*) from sale_product
+		<include refid="searchWhere"></include>	
+	</select>
+	
+	<select id="selectByNo" parameterType="int" resultType="saleProductVO">
+		select * from sale_product 
+		where sale_product_no=#{saleProductNo}
+	</select>
+	
+	<update id="updateProduct" parameterType="saleProductVO">
+		update sale_product 
+		set category_no=#{categoryNo},name=#{name}, price=#{price}
+		where sale_product_no=#{saleProductNo}
+	</update>
+	
+		
+		<delete id="deleteProductByNo" parameterType="int">
+		delete sale_product 
+		where sale_product_no=#{saleProductNo}
+	</delete>
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
