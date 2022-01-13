@@ -77,11 +77,7 @@ public class MypageController {
 		
 	}
 	
-	@GetMapping("/mypagemain")
-	public String messagebox() {
-		
-<<<<<<< HEAD
-	}
+	
 	
 	
 	@GetMapping("/mypageEdit")
@@ -109,12 +105,12 @@ public class MypageController {
 		
 		if(vo.getNAME()==null || vo.getNAME().isEmpty()) {
 			vo.setNAME("");
-=======
+		}
 		      return "mypageinc/mypageMain";
 		     
-		    
->>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
+
 		}
+		
 	//메인 프로필 view
 	@GetMapping("/profile/profileDetail")
 	public String profile () {

@@ -364,10 +364,10 @@ public class adminController {
 			//파일 업로드 처리
 			String fileName="", originName="";
 			int fileSize=0;
-			int pathFlag=ConstUtil.UPLOAD_FILE_FLAG;
+			
 			try {
 				List<Map<String, Object>> fileList 
-					= fileUploadUtil.fileUpload(request, pathFlag);
+					= fileUploadUtil.fileUpload(request, originName);
 				for(int i=0;i<fileList.size();i++) {
 					 Map<String, Object> map=fileList.get(i);
 					 
@@ -380,8 +380,6 @@ public class adminController {
 				
 				
 			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			

@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
+
 import org.springframework.beans.factory.annotation.Autowired;
-=======
+
 import javax.servlet.http.HttpServletRequest;
 
->>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
