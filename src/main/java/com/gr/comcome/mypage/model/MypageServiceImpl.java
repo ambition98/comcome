@@ -107,51 +107,17 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
-	@Override //프로필 수정
-	public int UpdateAccount(int accountNo) {
-		//5.1 해쉬테이블 먼저수정 accountNo가 foreign key기 때문에
-				int result = mypageDao.UpdateHash(accountNo);
-				int result2=0;
-				int result3=0;
-				
-				if(result >0) {
-					result2= mypageDao.UpdateAccountbyNo(accountNo);	
-					if(result2>0) {
-						result3=1;
-					}else if(result2<0){
-						result3=0;
-					}
-				}else if(result<0) {
-					result3=0;
-
-				}
-				return result3;	
-	}
-
-	@Override
-	public AccountVO selectByaccountNo(int accountNo) {
-		
-		return mypageDao.selectByaccountNo(accountNo);
-	}
-
-	@Override
-	public int UpdateAccount(AccountVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-//	@Override
-//	public int UpdateAccount(AccountVO vo) {
-//		
-//		return mypageDao.UpdateAccountbyNo(PWD_OK);
-//	}
-//
-//	@Override
-//	public boolean CheckPwd(AccountVO vo) {
-//	
-//		return false;
-//	}
 	
+
+	//service 넘어오면 컨트롤 스페이스를 누르면 override 자동 으로 만들어짐 
+	//dao. UpdateAccount(accountVo) create 메서드를 클릭 자동으로 dao로 넘어가짐
+
+	@Override
+	public int UpdateAccount(AccountVO accountVo) {
+		
+		return mypageDao.UpdateAccount(accountVo);
+	}
+
 	
 }
 
