@@ -63,49 +63,40 @@ public class MypageController {
 	@Autowired
 	private MypageService mypageService;
 
-	//	@RequestMapping("/index")
-	//	public String index (@ModelAttribute SearchVO searchVo,Model model) {
-	//	
-	//		logger.info("쪽지 목록 화면, searchVo={}", searchVo);
-	//		
-	//		//2
-	//	      PaginationInfo pagingInfo = new PaginationInfo();
-	//	      pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
-	//	      pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-	//	      pagingInfo.setCurrentPage(searchVo.getCurrentPage());
-	//	      
-	//	      //3
-	//	      searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-	//	      searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
-	//	      logger.info("값 셋팅 후 searchVo={}", searchVo);
-	//	      
-	//	      
-	//	      List<MessageBoxVO> list = messageboxService.selectAll(searchVo);
-	//	      logger.info("전체조회 결과 list.size={}", list.size());
-	//	      for(MessageBoxVO vo : list) {
-	//	    	  logger.info(vo.toString());
-	//	      }
-	//	      //4
-	//	      int totalRecord=messageboxService.selectTotalRecord(searchVo);
-	//	      pagingInfo.setTotalRecord(totalRecord);
-	//	      
-	//	      model.addAttribute("list", list);
-	//	      model.addAttribute("pagingInfo", pagingInfo);
-	//	      
-	//	  	return "mypageinc/mypageindex";
-	//	     
-
-
-
-
-
 	@GetMapping("/mypagemain")
 	public String messagebox() {
 
 		return "mypageinc/mypageMain";
-
-
 	}
+	
+	@GetMapping("/mypageEdit")
+	public String profileEdit(HttpSession session, Model model) {
+		String name=(String) session.getAttribute("name");
+		logger.info("프로필 수정 화면, 파라미터 name={}", name);
+		
+		MypageVO vo=mypageService.selectByName(name);
+		logger.info("프로필 수정 - 조회 결과 vo ={}",vo);
+		
+		model.addAttribute("vo",vo);
+    
+		return "mypage/mypageEdit";
+	}
+	
+	@PostMapping("/mypageEdit")
+	public String edit_post(@ModelAttribute MypageVO vo, 
+			@RequestParam int Account_no , HttpSession session,
+			Model model) {
+		String name=(String) session.getAttribute("name");
+		vo.setNAME(name);
+		logger.info("프로필 수정처리 , 파라미터 vo={}",vo);
+		
+		if(vo.getNAME()==null || vo.getNAME().isEmpty()) {
+			vo.setNAME("");
+		}
+		      return "mypageinc/mypageMain";
+		     
+
+		}
 	//메인 프로필 view
 	@GetMapping("/profile/profileDetail")
 	public String profile () {

@@ -18,4 +18,6 @@ public interface usedBoardDAO {
 	public List<usedBoardVO> selectByGroupNo(String no);
 	public int updateReadCount(int no);
 	int selectTotalRecord(int result);
+	int deleteBoardByNo(int boardNo);
+	public int updateBoardByAdmin(usedBoardVO usedBoardVO);
 }

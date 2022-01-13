@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/member2.css'/>" /> 
 
 <div class="container">
-  <h2>회원관리</h2>
+  <h2>회원 관리</h2>
   <c:if test="${!empty param.searchKeyword }">
 	<p>검색어 : ${param.searchKeyword },  
 		${pagingInfo.totalRecord} 건 검색되었습니다. </p>
@@ -49,10 +49,7 @@
 				<td>${vo.accountNo}</td>
 				<td>${vo.email}</td>
 				<td style="text-align:left">
-					<a href
-		="<c:url value='/admin/detail?account_no=${vo.accountNo}'/>">
 						${vo.name}
-					</a>
 				</td>
 				<td>${vo.address}</td>
 				<td>${vo.tel}</td>

@@ -3,9 +3,12 @@
 form {
     /* width: 600px; */
 }
-
-h2 {border-bottom: 1px solid gray;padding: 10px;font-size: 30px;margin-bottom: 26px;}
-
+h2#yourtitle {
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    font-size: 30px;
+    margin-bottom: 26px;
+}
 label {
     padding-left: 260px;
     margin-top: 15px;
@@ -34,4 +37,13 @@ textarea#content {
     margin-top: 10px;
     height: 200px;
     width: 600px;
+}
+
+li#yourli {
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: #cedfce;
+    margin: 0px;
+    /* padding-top: 0px; */
+    /* padding-bottom: 0px; */
 }
