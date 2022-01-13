@@ -362,12 +362,12 @@ public class adminController {
 			
 			try {
 				List<Map<String, Object>> fileList 
-					= fileUploadUtil.fileUpload(request, "boardtest");
+					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
 				for(int i=0;i<fileList.size();i++) {
 					 Map<String, Object> map=fileList.get(i);
 					 
 					 fileName=(String) map.get("fileName");
-					 originalFileName=(String) map.get("originalFileName");
+					 originalFileName=(String) map.get("originFileName");
 					 fileSize=(int)(long) map.get("fileSize");				 
 				}
 				
@@ -381,7 +381,7 @@ public class adminController {
 			usedBoardVO.setFileName(fileName);
 			usedBoardVO.setOriginalFileName(originalFileName);
 			usedBoardVO.setFileSize(fileSize);
-			
+			logger.info("usedBoardVO={}",usedBoardVO);
 			int cnt=usedBoardService.updateBoardByAdmin(usedBoardVO);
 			logger.info("글쓰기 결과, cnt={}", cnt);
 			

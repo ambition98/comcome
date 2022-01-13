@@ -23,14 +23,22 @@
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
+      <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent.css'/>" />
                                                           
     <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
   	<script src="<c:url value='/resources/js/category.js' />"></script>
+  	
 </head>
 
 <body>
 <%-- <%@ include file="include/category.jsp"%> --%>
 <%-- <%@ include file="inc/body.jsp"%> --%>
+ <%@include file="indexcontent/indexcontent.jsp" %> 
+
+<%--  <article>
+<c:import url="/indexcontent"></c:import>
+</article>  --%>
+
 <jsp:include page="admin/popup3.jsp"/>
 
 
