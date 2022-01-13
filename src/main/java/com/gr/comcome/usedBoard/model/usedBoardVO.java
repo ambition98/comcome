@@ -27,4 +27,8 @@ public class usedBoardVO {
 	private Timestamp regdate;
 	private String email;
 	private int price;
+	
+	
+	
+	
 }

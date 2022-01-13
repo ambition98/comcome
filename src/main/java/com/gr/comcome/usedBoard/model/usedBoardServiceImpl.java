@@ -39,4 +39,15 @@ public class usedBoardServiceImpl implements usedBoardService{
 	public int selectTotalRecord(int result) {
 		return usedBoardDao.selectTotalRecord(result);
 	}
+	
+	@Override
+	public int deleteBoardByNo(int boardNo) {
+		return usedBoardDao.deleteBoardByNo(boardNo);
+		
+	}
+	
+	@Override
+	public int updateBoardByAdmin(usedBoardVO usedBoardVO) {
+		return usedBoardDao.updateBoardByAdmin(usedBoardVO);
+	}
 }

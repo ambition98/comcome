@@ -196,7 +196,15 @@ String email=(String)session.getAttribute("emailadmin");
 					<ul class="nav">
 						<li><a href="<c:url value='/admin/allmemberview'/>" class="active"> <span>회원 조회 및 검색</span></a></li>
 						<li><a href="<c:url value='/admin/boardwithmain'/>" class=""> <span>게시글 관리</span></a></li>
-						<li><a href="panels.html" class=""> <span>특가몰 관리</span></a></li>
+						<li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><span>특가몰 관리</span></a>
+							<div id="subPages" class="collapse ">
+								<ul class="nav">
+									<li><a href="<c:url value='/admin/allsaleproduct'/>" class="">상품 목록</a></li>
+									<li><a href="<c:url value='/admin/insert-sale-product'/>" class="">상품 등록</a></li>
+								</ul>
+							</div>
+						</li>
 						<li><a href="<c:url value='/admin/popup-regi-with-main'/>" class=""> <span>팝업 공지 등록</span></a></li>
 						<li>
 							<a href="#subPages" data-toggle="collapse" class="collapsed"><span>매출통계</span></a>

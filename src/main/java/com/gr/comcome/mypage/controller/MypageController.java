@@ -45,6 +45,7 @@ public class MypageController {
 		
 	}
 	
+	
 	@GetMapping("/mypageEdit")
 	public String profileEdit(HttpSession session, Model model) {
 		String name=(String) session.getAttribute("name");
