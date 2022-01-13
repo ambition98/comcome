@@ -2,6 +2,7 @@ package com.gr.comcome.mypage.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +20,9 @@ import org.springframework.web.context.annotation.RequestScope;
 
 
 import com.gr.comcome.account.model.AccountVO;
+import com.gr.comcome.account.model.HashVO;
 import com.gr.comcome.common.ConstUtil;
+import com.gr.comcome.common.HashingUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
 import com.gr.comcome.login.model.LoginService;
@@ -44,11 +47,13 @@ public class MypageController {
 
 	@Autowired
 	private MessageBoxService messageboxService;
-	
+
 	@Autowired
 	private LoginService loginService;
 
-	
+	@Autowired
+	private HashingUtil hashingUtil;
+
 
 	@GetMapping("/mypageMain")
 	public String mypagemain () {
@@ -57,57 +62,57 @@ public class MypageController {
 
 	@Autowired
 	private MypageService mypageService;
-	
-//	@RequestMapping("/index")
-//	public String index (@ModelAttribute SearchVO searchVo,Model model) {
-//	
-//		logger.info("쪽지 목록 화면, searchVo={}", searchVo);
-//		
-//		//2
-//	      PaginationInfo pagingInfo = new PaginationInfo();
-//	      pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
-//	      pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-//	      pagingInfo.setCurrentPage(searchVo.getCurrentPage());
-//	      
-//	      //3
-//	      searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
-//	      searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
-//	      logger.info("값 셋팅 후 searchVo={}", searchVo);
-//	      
-//	      
-//	      List<MessageBoxVO> list = messageboxService.selectAll(searchVo);
-//	      logger.info("전체조회 결과 list.size={}", list.size());
-//	      for(MessageBoxVO vo : list) {
-//	    	  logger.info(vo.toString());
-//	      }
-//	      //4
-//	      int totalRecord=messageboxService.selectTotalRecord(searchVo);
-//	      pagingInfo.setTotalRecord(totalRecord);
-//	      
-//	      model.addAttribute("list", list);
-//	      model.addAttribute("pagingInfo", pagingInfo);
-//	      
-//	  	return "mypageinc/mypageindex";
-//	     
-		
+
+	//	@RequestMapping("/index")
+	//	public String index (@ModelAttribute SearchVO searchVo,Model model) {
+	//	
+	//		logger.info("쪽지 목록 화면, searchVo={}", searchVo);
+	//		
+	//		//2
+	//	      PaginationInfo pagingInfo = new PaginationInfo();
+	//	      pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+	//	      pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+	//	      pagingInfo.setCurrentPage(searchVo.getCurrentPage());
+	//	      
+	//	      //3
+	//	      searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+	//	      searchVo.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+	//	      logger.info("값 셋팅 후 searchVo={}", searchVo);
+	//	      
+	//	      
+	//	      List<MessageBoxVO> list = messageboxService.selectAll(searchVo);
+	//	      logger.info("전체조회 결과 list.size={}", list.size());
+	//	      for(MessageBoxVO vo : list) {
+	//	    	  logger.info(vo.toString());
+	//	      }
+	//	      //4
+	//	      int totalRecord=messageboxService.selectTotalRecord(searchVo);
+	//	      pagingInfo.setTotalRecord(totalRecord);
+	//	      
+	//	      model.addAttribute("list", list);
+	//	      model.addAttribute("pagingInfo", pagingInfo);
+	//	      
+	//	  	return "mypageinc/mypageindex";
+	//	     
+
 
 
 
 
 	@GetMapping("/mypagemain")
 	public String messagebox() {
-		
-		      return "mypageinc/mypageMain";
-		     
-		    
-		}
+
+		return "mypageinc/mypageMain";
+
+
+	}
 	//메인 프로필 view
 	@GetMapping("/profile/profileDetail")
 	public String profile () {
 		return "mypage/profile/profileDetail";
 	}
-	
-	
+
+
 	/*
 	 * //기본정보수정 프로필 view
 	 * 
@@ -116,129 +121,112 @@ public class MypageController {
 	 * 
 	 * }
 	 */
-	
+
 	//프로필 기본정보수정
 	@GetMapping("/profile/profileEdit")
 	public String profileEdit () {		
 		return "mypage/profile/profileEdit";
-		
+
 	}
 	//프로필 기본정보 수정 처리
-	@PostMapping("/profile/prifileEdit")
-	public String pfEdit(@RequestParam String email, @RequestParam(required = false) String password,
-			@RequestParam(required = false) String password1, Model model) throws NoSuchAlgorithmException {
+	@PostMapping("/profile/profileEdit") //@ModelAttribute 를 사용 하면 한테이블에(dto or vo) 있는 모든 정보를 불러올수 있다.
+	public String pfEdit(@RequestParam String name,@RequestParam String email, Model model) throws NoSuchAlgorithmException {
 		String msg ="프로필 수정 실패", url="/mypage/profile/profileEdit";
-		
-		if (password == null || password.isEmpty() || password1 == null || password1.isEmpty()) {
-			model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
-			model.addAttribute("url", "/profile/profileEdit");
-			return "common/message";
-		} else if (!password.equals(password1)) {
-			model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
-			model.addAttribute("url", "/profile/profileEdit");
-			return "common/message";
-		} else if (password.equals(password1)) {
-			logger.info("프로필수정처리");
-			
-			//email로 account_no 가져온다
-			AccountVO accountVO = loginService.selectByEmail(email);
-			
-			int CheckPwd = mypageService.CheckPwd( accountVO.getAccountNo(), password);
-			
-			
-			if(CheckPwd ==mypageService.PWD_OK) { //비밀번호가 일치할시
-				//session 제거	
-				//6. 비밀번호 삭제에 성공했으면
-			int result = mypageService.UpdateAccount( accountVO.getAccountNo());
-                if(result > 0){
-                    msg ="회원 수정에 성공했습니다 ";
-                    url = "/mypageinc/mypageindex"; //마이페이지 인덱스로 돌아가기
-                    
-                //7. 비밀번호 삭제에 실패했으면                    
-                }else if(result < 0){
-                   msg ="회원 수정에 실패했습니다";
-                   url = "/mypage/profile/profileEdit";
-                } 
-                
-				
-			}else if(CheckPwd==mypageService.DISAGREE_PWD){
-				msg ="비밀번호 불일치";
-			}else if(CheckPwd==mypageService.PWD_NONE) {
-				msg="비밀번호 불일치";
-				
-			}          
-			
 
-		}	
+
+		logger.info("프로필 수정처리, email={},name={}",email,name);
+
+
+		AccountVO  accountVO = new AccountVO(); //가방이라 생각하면 됨 
+		accountVO.setEmail(email);
+		accountVO.setName(name);		
+
+		int result = mypageService.UpdateAccount(accountVO);   //메서드 이름을 친다 빨간줄 누르고 create 메서드 누르고 자동으로 서비스로넘어감
+		//25줄
+		logger.info("프로필 결과처리,result={}",result);
+		
+			if(result > 0){
+				
+			msg ="회원 수정에 성공했습니다 ";
+			url = "/mypage/index"; //마이페이지 인덱스로 돌아가기
+
+			//7. 비밀번호 삭제에 실패했으면                    
+		}else if(result < 0){
+			msg ="회원 수정에 실패했습니다";
+			url = "/mypage/profile/profileEdit";
+		} 
+
+
+
 		model.addAttribute("msg",msg);
-        model.addAttribute("url",url);
-        
-        return "common/message";
-	} 
-	
-//	//글수정 화면
-//	@RequestMapping("/profile/prifileEdit")
-//	public String pfEdit (@RequestParam(defaultValue = "0")int accountNo,Model model) {
-//		//1파라미터 읽어오기
-//		logger.info("프로필 수정 화면, 파라미터 accountNo={}", accountNo);
-//		if(accountNo==0) {
-//			model.addAttribute("msg", "잘못된 url입니다.");
-//			model.addAttribute("url", "/profile/profileDetail");
-//			return "common/message";
-//		}
-//		
-//		//2 db작업
-//		AccountVO vo =mypageService.selectByaccountNo(accountNo);
-//		logger.info("프로필수정-상세조회 결과 vo={}", vo);
-//		
-//		//3.모델에 결과 저장
-//		model.addAttribute("vo", vo);
-//		
-//		//4.뷰페이지 리턴
-//		return "mypage/profile/prifileEdit";
-//		
-//	}
-//	//프로필 수정처리
-//	@RequestMapping("profile/prifileEdit")
-//	public String Edit(@ModelAttribute AccountVO vo, Model model) {
-//		logger.info("프로필수정 처리, 파라미터 vo={}", vo);
-//		
-//		String msg="프로필수정 실패", url="/mypage/profile/profileDetail?no="+vo.getAccountNo();
-//		if(mypageService.CheckPwd(vo)) {
-//			int cnt=mypageService.UpdateAccount(vo);
-//			if(cnt>0) {
-//				msg="글수정되었습니다.";
-//				url="/mypage/profile/profileDetail?no="+vo.getAccountNo();
-//			}
-//		}else {
-//			msg="비밀번호가 일치하지 않습니다.";
-//		}
-//		
-//		//3
-//		model.addAttribute("msg", msg);
-//		model.addAttribute("url", url);
-//		
-//		//4
-//		return "common/message";
-//	}
-//		
-		
-	
+		model.addAttribute("url",url);
 
-	
+		return "common/message";
+	} 
+
+	//	//글수정 화면
+	//	@RequestMapping("/profile/prifileEdit")
+	//	public String pfEdit (@RequestParam(defaultValue = "0")int accountNo,Model model) {
+	//		//1파라미터 읽어오기
+	//		logger.info("프로필 수정 화면, 파라미터 accountNo={}", accountNo);
+	//		if(accountNo==0) {
+	//			model.addAttribute("msg", "잘못된 url입니다.");
+	//			model.addAttribute("url", "/profile/profileDetail");
+	//			return "common/message";
+	//		}
+	//		
+	//		//2 db작업
+	//		AccountVO vo =mypageService.selectByaccountNo(accountNo);
+	//		logger.info("프로필수정-상세조회 결과 vo={}", vo);
+	//		
+	//		//3.모델에 결과 저장
+	//		model.addAttribute("vo", vo);
+	//		
+	//		//4.뷰페이지 리턴
+	//		return "mypage/profile/prifileEdit";
+	//		
+	//	}
+	//	//프로필 수정처리
+	//	@RequestMapping("profile/prifileEdit")
+	//	public String Edit(@ModelAttribute AccountVO vo, Model model) {
+	//		logger.info("프로필수정 처리, 파라미터 vo={}", vo);
+	//		
+	//		String msg="프로필수정 실패", url="/mypage/profile/profileDetail?no="+vo.getAccountNo();
+	//		if(mypageService.CheckPwd(vo)) {
+	//			int cnt=mypageService.UpdateAccount(vo);
+	//			if(cnt>0) {
+	//				msg="글수정되었습니다.";
+	//				url="/mypage/profile/profileDetail?no="+vo.getAccountNo();
+	//			}
+	//		}else {
+	//			msg="비밀번호가 일치하지 않습니다.";
+	//		}
+	//		
+	//		//3
+	//		model.addAttribute("msg", msg);
+	//		model.addAttribute("url", url);
+	//		
+	//		//4
+	//		return "common/message";
+	//	}
+	//		
+
+
+
+
 	//회원탈퇴
 	@GetMapping("/member/memberDelete")
 	public String memberDelete () {
 		return "mypage/member/memberDelete";
-		
+
 	}
-	
+
 	//회원탈퇴 처리 
 	@PostMapping("/member/memberDelete")
 	public String Delete (@RequestParam String email, @RequestParam(required = false) String password,
 			@RequestParam(required = false) String password1, Model model) throws NoSuchAlgorithmException {
 		String msg ="회원탈퇴 실패", url="/mypage/member/memberDelete";
-		
+
 		if (password == null || password.isEmpty() || password1 == null || password1.isEmpty()) {
 			model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
 			model.addAttribute("url", "/member/memberDelete");
@@ -249,42 +237,96 @@ public class MypageController {
 			return "common/message";
 		} else if (password.equals(password1)) {
 			logger.info("회원탈퇴처리");
-			
+
 			//email로 account_no 가져온다
 			AccountVO accountVO = loginService.selectByEmail(email);
-			
+
 			int CheckPwd = mypageService.CheckPwd( accountVO.getAccountNo(), password);
-			
-			
+
+
 			if(CheckPwd ==mypageService.PWD_OK) { //비밀번호가 일치할시
 				//session 제거	
 				//6. 비밀번호 삭제에 성공했으면
-			int result = mypageService.DeleteAccount( accountVO.getAccountNo());
-                if(result > 0){
-                    msg ="회원 탈퇴에 성공했습니다 ";
-                    url = "/"; //인덱스로 돌아가기
-                    
-                //7. 비밀번호 삭제에 실패했으면                    
-                }else if(result < 0){
-                   msg ="회원 탈퇴에 실패했습니다";
-                   url = "/mypage/member/memberDelete";
-                } 
-                
-				
+				int result = mypageService.DeleteAccount( accountVO.getAccountNo());
+				if(result > 0){
+					msg ="회원 탈퇴에 성공했습니다 ";
+					url = "/"; //인덱스로 돌아가기
+
+					//7. 비밀번호 삭제에 실패했으면                    
+				}else if(result < 0){
+					msg ="회원 탈퇴에 실패했습니다";
+					url = "/mypage/member/memberDelete";
+				} 
+
+
 			}else if(CheckPwd==mypageService.DISAGREE_PWD){
 				msg ="비밀번호 불일치";
 			}else if(CheckPwd==mypageService.PWD_NONE) {
 				msg="비밀번호 불일치";
-				
+
 			}          
-			
+
 
 		}	
 		model.addAttribute("msg",msg);
-        model.addAttribute("url",url);
-        
-        return "common/message";
+		model.addAttribute("url",url);
+
+		return "common/message";
 	}
-	
+
+	//비밀번호 재설정 view
+	@GetMapping("/pwd/pwd")
+	public String pwd () {
+		return "mypage/pwd/pwd";
+
+	}
+	@PostMapping("/pwd/pwd")
+	public String updatePwd(@RequestParam String email, @RequestParam(required = false) String password,
+			@RequestParam(required = false) String passwordCk, Model model) throws NoSuchAlgorithmException {
+		if (password == null || password.isEmpty() || passwordCk == null || passwordCk.isEmpty()) {
+			model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
+			model.addAttribute("url", "/mypage/pwd/pwd");
+			return "common/message";
+		} else if (!password.equals(passwordCk)) {
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
+			model.addAttribute("url", "/mypage/pwd/pwd");
+			return "common/message";
+		} else if (password.equals(passwordCk)) {
+			logger.info("비밀번호 재설정 처리");
+			// 비밀번호 재설정 !
+			// 이메일을 통해서 account_no를 가져온다!
+			AccountVO accountVO = loginService.selectByEmail(email);
+
+			logger.info("비밀번호 재설정 처리, accountVO={}",accountVO.toString());
+			// 비밀번호 재설정 !
+			// salt 만들기 ..salt
+			String salt = hashingUtil.makeNewSalt();
+			// 암호화 된 digest .. update hash set salt = salt , digest = saltPwd where
+			// account_no =?
+			String digest = hashingUtil.hashing(password, salt);
+
+			HashVO hashvo = new HashVO();
+			hashvo.setAccountNo(accountVO.getAccountNo());
+			hashvo.setDigest(digest);
+			hashvo.setSalt(salt);
+
+			logger.info("비밀번호 재설정 처리, hashvo={}",hashvo.toString());
+			String msg = "비밀번호 재설정이 실패하였습니다", url = "/mypage/pwd/pwd";
+
+			int result = loginService.updatePassword(hashvo);
+			logger.info("비밀번호 재설정 처리, result={}",result);
+			if (result > 0) {
+				msg = "비밀번호가 성공적으로 변경되었습니다";
+				url = "/mypage/index";
+			}
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			return "common/message";
+
+		}
+
+		return "common/message";
+	}
+
 
 }

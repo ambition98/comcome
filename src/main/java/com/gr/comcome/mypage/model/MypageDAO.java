@@ -18,8 +18,7 @@ public interface MypageDAO {
 	int deleteAccountbyNo(int accountNo);
 	
 	AccountVO selectByaccountNo(int accountNo);
-	int UpdateAccountbyNo(int accountNo);
-	int UpdateHash(int accountNo);
+	int UpdateAccount(AccountVO accountVo); //메서드 복사 xml로 넘어가기
 	
 	
 }
