@@ -2,12 +2,10 @@ package com.gr.comcome.search_pd.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -22,14 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gr.comcome.category.model.CategoryService;
 import com.gr.comcome.category.model.CategoryVO;
 import com.gr.comcome.common.GetImgFromDanawa;
 import com.gr.comcome.common.mallapi.NaverAPI;
 import com.gr.comcome.common.mallapi.Product;
 import com.gr.comcome.search_pd.model.SearchProductService;
 import com.gr.comcome.search_pd.model.SearchProductVO;
-import com.gr.comcome.search_pd.model.SearchOption;
 
 import lombok.extern.slf4j.Slf4j;
 

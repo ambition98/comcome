@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 public class MyHttpRequest {
 	public Document getHttpDocument(String link) throws IOException, InterruptedException {
 //		link = "https://www.naver.com";
-		System.out.println("link: " + link);
+		//System.out.println("link: " + link);
 		StringBuilder sb = new StringBuilder();
 		URL url = new URL(link);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -30,7 +30,7 @@ public class MyHttpRequest {
 		
 		//System.out.println(sb.toString());
 		
-		Thread.sleep(10);
+		Thread.sleep(20);
 		return Jsoup.parse(sb.toString());
 	}
 	
