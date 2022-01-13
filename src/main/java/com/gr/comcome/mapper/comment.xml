@@ -8,6 +8,7 @@
 		resultType="commentVo">
 		select * from usedboard_comment
 		where board_no=#{boardNo}
+		order by regdate
 	</select>
 
 	<insert id="insertComment">
@@ -25,5 +26,10 @@
 	</insert>
 	
 	<update id="updateComment" parameterType="commentVo">
+	UPDATE usedboard_comment
+        SET
+            content = #{content}
+            ,regdate = NOW()
+        WHERE no= #{no}
 	</update>
 </mapper>

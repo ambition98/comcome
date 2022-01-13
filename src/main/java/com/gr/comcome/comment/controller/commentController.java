@@ -3,8 +3,12 @@ package com.gr.comcome.comment.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +50,19 @@ public class commentController {
 		log.info("댓글 작성 결과 vo"+vo);
 		
 		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
+	}
+	
+	@RequestMapping(value = "/{replyNo}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+	public ResponseEntity<String> update(@PathVariable("replyNo") Integer replyNo, @RequestBody commentVO commentVo) {
+	    ResponseEntity<String> entity = null;
+	    try {
+	        commentVo.setNo(replyNo);
+	        commentService.updateComment(commentVo);
+	        entity = new ResponseEntity<>("modSuccess", HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	    }
+	    return entity;
 	}
 }

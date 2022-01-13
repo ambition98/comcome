@@ -44,7 +44,7 @@
 <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
 <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
 <script src="<c:url value='/resources/js/base/main.js' />"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 <script src="/resouces/js/contextMenu/context-menu.js"></script>
 <link href="/resouces/css/contextMenu/context-menu.css" rel="stylesheet">
 <style type="text/css">
@@ -189,6 +189,8 @@ $(function(){
 
 			<div class="card col-lg-6 text-center"
 				style="float: none; margin: 0 auto;">
+				
+				<c:if test="${sessionScope.email != null }">
 				<div class="card-header bg-light">
 					<i class="fa fa-comment fa"></i> 댓글
 				</div>
@@ -208,6 +210,7 @@ $(function(){
 					</ul>
 				</div>
 				</form>
+				</c:if>
 			</div>
 			
 			<script type="text/javascript">
@@ -220,7 +223,6 @@ $(function(){
 					alert("내용을 입력하세요"); 
 					$('#content').focus(); 
 					event.preventDefault(); 	
-				
 				}else{
 				var formObj = $("form[name='commentForm']");
 				  formObj.attr("action", "/comcome/comment/write");
@@ -235,29 +237,127 @@ $(function(){
 				<ol class="replyList col-lg-6 text-left"
 					style="float: none; margin: 0 auto;">
 					<c:forEach items="${list2}" var="replyList">
-
+						
 						<p>
 							<a href=""> ${replyList.name} </a> 작성 날짜:
 							<fmt:formatDate value="${replyList.regdate}" pattern="yyyy-MM-dd HH:mm" />
 						</p>
-						<p>${replyList.content}</p>
 						
-						<c:if test = "${sessionScope.email == replyList.name}">
-							<a href='<c:url value="/board/edit.do?no=${param.no }"/>'>수정</a> | <a
-							href='<c:url value="/board/delete.do?no=${param.no }"/>'>삭제</a> 
-						</c:if>	
+							
+						<p class="replyText">${replyList.content}</p>					
 						
+						<c:if test = "${sessionScope.email == replyList.name}">	
+						<a href="#" class=" btn-box-tool replyModBtn" data-toggle="modal" data-target="#modModal">
+                 	   <i class="fa fa-edit"> 수정 </i>  
+              			  </a>		 
+						<a href="#" class=" btn-box-tool replyDelBtn" data-toggle="modal" data-target="#delModal">
+                 	   <i class="fa fa-times"> 삭제</i>
+          		 	     </a>
+				    	 <div data-replyNo='${replyList.no}' class='replyLi' display="none">
+				    	 	
+						</c:if>		
 						<hr>
 					</c:forEach>
 				</ol>
 			</div>
 			
-			<script>
+			<script type="text/javascript">
+			
+			
+			
+			$(".replyModBtn").click(function () {
+			
 				
+				var reply = $(this).parent();
+				
+				var replyNo = reply.attr("data-replyNo");
+			    var replyText = reply.children(".replyText").text();
+			    
+
+			    $("#replyNo").val(replyNo);
+			    $("#replyText").val(replyText);
+			    
+
+			});
+			
+			$(".modalModBtn").click( function () {
+				console.log("수정ajax");
+			    // 댓글 선택자
+			    var reply = $(this).parent().parent();
+			    // 댓글번호
+			    var replyNo = reply.find("#replyNo").val();
+			    // 수정한 댓글내용
+			    var replyText = reply.find("#replyText").val();
+
+			    // AJAX통신 : PUT
+			    $.ajax({
+			        type : "put",
+			        url : "/comment/" + replyNo,
+			        headers : {
+			            "Content-type" : "application/json",
+			            "X-HTTP-Method-Override" : "PUT"
+			        },
+			        data : JSON.stringify(
+			            {replyText : replyText}
+			        ),
+			        dataType : "text",
+			        success : function (result) {
+			            console.log("result : " + result);
+			            if (result == "modSuccess") {
+			                alert("댓글 수정 완료!");
+			                $("#modifyModal").modal("hide"); // Modal 닫기
+			                
+			            }
+			        }
+			    });
+
+			});
+
 			</script>
 		</div>
 	</div>
 
+<%--댓글 수정 modal 영역--%>
+<div class="modal fade" id="modModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">댓글수정</h4>
+            </div>
+            <div class="modal-body" data-rno>
+                <input type="hidden" class="replyNo" id="replyNo"/>
+                <%--<input type="text" id="replytext" class="form-control"/>--%>
+                <textarea class="form-control" id="replyText" rows="3" style="resize: none"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary modalModBtn">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--댓글 삭제 modal 영역--%>
+<div class="modal fade" id="delModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">댓글 삭제</h4>
+                <input type="hidden" class="rno"/>
+            </div>
+            <div class="modal-body" data-rno>
+                <p>댓글을 삭제하시겠습니까?</p>
+                <input type="hidden" class="rno"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">아니요.</button>
+                <button type="button" class="btn btn-primary modalDelBtn">네. 삭제합니다.</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 <%@ include file="../include/footer.jsp"%>

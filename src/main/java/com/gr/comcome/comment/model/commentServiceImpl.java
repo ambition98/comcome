@@ -18,8 +18,8 @@ public class commentServiceImpl implements commentService {
 	}
 	
 	@Override
-	public int updateComment(int no){
-		return commentDao.updateComment(no);
+	public int updateComment(commentVO vo){
+		return commentDao.updateComment(vo);
 	}
 	
 	@Override
