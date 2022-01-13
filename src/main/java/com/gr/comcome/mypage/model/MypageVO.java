@@ -3,19 +3,24 @@ package com.gr.comcome.mypage.model;
 import java.security.Timestamp;
 
 public class MypageVO {
-	private int ACCOUNT_NO;
+	private int ACCOUNTNO;
 	private String EMAIL;
 	private String NAME;
 	private String ADDRESS;
 	private String TEL;
-	private String IS_VERIFIED;
+	private String ISVERIFIED;
 	private String CARD_NO;
 	private Timestamp REGDATE;
-	public int getACCOUNT_NO() {
-		return ACCOUNT_NO;
+	@Override
+	public String toString() {
+		return "MypageVO [ACCOUNTNO=" + ACCOUNTNO + ", EMAIL=" + EMAIL + ", NAME=" + NAME + ", ADDRESS=" + ADDRESS
+				+ ", TEL=" + TEL + ", ISVERIFIED=" + ISVERIFIED + ", CARD_NO=" + CARD_NO + ", REGDATE=" + REGDATE + "]";
 	}
-	public void setACCOUNT_NO(int aCCOUNT_NO) {
-		ACCOUNT_NO = aCCOUNT_NO;
+	public int getACCOUNTNO() {
+		return ACCOUNTNO;
+	}
+	public void setACCOUNTNO(int aCCOUNTNO) {
+		ACCOUNTNO = aCCOUNTNO;
 	}
 	public String getEMAIL() {
 		return EMAIL;
@@ -41,11 +46,11 @@ public class MypageVO {
 	public void setTEL(String tEL) {
 		TEL = tEL;
 	}
-	public String getIS_VERIFIED() {
-		return IS_VERIFIED;
+	public String getISVERIFIED() {
+		return ISVERIFIED;
 	}
-	public void setIS_VERIFIED(String iS_VERIFIED) {
-		IS_VERIFIED = iS_VERIFIED;
+	public void setISVERIFIED(String iSVERIFIED) {
+		ISVERIFIED = iSVERIFIED;
 	}
 	public String getCARD_NO() {
 		return CARD_NO;
@@ -59,27 +64,7 @@ public class MypageVO {
 	public void setREGDATE(Timestamp rEGDATE) {
 		REGDATE = rEGDATE;
 	}
-	public MypageVO(int aCCOUNT_NO, String eMAIL, String nAME, String aDDRESS, String tEL, String iS_VERIFIED,
-			String cARD_NO, Timestamp rEGDATE) {
-		super();
-		ACCOUNT_NO = aCCOUNT_NO;
-		EMAIL = eMAIL;
-		NAME = nAME;
-		ADDRESS = aDDRESS;
-		TEL = tEL;
-		IS_VERIFIED = iS_VERIFIED;
-		CARD_NO = cARD_NO;
-		REGDATE = rEGDATE;
-	}
-	@Override
-	public String toString() {
-		return "MypageVO [ACCOUNT_NO=" + ACCOUNT_NO + ", EMAIL=" + EMAIL + ", NAME=" + NAME + ", ADDRESS=" + ADDRESS
-				+ ", TEL=" + TEL + ", IS_VERIFIED=" + IS_VERIFIED + ", CARD_NO=" + CARD_NO + ", REGDATE=" + REGDATE
-				+ "]";
-	}
-	public MypageVO() {
-		super();
-	}
+	
 	
 	
 }

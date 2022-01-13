@@ -49,7 +49,6 @@ public class loginController {
 
 	@Autowired
 	public loginController(AdminService adminService, LoginService loginService, HashingUtil hashingUtil) {
-		super();
 		this.adminService = adminService;
 		this.loginService = loginService;
 		this.hashingUtil = hashingUtil;
@@ -68,22 +67,20 @@ public class loginController {
 		model.addAttribute("vo", vo);
 		return "/admin/popup3";
 	}
-	// http://localhost:9091/comcome/login/index
-	@GetMapping("/index")
-	public String index(Model model) {
-		logger.info("인덱스 화면");
 
-		NoticeVO vo = adminService.selectRecentNotice();
-		String content = vo.getContent();
-		String contentbr = content.replaceAll("\n", "<br />");
-		String title = vo.getTitle();
-		String titlebr = title.replaceAll("\n", "<br />");
-		model.addAttribute("content", contentbr);
-		model.addAttribute("title", titlebr);
-		model.addAttribute("vo", vo);
-		logger.info("팝업 화면 처리 ,vo={}", vo.toString());
-		return "/index";
-	}
+	/*
+	 * // http://localhost:9091/comcome/login/index
+	 * 
+	 * @GetMapping("/index") public String index(Model model) {
+	 * logger.info("인덱스 화면");
+	 * 
+	 * NoticeVO vo = adminService.selectRecentNotice(); String content =
+	 * vo.getContent(); String contentbr = content.replaceAll("\n", "<br />");
+	 * String title = vo.getTitle(); String titlebr = title.replaceAll("\n",
+	 * "<br />"); model.addAttribute("content", contentbr);
+	 * model.addAttribute("title", titlebr); model.addAttribute("vo", vo);
+	 * logger.info("팝업 화면 처리 ,vo={}", vo.toString()); return "/index"; }
+	 */
 
 	// http://localhost:9091/comcome/login/login-form
 	@GetMapping("/login-form")
@@ -91,7 +88,7 @@ public class loginController {
 		logger.info("로그인 화면");
 		return "/login/loginForm";
 	}
-	
+
 	// localhost:9091/comcome/login/logout
 	@RequestMapping("/logout")
 	public String logout(HttpSession session, Model model) {
@@ -101,24 +98,23 @@ public class loginController {
 		session.removeAttribute("email");
 		session.removeAttribute("accountNo");
 		session.removeAttribute("name");
+		session.removeAttribute("address");
+		session.removeAttribute("tel");
+		session.removeAttribute("cardNo");
 
 		model.addAttribute("msg", "로그아웃 되었습니다.");
-		model.addAttribute("url", "/login/index");
+		model.addAttribute("url", "/");
 		return "/common/message";
-		
+
 	}
 
 	// http://localhost:9091/comcome/login/sign-in
 	@PostMapping("/sign-in")
-	public String signIn(@RequestParam(required = false) String email, @RequestParam(required = false) String password,
+	public String signIn(@RequestParam String email, @RequestParam String password,
 			@RequestParam(required = false) String chkSave, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws NoSuchAlgorithmException {
 
-		if (email == null || password == null || email == "" || password == "") {
-			model.addAttribute("msg", "이메일/비밀번호를 입력해주세요");
-			model.addAttribute("url", "/login/login-form");
-			return "/common/message";
-		}
+		
 
 		logger.info("로그인 처리, 파라미터 " + "email={}, password={}, chkSave={}", email, password, chkSave);
 
@@ -135,7 +131,12 @@ public class loginController {
 			session.setAttribute("email", accVo.getEmail());
 			session.setAttribute("name", accVo.getName());
 			session.setAttribute("accountNo", accVo.getAccountNo());
-			// [2] 쿠키에 저장 - 아이디 저장하기 체크된 경우
+
+			session.setAttribute("address", accVo.getAddress());
+			session.setAttribute("tel", accVo.getTel());
+			session.setAttribute("cardNo", accVo.getCardNo());
+
+
 			Cookie ck = new Cookie("ck_email", accVo.getEmail());
 			ck.setPath("/");
 
@@ -148,7 +149,7 @@ public class loginController {
 			}
 
 			msg = accVo.getName() + " 님 로그인 되었습니다";
-			url = "/login/index";
+			url = "/";
 		} else if (result == loginService.DISAGREE_PWD) {
 			msg = "비밀번호가 일치하지 않습니다.";
 		} else if (result == loginService.EMAIL_NONE) {
@@ -167,18 +168,14 @@ public class loginController {
 	@GetMapping("/find-email")
 	public String findEmail_get() {
 		logger.info("이메일 찾기 화면");
-		return "login/findEmail";
+		return "login/findEmail2";
 	}
 
 	@PostMapping("/find-email")
-	public String findEmail_post(@RequestParam(required = false) String name,
-			@RequestParam(required = false) String tel, Model model) {
+	public String findEmail_post(@RequestParam String name,
+			@RequestParam String tel, Model model) {
 
-		if (name == null || tel == null || name == "" || tel == "") {
-			model.addAttribute("msg", "이름/전화번호를 입력해주세요");
-			model.addAttribute("url", "/login/find-email");
-			return "common/message";
-		}
+		
 
 		logger.info("이메일 찾기 처리, name={}, tel={}", name, tel);
 
@@ -186,24 +183,29 @@ public class loginController {
 		String msg = " ", url = "/login/find-email";
 		if (result == loginService.LOGIN_OK) {
 			// 올바른 회원 정보이면, 이메일 알려주기
+
 			String dbEmail = loginService.selectEmailByName(name);
-			// @의 index 찾기
-			int index = dbEmail.indexOf('@');
-			// 뒷자리 추출
-			String secretion = dbEmail.substring(index - 4, index);
-			// ****
-			String star = "";
-			for (int i = 0; i < secretion.length(); i++) {
-				star += "*";
+			if (dbEmail.length() > 17) {
+				// @의 index 찾기
+				int index = dbEmail.indexOf('@');
+				// 뒷자리 추출
+				String secretion = dbEmail.substring(index - 4, index);
+				// ****
+				String star = "";
+				for (int i = 0; i < secretion.length(); i++) {
+					star += "*";
+				}
+				// 뒷자리만 *로 바꾸기
+				String dbFinalEmail = dbEmail.replace(secretion, star);
+
+				logger.info("index={}, secretion={}, star={}, dbFinalEmail={}", index, secretion, star, dbFinalEmail);
+
+				msg = "당신의 Email은 " + dbFinalEmail + " 입니다.";
+				url = "/login/login-form";
+			}else {
+				msg = "당신의 Email은 " + dbEmail + " 입니다.";
+				url = "/login/login-form";
 			}
-			// 뒷자리만 *로 바꾸기
-			String dbFinalEmail = dbEmail.replace(secretion, star);
-
-			logger.info("index={}, secretion={}, star={}, dbFinalEmail={}", index, secretion, star, dbFinalEmail);
-
-			msg = "당신의 Email은 " + dbFinalEmail + " 입니다.";
-			url = "/login/login-form";
-
 		} else if (result == loginService.DISAGREE_TEL) {
 			// 잘못된 전화번호이면
 			msg = "전화번호가 일치하지 않습니다.";
@@ -222,18 +224,14 @@ public class loginController {
 	@GetMapping("/find-password")
 	public String findPassword_get() {
 		logger.info("비밀번호 찾기 화면");
-		return "/login/findPassword";
+		return "/login/findPassword2";
 	}
 
 	// http://localhost:9091/comcome/login/find-password?email=123@naver.com
 	@PostMapping("/find-password")
-	public String findPassword_post(@RequestParam(required = false) String email, Model model) {
+	public String findPassword_post(@RequestParam String email, Model model) {
 
-		if (email == null || email == "" || email.isEmpty()) {
-			model.addAttribute("msg", "이메일을 입력해주세요");
-			model.addAttribute("url", "/login/find-password");
-			return "common/message";
-		}
+		
 
 		logger.info("비밀번호 찾기 처리 , email={}", email);
 
@@ -247,7 +245,7 @@ public class loginController {
 			model.addAttribute("msg", "해당 이메일로 인증번호가 전송되었습니다.");
 			model.addAttribute("veriCode", veriCode);
 			model.addAttribute("email", email);
-			return "login/verifiedCodeForm";
+			return "login/verifiedCodeForm2";
 		}
 
 		if (result == loginService.EMAIL_NONE) {
@@ -277,25 +275,23 @@ public class loginController {
 		return str;
 	}
 
+	// http://localhost:9091/comcome/login/verified
+	// 비밀번호 인증번호 화면처리 
 	@GetMapping("/verified")
 	public String verified_get() {
-		return "login/verifiedCodeForm";
+		return "login/verifiedCodeForm2";
 	}
 
 	@PostMapping("/verified")
-	public String verified_post(@RequestParam(required = false) String yourveriCode, @RequestParam String veriCode,
+	public String verified_post(@RequestParam String yourveriCode, @RequestParam String veriCode,
 			@RequestParam String email, Model model) {
-		if (yourveriCode == null || yourveriCode.equals("") || yourveriCode.isEmpty()) {
-			model.addAttribute("msg", "인증번호를 입력해주세요");
-			model.addAttribute("url", "/login/verified");
-			return "common/message";
-		}
+		
 		logger.info("인증번호 확인 처리, yourveriCode={}, veriCode={}", yourveriCode, veriCode);
 
 		if (yourveriCode.equals(veriCode)) {
 			model.addAttribute("msg", "본인 인증에 성공하였습니다");
 			model.addAttribute("email", email);
-			return "login/updatePwd";
+			return "login/updatePwd2";
 		}
 		String msg = "본인 인증에 실패하였습니다", url = "/login/find-password";
 
@@ -306,30 +302,24 @@ public class loginController {
 
 	}
 
+
+	// http://localhost:9091/comcome/login/update-pwd
 	@GetMapping("/update-pwd")
 	public String updatePwd_get() {
 		logger.info("비밀번호 재설정 화면");
-		return "login/updatePwd";
+		return "login/updatePwd2";
 	}
 
 	@PostMapping("/update-pwd")
-	public String updatePwd(@RequestParam String email, @RequestParam(required = false) String password,
-			@RequestParam(required = false) String passwordCk, Model model) throws NoSuchAlgorithmException {
-		if (password == null || password.isEmpty() || passwordCk == null || passwordCk.isEmpty()) {
-			model.addAttribute("msg", "비밀번호/비밀번호 확인을 입력해주세요");
-			model.addAttribute("url", "/login/update-pwd");
-			return "common/message";
-		} else if (!password.equals(passwordCk)) {
-			model.addAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 입력하세요");
-			model.addAttribute("url", "/login/update-pwd");
-			return "common/message";
-		} else if (password.equals(passwordCk)) {
+	public String updatePwd(@RequestParam String email, @RequestParam String password,
+			@RequestParam String passwordCk, Model model) throws NoSuchAlgorithmException {
+		
 			logger.info("비밀번호 재설정 처리");
 			// 비밀번호 재설정 !
 			// 이메일을 통해서 account_no를 가져온다!
 			AccountVO accountVO = loginService.selectByEmail(email);
 
-			logger.info("비밀번호 재설정 처리, accountVO={}",accountVO.toString());
+			logger.info("비밀번호 재설정 처리, accountVO={}", accountVO.toString());
 			// 비밀번호 재설정 !
 			// salt 만들기 ..salt
 			String salt = hashingUtil.makeNewSalt();
@@ -342,11 +332,11 @@ public class loginController {
 			hashvo.setDigest(digest);
 			hashvo.setSalt(salt);
 
-			logger.info("비밀번호 재설정 처리, hashvo={}",hashvo.toString());
+			logger.info("비밀번호 재설정 처리, hashvo={}", hashvo.toString());
 			String msg = "비밀번호 재설정이 실패하였습니다", url = "/login/find-password";
 
 			int result = loginService.updatePassword(hashvo);
-			logger.info("비밀번호 재설정 처리, result={}",result);
+			logger.info("비밀번호 재설정 처리, result={}", result);
 			if (result > 0) {
 				msg = "비밀번호가 성공적으로 변경되었습니다";
 				url = "/login/login-form";
@@ -355,9 +345,9 @@ public class loginController {
 			model.addAttribute("url", url);
 			return "common/message";
 
-		}
+		
 
-		return "common/message";
+	
 	}
 
 	@GetMapping("/auth/kakao/callback")
@@ -443,14 +433,20 @@ public class loginController {
 			// 이메일 통해서 회원 정보 가지고 오기
 			accountVO = loginService.selectByEmail(kakaoEmail);
 			msg = accountVO.getName() + "님 환영합니다.";
-			url = "/login/index";
+			url = "/";
 
 			// 세션에 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("email", accountVO.getEmail());
 			session.setAttribute("name", accountVO.getName());
 			session.setAttribute("accountNo", accountVO.getAccountNo());
-			
+
+			session.setAttribute("tel", accountVO.getTel());
+			session.setAttribute("cardNo", accountVO.getCardNo());
+			session.setAttribute("address", accountVO.getAddress());
+
+
+
 		} else {
 			// name, email을 vo에 넣고
 			accountVO.setName(kakaoUsername);
@@ -463,7 +459,7 @@ public class loginController {
 				// 세션에 저장할 정보 가져오고
 				accountVO = loginService.selectByEmail(kakaoEmail);
 				msg = accountVO.getName() + "님 환영합니다.";
-				url = "/login/index";
+				url = "/";
 				// 세션에 저장
 				HttpSession session = request.getSession();
 				session.setAttribute("email", accountVO.getEmail());

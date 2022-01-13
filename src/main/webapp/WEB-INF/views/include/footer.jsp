@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 <footer class="footer spad">
@@ -17,9 +16,9 @@
 	                    <a href="https://technext.github.io/ogani/index.html"><img src="./Ogani _ Template_files/logo.png" alt=""></a>
 	                </div>
 	                <ul>
-	                    <li>주소 : 서울시 강남구 강남대로 6<br> 컴컴빌딩 12345</li>
+	                    <li>주소 : 서울시 강남구 강남대로 6<br> 호은빌딩 12345</li>
 	                    <li>대표전화 : 1234-5677</li>
-	                    <li>Email: hello@colorlib.com</li>
+	                    <li>Email: comcome123@comcome.com</li>
 	                </ul>
 	            </div>
 	        </div>
@@ -27,7 +26,7 @@
 	            <div class="footer__widget">
 	                <h6>Useful Links</h6>
 	                <ul>
-	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">About Us</a></li>
+	                    <li><a href="<c:url value='/aboutcomcome/intro'/>">About Us</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">About Our Shop</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">Secure Shopping</a></li>
 	                    <li><a href="https://technext.github.io/ogani/shop-grid.html#">Delivery infomation</a></li>
@@ -66,12 +65,7 @@
 	        	<div class="footer__copyright">
 	            	<div class="footer__copyright__text"><p>COMCOME Copyright ©COMCOME Corp. All Rights Reserved.</p></div>
 	            </div>
-	            <div class="footer__copyright">
-	                <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-	Copyright ©<script>document.write(new Date().getFullYear());</script>2021 All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
-	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-	                <div class="footer__copyright__payment"><img src="./Ogani _ Template_files/payment-item.png" alt=""></div>
-	            </div>
+	            
 	        </div>
 	    </div>
 	</div>

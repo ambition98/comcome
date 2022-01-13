@@ -77,8 +77,12 @@
 		select pwd from board where no=#{no}
 	</select>
 	
-	<delete id="deleteBoard" parameterType="int">
+	<!-- <delete id="deleteBoard" parameterType="int">
 		delete board where no=#{no}
+	</delete> -->
+	
+	<delete id="deleteBoardByNo" parameterType="int">
+		delete board where board_no=#{boardNo}
 	</delete>
  	
  	<select id="selectMainNotice" resultType="usedboardVo">
@@ -91,6 +95,18 @@
 		where rownum<=6
 		]]>
  	</select>
+ 	
+ <!-- 	public int updateBoardByAdmin(usedBoardVO usedBoardVO); -->
+ <update id="updateBoardByAdmin" parameterType="usedBoardVO">
+		update board
+		set title=#{title}, content=#{content}
+		<if test="fileName != null and fileName != ''">
+			, file_name=#{fileName}, file_size=#{fileSize},
+			original_file_name=#{originalFileName, jdbcType=VARCHAR}
+		</if>		
+		where board_no=#{boardNo}
+	</update>
+ 
 </mapper>
 
 

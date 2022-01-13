@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>comcome</title>
+<title>ComCome</title>
     <link rel="stylesheet" href="<c:url value='/resources/css/base/bootstrap.min.css' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/font-awesome.min.css"' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/nice-select.css' />" type="text/css">
@@ -32,6 +32,10 @@
 <%-- <%@ include file="include/category.jsp"%> --%>
 <%-- <%@ include file="inc/body.jsp"%> --%>
 <jsp:include page="admin/popup3.jsp"/>
+
+
+
+
 </body>
 </html>
 <%@ include file="include/footer.jsp"%>

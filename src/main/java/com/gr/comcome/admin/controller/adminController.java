@@ -1,6 +1,8 @@
 package com.gr.comcome.admin.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +25,16 @@ import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.admin.model.AdminService;
 import com.gr.comcome.admin.model.AdminVO;
 import com.gr.comcome.admin.model.NoticeVO;
+import com.gr.comcome.category.model.CategoryService;
+import com.gr.comcome.category.model.CategoryVO;
 import com.gr.comcome.common.ConstUtil;
+import com.gr.comcome.common.FileUploadUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
+import com.gr.comcome.saleproduct.model.SaleProductService;
+import com.gr.comcome.saleproduct.model.SaleProductVO;
+import com.gr.comcome.usedBoard.model.usedBoardService;
+import com.gr.comcome.usedBoard.model.usedBoardVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +44,18 @@ public class adminController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private usedBoardService usedBoardService;
+	
+	@Autowired
+	private FileUploadUtil fileUploadUtil;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private SaleProductService saleProductService;
 
 	
 	  // http://localhost:9091/comcome/admin/member
@@ -46,24 +67,61 @@ public class adminController {
 	  }
 	 
 
-	@RequestMapping("/detail")
-	public String detail(@RequestParam(defaultValue = "0") int account_no, Model model) {
-		logger.info("글 상세보기 파라미터 no={}", account_no);
+	  //사이드바+상세보기 
+	  // http://localhost:9091/comcome/admin/detailwithmain
+	@RequestMapping("/detailwithmain")
+	public String detailwithmain(@RequestParam(defaultValue = "0") int boardNo, Model model) {
+		logger.info("글 상세보기 파라미터 no={}", boardNo);
 
-		if (account_no == 0) {
+		if (boardNo == 0) {
 			model.addAttribute("msg", "잘못된 url입니다.");
-			model.addAttribute("url", "/board/list.do");
+			model.addAttribute("url", "/admin/boardwithmain");
 
 			return "/common/message";
 		}
 
-		AccountVO vo = adminService.selectByAccountNo(account_no);
-		logger.info("상세보기 결과 vo={}", vo);
+		usedBoardVO vo = usedBoardService.selectByNo(boardNo);
+		logger.info("상세보기 결과 vo={}", vo.toString());
+		
+		String content = vo.getContent();
+		String contentbr = content.replaceAll("\n", "<br />");
+		
 
 		model.addAttribute("vo", vo);
+		model.addAttribute("content", contentbr);
 
-		return "/login/detail";
+		return "/adminview/boarddetailwithmain";
 	}
+	
+	//중고게시판 상세 레코드 삭제 
+	//http://localhost:9091/comcome/admin/delete
+	@RequestMapping("/delete")
+	public String delete(@RequestParam(defaultValue = "0") int boardNo, Model model) {
+		logger.info("글 삭제 처리, no={}", boardNo);
+		if (boardNo == 0) {
+			model.addAttribute("msg", "잘못된 url입니다.");
+			model.addAttribute("url", "/admin/boardwithmain");
+
+			return "/common/message";
+		}
+		
+		//boardNo에 해당하는 UseBoard 삭제 
+		int result = usedBoardService.deleteBoardByNo(boardNo);
+		logger.info("글 삭제 처리, result={}", result);
+		String msg ="중고 게시판 글 삭제에 실패하였습니다", url ="/admin/boardwithmain";
+		if(result>0) {//삭제에 성공하면 
+			msg ="중고 게시판 글 삭제에 성공하였습니다";
+		}else if(result<0) {
+			msg ="중고게시판 글 삭제에 실패하였습니다.";
+		}
+		
+		model.addAttribute("msg",msg);
+		model.addAttribute("url",url);
+		return "/common/message";
+	}
+	
+	
+	
 
 
 
@@ -81,7 +139,7 @@ public class adminController {
 		session.removeAttribute("emailadmin");
 		session.removeAttribute("adminNo");
 
-		return "redirect:/login/index";
+		return "redirect:/";
 	}
 
 	
@@ -96,15 +154,10 @@ public class adminController {
 
 	// localhost:9091/comcome/admin/popup-regi
 	@RequestMapping("/popup-regi")
-	public String popupRegi_post(@RequestParam(required = false) String title,
-			@RequestParam(required = false) String content, @RequestParam String email, Model model) {
+	public String popupRegi_post(@RequestParam String title,
+			@RequestParam String content, @RequestParam String email, Model model) {
 
-		if (title == null || content == null || title == "" || content == "") {
-			model.addAttribute("msg", "제목/내용을 입력해주세요");
-			model.addAttribute("url", "/admin/popup-regi-with-main");
-			return "common/message";
-		}
-
+		
 		logger.info("팝업 등록 처리, title={}, content={}, email={}", title, content, email);
 
 		int result = adminService.insertNotice(email, title, content);
@@ -134,7 +187,7 @@ public class adminController {
 		model.addAttribute("title", titlebr);
 		model.addAttribute("vo", vo);
 
-		return "/admin/popup";
+		return "/admin/popup3";
 	}
 
 	// localhost:9091/comcome/admin/login
@@ -241,6 +294,283 @@ public class adminController {
 		}
 		
 		
+		
+		//사이드바 + 중고 게시판 관리 
+		//localhost:9091/comcome/admin/boardwithmain
+		@RequestMapping(value = "/boardwithmain", method= {RequestMethod.GET, RequestMethod.POST})
+		public String boardwithmain(@ModelAttribute SearchVO searchVO, Model model) {
+			logger.info("중고 게시판 관리 + 사이드 화면 처리");
+			PaginationInfo pagingInfo = new PaginationInfo();
+			pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+			pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			pagingInfo.setCurrentPage(searchVO.getCurrentPage());
+
+			// 3
+			searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			logger.info("값 셋팅 후 searchVo={}", searchVO);
+			
+			List<usedBoardVO> list = usedBoardService.selectAll(searchVO);
+			logger.info("전체조회 결과 list.size={}", list.size());
+			for (usedBoardVO vo : list) {
+				logger.info(vo.toString());
+			}
+			
+			
+			  for(int i=0; i< list.size(); i++) { //만약 '내용' 컬럼이 10자가 넘으면
+			  if(list.get(i).getContent().length()>=10) {
+			  list.get(i).setContent(list.get(i).getContent().substring(0, 9)); } }
+			 
+			
+			
+			
+			int totalRecord = usedBoardService.selectTotalRecord(searchVO);
+			pagingInfo.setTotalRecord(totalRecord);
+
+			model.addAttribute("list", list);
+			model.addAttribute("pagingInfo", pagingInfo);
+			
+			return "/adminview/boardwithmain";
+		}
+		
+		
+		//사이드바 + 중고 게시판 글 수정 화면 처리 
+		//localhost:9091/comcome/admin/board-update
+		@RequestMapping("/board-update")
+		public String boardUpdate(@RequestParam(defaultValue = "0") int boardNo, Model model) {
+			logger.info("중고 거래 게시판 글 수정 화면 처리");
+
+			if (boardNo == 0) {
+				model.addAttribute("msg", "잘못된 url입니다.");
+				model.addAttribute("url", "/admin/boardwithmain");
+
+				return "/common/message";
+			}
+			
+			model.addAttribute("boardNo", boardNo);
+			return "/adminview/boardupdatewithmain";
+		}
+		
+		@PostMapping("/updateboard")
+		public String updateboard(@ModelAttribute usedBoardVO usedBoardVO, 
+				HttpServletRequest request) {
+			logger.info("중고게시판 글쓰기 처리, 파라미터 vo={}", usedBoardVO);
+			
+			//파일 업로드 처리
+			String fileName="", originalFileName="";
+			int fileSize=0;
+			
+			try {
+				List<Map<String, Object>> fileList 
+					= fileUploadUtil.fileUpload(request, "boardtest");
+				for(int i=0;i<fileList.size();i++) {
+					 Map<String, Object> map=fileList.get(i);
+					 
+					 fileName=(String) map.get("fileName");
+					 originalFileName=(String) map.get("originalFileName");
+					 fileSize=(int)(long) map.get("fileSize");				 
+				}
+				
+				logger.info("파일 업로드 성공, fileName={}", fileName);
+				
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
+			
+			usedBoardVO.setFileName(fileName);
+			usedBoardVO.setOriginalFileName(originalFileName);
+			usedBoardVO.setFileSize(fileSize);
+			
+			int cnt=usedBoardService.updateBoardByAdmin(usedBoardVO);
+			logger.info("글쓰기 결과, cnt={}", cnt);
+			
+				
+			
+			//4
+			return "redirect:/admin/boardwithmain";
+			
+		}
+		
+		//사이드바 + 특가 상품 등록 화면
+		//localhost:9091/comcome/admin/insert-sale-product
+		@GetMapping("/insert-sale-product")
+		public String insertSaleProduct(Model model) {
+			logger.info("특가 상품 등록 화면 처리");
+			
+			List<CategoryVO> list = categoryService.selectAllCategory();
+			model.addAttribute("list", list);
+			
+			
+			
+			return "/adminview/addsaleproductwithmain";
+			
+			
+		}
+		
+		//특가 상품 등록 처리
+		//localhost:9091/comcome/admin/addsaleproduct
+		@PostMapping("/addsaleproduct")
+		public String addsaleproduct(@ModelAttribute SaleProductVO saleProductVO, 
+				Model model) {
+			logger.info("특가 상품 등록 처리, 파라미터 vo={}", saleProductVO.toString());
+			if (saleProductVO.getName() == null || saleProductVO.getPrice()==0 ||saleProductVO.getName() == "" ) {
+				model.addAttribute("msg", "제목/내용을 입력해주세요");
+				model.addAttribute("url", "/admin/popup-regi-with-main");
+				return "common/message";
+			}
+			
+		
+			
+			int cnt= saleProductService.insertProduct(saleProductVO);
+			logger.info("특가 상품 등록 결과, cnt={}", cnt);
+			String msg ="특가 상품 등록에 실패하였습니다", url ="/admin/insert-sale-product";
+			if(cnt>0) {
+				msg ="특가 상품 등록에 성공하였습니다";
+				url ="/admin/allsaleproduct";
+			}
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+				
+			
+			//4
+			return "/common/message";
+			
+		}
+		//특가 상품 목록 +사이드바
+		//localhost:9091/comcome/admin/allsaleproduct
+		@RequestMapping("/allsaleproduct")
+		public String allsaleproduct(@ModelAttribute SearchVO searchVO, Model model) {
+			// 1
+			logger.info("특가 상품 목록 화면, searchVo={}", searchVO);
+			// 2
+			PaginationInfo pagingInfo = new PaginationInfo();
+			pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+			pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			pagingInfo.setCurrentPage(searchVO.getCurrentPage());
+
+			// 3
+			searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			logger.info("값 셋팅 후 searchVo={}", searchVO);
+
+			List<SaleProductVO> list = saleProductService.selectAllProduct(searchVO);
+		
+			logger.info("전체조회 결과 list.size={}", list.size());
+			for (SaleProductVO vo : list) {
+				logger.info(vo.toString());
+			}
+			// 4
+			int totalRecord = saleProductService.selectTotalRecord(searchVO);
+			pagingInfo.setTotalRecord(totalRecord);
+
+			model.addAttribute("list", list);
+			model.addAttribute("pagingInfo", pagingInfo);
+
+			return "/adminview/allsaleproductwithmain";
+		}
+		
+		
+		//특가 상품 상세 +사이드바
+		//localhost:9091/comcome/admin/detail-sale-product
+		@RequestMapping("/detail-sale-product")
+		public String detailsaleproduct(@RequestParam(defaultValue = "0") int saleProductNo, Model model) {
+			logger.info("특가 상품 상세보기 파라미터 no={}", saleProductNo);
+
+			if (saleProductNo == 0) {
+				model.addAttribute("msg", "잘못된 url입니다.");
+				model.addAttribute("url", "/admin/allsaleproduct");
+
+				return "/common/message";
+			}
+
+			SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
+			
+			logger.info("상세보기 결과 vo={}", vo.toString());
+			
+			
+
+			model.addAttribute("vo", vo);
+			
+			return "/adminview/saleproductdetailwithmain";
+		}
+		
+		//특가 상품 수정 화면 +사이드바
+		//localhost:9091/comcome/admin/sale-product-update
+		@RequestMapping("/sale-product-update")
+		public String saleProductUpdate(@RequestParam(defaultValue = "0") int saleProductNo, Model model) {
+			logger.info("특가 상품 수정 화면 처리");
+
+			if (saleProductNo == 0) {
+				model.addAttribute("msg", "잘못된 url입니다.");
+				model.addAttribute("url", "/admin/allsaleproduct");
+
+				return "/common/message";
+			}
+			
+			List<CategoryVO> list = categoryService.selectAllCategory();
+			model.addAttribute("list", list);
+			model.addAttribute("saleProductNo", saleProductNo);
+			return "/adminview/updatesaleproductwithmain";
+		}
+		
+		//특가 상품 수정 Post
+		//localhost:9091/comcome/admin/post-sale-product
+		@PostMapping("/post-sale-product")
+		public String updateproduct_post(@ModelAttribute SaleProductVO saleProductVO, 
+				Model model) {
+			logger.info("글쓰기 처리, 파라미터 vo={}", saleProductVO);
+			
+			
+			int cnt = saleProductService.updateProduct(saleProductVO);
+			logger.info("글쓰기 결과, cnt={}", cnt);
+			String msg ="특가 상품 수정에 실패하였습니다", url ="/admin/allsaleproduct";
+			if(cnt>0) {
+				msg ="특가 상품 수정에 성공하였습니다";
+				
+			}
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+				
+			
+			//4
+			return "/common/message";
+		}
+		
+		//특가 상품 삭제
+		//localhost:9091/comcome/admin/delete-sale-product
+		@RequestMapping("/delete-sale-product")
+		public String deleteSaleProduct(@RequestParam(defaultValue = "0") int saleProductNo, Model model) {
+			logger.info("글 삭제 처리, no={}", saleProductNo);
+			if (saleProductNo == 0) {
+				model.addAttribute("msg", "잘못된 url입니다.");
+				model.addAttribute("url", "/admin/allsaleproduct");
+
+				return "/common/message";
+			}
+			
+			int result = saleProductService.deleteProductByNo(saleProductNo);
+			
+			logger.info("상품 삭제 처리, result={}", result);
+			String msg ="특가 상품 삭제에 실패하였습니다", url ="/admin/allsaleproduct";
+			if(result>0) {//삭제에 성공하면 
+				msg ="특가 상품 글 삭제에 성공하였습니다";
+			}else if(result<0) {
+				msg ="특가 상품 삭제에 실패하였습니다.";
+			}
+			
+			model.addAttribute("msg",msg);
+			model.addAttribute("url",url);
+			return "/common/message";
+		}
+		
+		
+		
+		
+		
+	
 	
 	
 	
