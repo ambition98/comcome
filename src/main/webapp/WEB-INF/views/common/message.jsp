@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 		alert("${msg}");
 		if("${url}" == "goToBack")
-			history.go(-2);
+			history.go(-1);
 		else
 			location.href = "<c:url value="${url}" />";
 	</script>
