@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+a#wpahr {
+    font-size: 17px;
+    font-weight: bold;
+    /* padding-left: 25px; */
+    /* border: 1px solid #d4d4de; */
+    /* border-radius: 5px; */
+    padding: 10px;
+    border-bottom: 1px solid #b2b2ce;
+}

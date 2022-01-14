@@ -1,0 +1,11 @@
+가격비교
+ - 옥션, 11번가 등 API 구현
+
+CAPTCHA 구현 (naver developer)
+3회이상 로그인 실패시 적용
+
+JWT 토근기반 인증 시스템
+
+Hibernate(미정)
+
+보안 처리 (SQL Injection, XSS, CSRF 등)

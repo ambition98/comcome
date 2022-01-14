@@ -2,15 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gr.comcome.model.MypageDAO">
+<mapper namespace="com.gr.comcome.mypage.model.MypageDAO">
 	<select id="selectByNo" parameterType="int" resultType="mypageVo">
 		select * from account
 		where account_no=#{account_no}
 	</select>
 	
-	<update id="updateMypage" parameterType="mypageVo">
+<!-- 	<update id="updateMypage" parameterType="mypageVo">
 		update ACCOUNT set name=#{name}
 		where ACCOUNT_NO=#{ACCOUNT_NO}
+	</update> -->
+	
+	<select id="selectMainNotice" resultType="mypageVo">
+	select * from 
+	(
+	    select * from board order by accountNo desc
+	)
+	<![CDATA[
+	where rownum<=6
+	]]>
+	</select>
+	
+	<delete id="deleteHash" parameterType="int">
+		delete
+		from hash
+		where account_no=#{account_no}
+	</delete>
+	
+	<delete id="deleteAccountbyNo" parameterType="int">
+		delete
+		from account
+		where account_no=#{account_no}
+	</delete>
+	
+	
+	<update id="UpdateAccount" parameterType="AccountVO"> 
+		update account set name=#{name}
+		where email=#{email}
 	</update>
-
+	
+	<!-- 빈공간에 메서드 붙이기 -->
+	<!-- 아이디는 메서드이름 parameterType="괄호안에 있는 매개변수 " resultType="select 에서만 사용가능 
+	반환타입이랑 매칭"  dao로 돌아가기 -->
+	
 </mapper>

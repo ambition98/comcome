@@ -72,14 +72,49 @@
 						</div>
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
-							<ul>
-								<li><a href="#">노트북</a></li>
-								<li><a href="#">노트북 주변기기</a></li>
-								<li><a href="#">기타 pc부품</a></li>
-
-							</ul>
+							<div class="panel">
+              					  <input type="button" id="button" name="button" value="노트북" "/>
+              					  <input type="button" id="button" name="button" value="노트북 주변기기"  "/>
+              					  <input type="button" id="button" name="button" value="기타 pc부품"  "/>
+   						    </div> 
 						</div>
 					</div>
+					<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+					<script type="text/javascript">
+ 
+				
+					$(function(){
+					    
+					    $("input:button[name='button']").on('click',function(){
+					        var kind = $(this).val();       //버튼이 클릭 되었을 시, 개별 버튼의 값이 kind 변수에 담겨집니다.
+					        $.ajax({
+					            
+					            url : "/comcome/usedBoard/list_ajax",
+					            type : "post",
+					            cache : false,
+					            headers : {"cache-control":"no-cache","pragma":"no-cache"},
+					            data : {
+					                 id : $(this).val(),
+					                "kind":kind    // 버튼의 value값에 따라 작동합니다.
+					                
+					            },
+					            success : function(data){
+					                console.log(data);
+					                $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
+					            },
+					            error:function(request, status, error) {
+					                alert("status : " + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					               }
+					        })//ajax
+					    });//button click
+					    
+					}); 
+					 
+					</script>
+					
+					
+					
+					
 					
 							<div class="searchdiv" >
 						<form name="frmSerch" method="post"
@@ -115,17 +150,18 @@
 						<c:forEach var="vo" items="${list}">
 							<div class="col-lg-3 col-md-4 col-sm-6">
 								<div class="blog__item">
-									<a href="#">
+									<a href="<c:url value='/usedBoard/countUpdate?boardNo=${vo.boardNo}'/>">
 										<div class="blog__item__pic" >
 											<img src="../resources/img/${vo.fileName}" alt=""
 												style="width:auto; height:auto; max-width:150px; max-height:100px; ">
 										</div>
 										<div class="blog__item__text">
-											<h5>제목 ${vo.title}</h5>
+											<h5> ${vo.title}</h5>
 											<ul>
-												<li><i class="fa category"></i>카테고리 ${vo.groupNo}</li>
+												<li><i class="fa category"></i>${vo.groupNo}</li>
 												<li><i class="calendar"></i> <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
-												<li><i class="count "></i> 조회수 ${vo.readcount}</li>
+												<li><i class="price"></i><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
+												<li><i class="count "></i> 조회수 : ${vo.readcount}</li>
 											</ul>
 											
 										</div>
@@ -142,7 +178,7 @@
 						<!-- 이전 블럭으로 이동 -->
 						<c:if test="${pagingInfo.firstPage>1 }">
 							<a
-								href="<c:url value='/board/list.do?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">
+								href="<c:url value='/usedBoard/list?currentPage=${pagingInfo.firstPage-1}&searchCondition=${param.searchCondition}&searchKeyword=${param.searchKeyword}'/>">
 								<img src="<c:url value='/resources/images/first.JPG'/>"
 								alt="이전블럭">
 							</a>
