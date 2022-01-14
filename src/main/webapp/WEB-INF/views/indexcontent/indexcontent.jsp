@@ -3,14 +3,18 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+ 
 
- <%
+<%
 String email=(String)session.getAttribute("email");
 String name=(String)session.getAttribute("name");
 %> 
-
-
-
+<div id="banner3">
+ <img alt="사진" src="<c:url value='/resources/img/banner4.png'/>" id="banner3">
+</div>
+<div id="banner2">
+ <img alt="사진" src="<c:url value='/resources/img/banner2.png'/>">
+</div>
 <!-- Related Product Section Begin -->
     <section class="related-product">
         <div class="container">
@@ -56,7 +60,7 @@ String name=(String)session.getAttribute("name");
         </div>
     </section> 
     <!-- Related Product Section End -->
-
+    
 
 
 <%-- 
