@@ -2,19 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gr.comcome.search_pd.review.model.SearchPdReviewDAO">	 
-	<select id="selectAll" resultType="searchPdReviewVO">
-	
+<mapper namespace="com.gr.comcome.search_pd.review.model.SearchPdReviewDAO">
+	 
+	<select id="selectByPdNo" parameterType="Integer" resultType="searchPdReviewVO">
+		select *
+		from search_pd_review
+		where search_product_no = #{searchProductNo}
 	</select>
 	
-	<select id="selectByType" resultType="searchPdReviewVO">
-	
+	<select id="selectByType" parameterType="Map" resultType="searchPdReviewVO">
+		select *
+		from search_pd_review
+		where search_product_no = #{searchProductNo}
+		<if test="type.equals('all')"></if>
+		<if test="!type.equals('all')">
+			and type = #{type}
+		</if>
 	</select>
 	
-	<select id="selectByAccountId" resultType="searchPdReviewVO">
-	
+	<select id="selectByAccountId" parameterType="Integer" resultType="searchPdReviewVO">
+		select *
+		from search_pd_review
+		where account_id = #{accountId}
 	</select>
+	
+	<select id="selectReviewCount" parameterType="Integer" resultType="Map">
+		select type, count(*) as count
+		from search_pd_review
+		where search_product_no = #{searchProductNo}
+		group by type
+	</select>
+	
+	<insert id="insertNewReview" parameterType="searchPdReviewVo">
+		insert into search_pd_review(search_product_no, account_no, content, type)
+		values(#{searchProductNo}, #{accountNo}, #{content}, #{type})
+	</insert>
+	
 </mapper>
-
-
-

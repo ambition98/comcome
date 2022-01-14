@@ -6,15 +6,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-
-<<<<<<< HEAD
-=======
-<title>ComCome</title>
->>>>>>> branch 'master' of https://github.com/ambition98/comcome.git
- <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
+  <title>ComCome</title>
 <!-- index -->
- <link rel="stylesheet" href="<c:url value='/resources/css/base/bootstrap.min.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/resources/css/base/bootstrap.min.css' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/font-awesome.min.css"' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/nice-select.css' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/jquery-ui.min.css' />" type="text/css">
@@ -35,10 +31,8 @@
     <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
   	<script src="<c:url value='/resources/js/category.js' />"></script>
   	<!-- index끝 -->
-<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
 </head>
 <body>
-
     <header class="header">
         <div class="container">
             <div class="row">
