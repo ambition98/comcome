@@ -6,31 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
-  <title>ComCome</title>
-<!-- index -->
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/bootstrap.min.css' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/font-awesome.min.css"' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/nice-select.css' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/jquery-ui.min.css' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/owl.carousel.min.css' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/slicknav.min.css' />" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/resources/css/base/style.css' />" type="text/css">
-    
-    <script src="<c:url value='/resources/js/base/jquery-3.3.1.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/bootstrap.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/jquery.nice-select.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/jquery-ui.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/jquery.slicknav.js' />"></script>
-    <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
-    <script src="<c:url value='/resources/js/base/main.js' />"></script>
-      <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent.css'/>" />
-                                                          
-    <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
-  	<script src="<c:url value='/resources/js/category.js' />"></script>
-  	<!-- index끝 -->
+	<title>ComCome</title>
 </head>
 <body>
     <header class="header">
@@ -38,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.html"><img src="<c:url value='' />" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -100,28 +77,6 @@
                         	<c:import url="/category" />
                         </ul>
                     </div>
-                    <!-- <div>
-	                    <ul id="size_cat">
-							<li>sub1</li>
-							<li>sub2</li>
-							<li>sub3</li>
-						</ul>
-                    </div> -->
-                    <!-- <div class="hero__categories">
-                    	<ul>
-                    		<li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit &amp; Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter &amp; Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya &amp; Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                    	</ul>
-                    </div> -->
                 </div>
                 <div class="col-lg-9">
                     <div class="hero__search">

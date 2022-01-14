@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gr.comcome.search_pd.reply.model.SearchPdReviewReplyDAO">
+	<select id="selectByReviewNo" parameterType="Integer" resultType="searchPdReviewReplyVo">
+		select *
+		from search_pd_review_reply
+		where search_pd_review_no = #{searchPdReviewNo}
+	</select>
+</mapper>
