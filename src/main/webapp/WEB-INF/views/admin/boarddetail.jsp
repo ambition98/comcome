@@ -7,7 +7,7 @@
  
 
 <!-- REALTIME CHART -->
-<h2 class="panel-title" id ="yourtitle">글 상세보기</h2>
+<h2 class="panel-title" id ="yourtitle">중고 거래 게시판 글 상세보기</h2>
 							<div class="panel" id="innerpanel">
 								<div class="panel-heading">
 										  
@@ -21,8 +21,11 @@
 									<p id="yourli">글번호: <span id="yourspan">${vo.boardNo}</span></p>
 									<p id="yourli">작성일: <span id="yourspan"><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></span></p>
 									<ul class="list-unstyled list-justify">
-										
-										
+										<div id="forimg">
+										<c:if test="${!empty vo.fileName }">
+										<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
+										</c:if>
+										</div>
 										<li id="yourli2">내용</li>
 										<li id="yourli3">${vo.content}내용내용내용내용내용내용내용<br>내용내용내용내용내용내용내용</li>
 										

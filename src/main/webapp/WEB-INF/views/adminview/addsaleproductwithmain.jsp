@@ -19,6 +19,10 @@ $(function(){
             alert("가격을 입력하세요"); 
             $('#price').focus(); 
             event.preventDefault();
+        }else if($('#content').val().length<1){ 
+            alert("내용을 입력하세요"); 
+            $('#content').focus(); 
+            event.preventDefault();
         }else{
         var formObj = $("form[name='commentForm']");
           formObj.attr("action", "/comcome/admin/addsaleproduct");
