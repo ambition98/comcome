@@ -8,7 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
  @Mapper 
 public interface WishListDAO {
   
-	 List<Map<String, Object>> selectWishList(String wisilistNo ); 
+	 List<Map<String, Object>> selectWishList(String wisilistNo );
+
+	int insertWishByNo(WishListVO wishListVO); 
   
 }
  

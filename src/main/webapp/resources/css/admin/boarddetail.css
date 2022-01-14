@@ -113,4 +113,23 @@ li#yourli3 {
     line-height: 2;
 }
 
+img {
+    width: 176px;
+    height: auto;
+    /* margin-right: 151px; */
+    /* margin-left: 174px; */
+}
+
+div#forimg {
+    text-align: center;
+}
+
+img#yourimg {
+    width: 176px;
+    height: auto;
+    /* margin-right: 151px; */
+    /* margin-left: 174px; */
+    margin-bottom: 27px;
+}
+
 
