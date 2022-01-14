@@ -20,7 +20,7 @@
 		
 			<div class="panel-body">
 			<h4>이름, 가격, 카테고리 번호를 입력해주세요</h4>
-			<form name="commentForm" method="post" 
+			<form name="commentForm" method="post" enctype="multipart/form-data"
 			<%-- action="<c:url value='/admin/post-sale-product'/>" --%> >
 				
 					<input type="hidden" value="${saleProductNo}" name = "saleProductNo"
@@ -45,9 +45,13 @@
 						    </c:forEach>
 						 </c:if>  
 						</select>
+						<li id="yourli3"><textarea placeholder="내용을 입력하세요" id="content" name="content" rows="12" cols="40"></textarea>
+						</li>
 					
 					</ul>
-					
+					<p id="yourli2">썸네일 이미지<input type="file" name="upfile1" id="upfile1"></p>
+					<p id="yourli2">내용 이미지<input type="file" name="upfile2" id="upfile2"></p>
+					<p id="yourli3">첨부파일은 최대 5M만 가능합니다</p>
 				
 			
 			</div>

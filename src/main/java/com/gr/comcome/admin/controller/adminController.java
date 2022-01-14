@@ -1,6 +1,7 @@
 package com.gr.comcome.admin.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -412,16 +413,38 @@ public class adminController {
 		//localhost:9091/comcome/admin/addsaleproduct
 		@PostMapping("/addsaleproduct")
 		public String addsaleproduct(@ModelAttribute SaleProductVO saleProductVO, 
-				Model model) {
+				Model model,HttpServletRequest request) {
 			logger.info("특가 상품 등록 처리, 파라미터 vo={}", saleProductVO.toString());
-			if (saleProductVO.getName() == null || saleProductVO.getPrice()==0 ||saleProductVO.getName() == "" ) {
-				model.addAttribute("msg", "제목/내용을 입력해주세요");
-				model.addAttribute("url", "/admin/popup-regi-with-main");
-				return "common/message";
+		    //파일 등록
+			//파일 업로드 처리
+			
+			List<String> fileName = new ArrayList<String>();
+			List<String> originalFileName = new ArrayList<String>();
+			
+			try {
+				List<Map<String, Object>> fileList 
+					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
+				for(int i=0;i<fileList.size();i++) {
+					 Map<String, Object> map=fileList.get(i);
+					 
+					 fileName.add((String) map.get("fileName"));
+					 originalFileName.add((String) map.get("originFileName"));
+					
+					 			 
+				}
+				
+				logger.info("파일 업로드 성공, fileName={}, originalFileName={}", fileName.get(0), originalFileName.get(0));
+				
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
 			}
+			saleProductVO.setThumbNailImg(fileName.get(0));
+			saleProductVO.setContentImg(fileName.get(1));
+			logger.info("saleProductVO={}",saleProductVO);
 			
-		
 			
+			//상품 등록 
 			int cnt= saleProductService.insertProduct(saleProductVO);
 			logger.info("특가 상품 등록 결과, cnt={}", cnt);
 			String msg ="특가 상품 등록에 실패하였습니다", url ="/admin/insert-sale-product";
@@ -519,9 +542,33 @@ public class adminController {
 		//localhost:9091/comcome/admin/post-sale-product
 		@PostMapping("/post-sale-product")
 		public String updateproduct_post(@ModelAttribute SaleProductVO saleProductVO, 
-				Model model) {
-			logger.info("글쓰기 처리, 파라미터 vo={}", saleProductVO);
+				Model model,HttpServletRequest request) {
+			logger.info("상품 수정 포스트 , 파라미터 vo={}", saleProductVO);
 			
+			//파일 등록
+			List<String> fileName = new ArrayList<String>();
+			List<String> originalFileName = new ArrayList<String>();
+			
+			try {
+				List<Map<String, Object>> fileList 
+					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
+				for(int i=0;i<fileList.size();i++) {
+					 Map<String, Object> map=fileList.get(i);
+					 
+					 fileName.add((String) map.get("fileName"));
+					 originalFileName.add((String) map.get("originFileName"));
+					
+					 			 
+				}
+				
+				logger.info("파일 업로드 성공, fileName={}, originalFileName={}", fileName.get(0), originalFileName.get(0));
+				
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
+			saleProductVO.setThumbNailImg(fileName.get(0));
+			saleProductVO.setContentImg(fileName.get(1));
 			
 			int cnt = saleProductService.updateProduct(saleProductVO);
 			logger.info("글쓰기 결과, cnt={}", cnt);

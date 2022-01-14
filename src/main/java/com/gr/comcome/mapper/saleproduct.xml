@@ -10,8 +10,8 @@
 	</sql>
 	
 	<insert id="insertProduct" parameterType="saleProductVO">
-		insert into sale_product(category_no, name, price)
-		values(#{categoryNo}, #{name},#{price} )
+		insert into sale_product(category_no, name, price, content, content_img, thumb_nail_img)
+		values(#{categoryNo}, #{name},#{price},#{content}, #{contentImg},#{thumbNailImg} )
 	</insert>
 	
 	
@@ -45,6 +45,12 @@
 	<update id="updateProduct" parameterType="saleProductVO">
 		update sale_product 
 		set category_no=#{categoryNo},name=#{name}, price=#{price}
+		<if test="contentImg != null and contentImg != ''">
+			, content_img=#{contentImg, jdbcType=VARCHAR}
+		</if>	
+		<if test="thumbNailImg != null and thumbNailImg != ''">
+			, thumb_nail_img=#{thumbNailImg, jdbcType=VARCHAR}
+		</if>
 		where sale_product_no=#{saleProductNo}
 	</update>
 	

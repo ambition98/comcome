@@ -4,12 +4,11 @@
   import lombok.Getter; import lombok.Setter; import lombok.ToString;
   
   @Getter
-  
   @Setter
-  
-  @ToString public class WishListVO {
+  @ToString 
+  public class WishListVO {
 	  private int wishlistNo; 
 	  private int accountNo;
-	  private int searchproductNo; 
+	  private int saleProductNo; 
 	  }
  
