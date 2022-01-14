@@ -60,13 +60,14 @@ String name=(String)session.getAttribute("name");
         </div>
     </section> 
     <!-- Related Product Section End -->
+  
+  
     
 
-
-<%-- 
+ 
  <div id="banner">
  <img alt="사진" src="<c:url value='/resources/img/banner3.png'/>">
-</div> --%>
+</div> 
  
  
      <!-- Blog Section Begin -->
@@ -81,7 +82,7 @@ String name=(String)session.getAttribute("name");
             </div>
             <div class="row">
             	 <c:if test="${!empty list2 }">
-            	 <c:forEach var="vo" items="${list2 }"  begin="0" end="2">
+            	 <c:forEach var="vo" items="${list2 }"  begin="0" end="6">
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
 	                    <c:if test="${!empty vo.fileName }">
