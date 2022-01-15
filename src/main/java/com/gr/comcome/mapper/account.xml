@@ -25,5 +25,10 @@
 		select count(*) from account
 		where email = #{email}
 	</select>
-
+	
+	<select id="selectAccountByNo" parameterType="Integer" resultType="accountVo">
+		select *
+		from account
+		where account_no = #{accountNo}
+	</select>
 </mapper>

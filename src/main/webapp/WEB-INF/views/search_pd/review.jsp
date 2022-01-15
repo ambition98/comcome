@@ -166,6 +166,14 @@
 		color: white;
 	}
 	
+	#no_review {
+		position: relative;
+	    bottom: 75px;
+	    left: 263px;
+	    color: #b1b1b1;
+	    font-size: 1.2em;
+	}
+	
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -194,6 +202,8 @@
 		});
 		
 		$('.type_block').click(function() {
+			var loadingImg = '<div class="loading"><img src="<c:url value="/resources/img/search_pd/common/lodding.gif" />" /></div>';
+			$('#review_area').html(loadingImg);
 			$('.type_block').each(function(index, e) {
 				$(this).removeClass('active_type');
 			});
@@ -218,10 +228,97 @@
 				,success: function(data) {
 					console.log("success");
 					console.log(data);
+					$('#review_area').html('');
 					
 					var jsonObject = JSON.parse(data);
-					jsonObject.forEach(function(e, index) {
+					
+					console.log('jsonObject: '+jsonObject.length);
+					if(jsonObject.length == 0) {
+						var noReview = '<div id="no_review">'
+										+'이 상품에 대한 리뷰가 존재하지 않습니다'
+									  +'</div>'
+									  
+						$('#review_area').html(noReview);
+						return;
+					}
+					
+					
+					jsonObject.forEach(function(reviewObj, index) {
+						//console.log(e);
+						var accountObj = reviewObj.accountVo;
+						//var replyObj = reviewObj.searchPdReviewReplyVo;
+						//var adminObj = replyObj.adminVo;
+						var email = accountObj.email;
+						var content = reviewObj.content;
+						var regdate = reviewObj.regdate;
 						
+						var date = regdate.substr(0, 10);
+						var time = regdate.substr(11, 8);
+						regdate = date + ' ' + time;
+						
+						if(reviewObj.searchPdReviewReplyVo != null) {
+							var replyContent = reviewObj.searchPdReviewReplyVo.content;
+							var replyRegdate = reviewObj.searchPdReviewReplyVo.regdate;
+							date = replyRegdate.substr(0, 10);
+							time = replyRegdate.substr(11, 8);
+							replyRegdate = date + ' ' + time;
+							
+							if(reviewObj.searchPdReviewReplyVo.adminVo != null) {
+								var replyEmail = reviewObj.searchPdReviewReplyVo.adminVo.email;
+							}
+						}
+						
+						console.log('email: ' + email);
+						console.log('content: ' + content);
+						console.log('regdate: ' + regdate);
+						console.log('replyEmail: ' + replyEmail);
+						console.log('replyContent: ' + replyContent);
+						console.log('replyRegdate: ' + replyRegdate);
+						console.log('');
+						
+						var profileArea = '<div class="profile_area">'
+											+'<img src="<c:url value="/resources/img/search_pd/common/profile_img_default.png"/>" />'
+										 +'</div>';
+						
+						var contentArea = '<div class="content_area">'
+											+'<div class="review_info">'
+												+'<span class="review_id">'+email+'</span>'
+												+'<span class="review_date">'+regdate+'</span>'
+											+'</div>'
+											+'<div>'
+												+'<div class="content"><span class="review_type"></span>'+content+'</div>'
+											+'</div>'
+									      +'</div>'
+						var replyArea = '';
+						if(replyContent != undefined) {
+							var replyProfile = '<div class="reply">'
+													+'<img src="<c:url value="/resources/img/search_pd/common/reply.png"/>" />'
+												+'</div>'
+												+'<div class="profile_area">'
+													+'<img src="<c:url value="/resources/img/search_pd/common/profile_img_default.png"/>" />'
+												+'</div>'
+												
+							var replyContent = '<div class="content_area">'
+												 +'<div class="review_info">'
+													+'<span class="review_id">'+replyEmail+'</span>'
+													+'<span class="review_date">'+replyRegdate+'</span>'
+												 +'</div>'
+											 	 +'<div>'
+													+'<div class="content"><span class="review_type"></span>'+replyContent+'</div>'
+													+'</div>'
+												 +'</div>'
+												 
+							replyArea += '<div class="reply_area">'
+											+ replyProfile + replyContent
+										+'</div>'
+							
+						}
+						
+						var reviewBlock = '<div class="review_block">'
+											+ profileArea + contentArea + replyArea
+										+ '</div>'
+						
+						$('#review_area').append(reviewBlock);
 					});
 				}
 			});
@@ -278,7 +375,7 @@
 				</div>
 			</div>
 			<div id="review_area">
-				<div class="review_block">
+				<%-- <div class="review_block">
 					<div class="profile_area">
 						<img src='<c:url value="/resources/img/search_pd/common/profile_img_default.png"/>' />
 					</div>
@@ -308,7 +405,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 	</div>
