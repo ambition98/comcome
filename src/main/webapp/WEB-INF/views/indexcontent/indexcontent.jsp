@@ -3,11 +3,99 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+ 
 
- <%
+<%
 String email=(String)session.getAttribute("email");
 String name=(String)session.getAttribute("name");
 %> 
+
+<!-- index content2 -->
+ <section class="wrap-3d"> 
+ <c:if test="${!empty list }">
+ <c:forEach var="vo" items="${list }"  begin="0" end="0">
+  <div class="item-3d">
+   <!--  <span class="ground"></span> -->
+    <figure class="item-content group">
+      <div class="item-img">
+         <c:if test="${!empty vo.thumbNailImg }">
+			<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.thumbNailImg }'/>">
+		</c:if>
+      </div>
+      <figcaption class="item-caption">
+        <p>
+          <strong id="123">오늘의 대박 특가</strong><br>
+          
+         
+        </p>
+        <p>
+          <strong>${vo.name}</strong><br>
+          <p id="oprice" >2,000,000원</p>
+           <fmt:formatNumber value="${vo.price}" pattern="#,###"/> 원<br>
+           ${vo.content} 
+        </p>
+        <p>
+          <a href="#">View 38mm in the store</a><br>
+        </p>
+      </figcaption>
+    </figure>
+  </div>
+  </c:forEach>
+  </c:if>
+  </section> 
+  
+  
+  
+  
+  
+  
+  <!-- index content2 END -->
+
+<!-- index content3  -->
+
+<!-- <article class="flow"> -->
+  <div class="team">
+    <ul class="auto-grid" role="list">
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">SAMSUNG</h2>
+          <img alt="Anita Simmons" src="<c:url value='/resources/img/sam_lo2.png'/>" />
+        </a>
+      </li>
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">APPLE</h2>
+          <img alt="Profile shot for Celina Harris" src="<c:url value='/resources/img/apple_lo2.PNG'/>" />
+        </a>
+      </li>
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">LG</h2>
+          <img alt="Profile shot for Ruby Morris" src="<c:url value='/resources/img/lg_lo.jpg'/>" />
+        </a>
+      </li>
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">HANSUNG</h2>
+          <img alt="Profile shot for Nicholas Castro" src="<c:url value='/resources/img/han_lo.jpg'/>" />
+        </a>
+      </li>
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">MSI</h2>
+          <img alt="Profile shot for Marc Dixon" src="<c:url value='/resources/img/msi_lo.png'/>" />
+        </a>
+      </li>
+      <li>
+        <a href="https://swop.link/cool" target=_blank" class="profile">
+          <h2 class="profile__name">LENOVO</h2>
+          <img alt="Profile shot for Chad" src="<c:url value='/resources/img/leno_lo.png'/>" />
+        </a>
+      </li>
+    </ul>
+  </div>
+<!-- </article> -->
+<!-- index content2 END -->
 
 
 
@@ -56,13 +144,19 @@ String name=(String)session.getAttribute("name");
         </div>
     </section> 
     <!-- Related Product Section End -->
+  
+  
+    <div id="banner3">
+ <img alt="사진" src="<c:url value='/resources/img/banner4.png'/>" id="banner3">
+</div>
+<div id="banner2">
+ <img alt="사진" src="<c:url value='/resources/img/banner2.png'/>">
+</div>
 
-
-
-<%-- 
+ 
  <div id="banner">
  <img alt="사진" src="<c:url value='/resources/img/banner3.png'/>">
-</div> --%>
+</div> 
  
  
      <!-- Blog Section Begin -->
@@ -77,7 +171,7 @@ String name=(String)session.getAttribute("name");
             </div>
             <div class="row">
             	 <c:if test="${!empty list2 }">
-            	 <c:forEach var="vo" items="${list2 }"  begin="0" end="2">
+            	 <c:forEach var="vo" items="${list2 }"  begin="0" end="6">
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
 	                    <c:if test="${!empty vo.fileName }">

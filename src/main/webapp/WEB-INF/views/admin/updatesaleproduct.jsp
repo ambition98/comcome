@@ -32,9 +32,9 @@
 						</c:if>
 						
 						<li id="yourli2">상품 이름 : <input class=".infobox" type="text" id="name"
-												 name="name" ></li>
+												 name="name" value="${vo.name}" ></li>
 						<li id="yourli2">상품 가격 : <input class=".infobox" type="text" id="price" 
-												 name="price" numberOnly> 원</li>						
+												 name="price" value="${vo.price}"   numberOnly> 원</li>						
 					
 						<li id="yourli4">카테고리 번호 : </li>
 						<select id ="categoryno" name = "categoryNo">
@@ -45,7 +45,7 @@
 						    </c:forEach>
 						 </c:if>  
 						</select>
-						<li id="yourli3"><textarea placeholder="내용을 입력하세요" id="content" name="content" rows="12" cols="40"></textarea>
+						<li id="yourli3"><textarea placeholder="${vo.content}"  id="content" name="content" rows="12" cols="40"></textarea>
 						</li>
 					
 					</ul>
