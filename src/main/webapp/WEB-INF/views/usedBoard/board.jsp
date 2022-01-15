@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>comcome</title>
+<title>ComCome 중고게시판</title>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/base/bootstrap.min.css' />"
 	type="text/css">
@@ -100,7 +100,7 @@
 					            },
 					            success : function(data){
 					                console.log(data);
-					                $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
+					               $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
 					            },
 					            error:function(request, status, error) {
 					                alert("status : " + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
