@@ -22,6 +22,11 @@ public class AccountServiceImpl implements AccountService{
 	public int checkEmail(String email) {
 		return accountDao.checkEmail(email);
 	}
+	
+	@Override
+	public AccountVO selectAccountByNo(int accountNo) {
+		return accountDao.selectAccountByNo(accountNo);
+	}
 //	
 //	public List<PersonVO> selectAll(SearchVO searchVo){
 //		return boardDao.selectAll(searchVo);
@@ -64,6 +69,4 @@ public class AccountServiceImpl implements AccountService{
 //	public List<PersonVO> selectMainNotice() {
 //		return boardDao.selectMainNotice();
 //	}
-	
-	
 }

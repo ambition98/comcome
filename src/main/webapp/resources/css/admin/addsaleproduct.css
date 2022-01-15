@@ -195,5 +195,14 @@ li#yourli4 {
 
 select#categoryno {/* float: right; */margin-left: 10px;border: none;font-size: large;}
 
+p#yourli2 {
+    padding-left: 41px;
+    padding-bottom: 5px;
+    padding-top: 12px;
+}
 
+p#yourli3 {
+    padding-top: 5px;
+    padding-left: 41px;
+}
 

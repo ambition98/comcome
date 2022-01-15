@@ -5,6 +5,7 @@
 
 <c:set var="pos" value="40" />
 <%-- <c:forEach var="vo" items="${brandList}"> --%>
+<c:set var="brandSize" value="${fn:length(brandList)}" scope="session"/>
 <c:forEach var="vo" items="${brandList}">
 	<li class="brand_list">
 		<%-- <a href="#">${vo.brand }</a> --%>

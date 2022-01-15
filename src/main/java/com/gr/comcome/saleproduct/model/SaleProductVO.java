@@ -15,5 +15,10 @@ public class SaleProductVO {
 	private int price;
 	
 	
+	private String thumbNailImg;
+	private String contentImg;
+	private String content;
+	
+	
 
 }

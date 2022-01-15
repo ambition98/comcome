@@ -99,5 +99,10 @@ public class AdminServiceImpl implements AdminService{
 	public NoticeVO selectRecentNotice() {
 		return adminDAO.selectRecentNotice();
 	}
+
+	@Override
+	public AdminVO selectByNo(int adminNo) {
+		return adminDAO.selectByNo(adminNo);
+	}
 	
 }

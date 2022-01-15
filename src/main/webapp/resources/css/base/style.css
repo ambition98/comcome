@@ -417,6 +417,7 @@ ol {
 }
 
 .header__menu {
+	text-align: center;
 	padding: 24px 0;
 }
 
@@ -606,11 +607,11 @@ ol {
 	color: #ffffff;
 }
 
-.hero__categories__all:after {
+.hero__categories__all #cat_cnt {
 	position: absolute;
 	right: 18px;
 	top: 9px;
-	content: "3";
+	/* content: "3"; */
 	font-family: "ElegantIcons";
 	font-size: 18px;
 	color: #ffffff;
@@ -640,7 +641,7 @@ ol {
 }
 
 .hero__search__form {
-	width: 610px;
+	width: 849px;
 	height: 50px;
 	border: 1px solid #ebebeb;
 	position: relative;

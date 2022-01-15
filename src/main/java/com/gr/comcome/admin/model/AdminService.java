@@ -17,12 +17,13 @@ public interface AdminService {
 		int INSERT_DISAGREE=5;
 		
 		
-	public List<AccountVO> selectAllMember(SearchVO searchVo);
+	List<AccountVO> selectAllMember(SearchVO searchVo);
 	int selectTotalRecord(SearchVO searchVo);
-	public AccountVO selectByAccountNo(int account_no);
-	public int loginCheck(String email, String password);
-	public AdminVO selectByEmail(String email);
-	public int insertNotice(String email, String title, String content);
+	AccountVO selectByAccountNo(int account_no);
+	int loginCheck(String email, String password);
+	AdminVO selectByEmail(String email);
+	int insertNotice(String email, String title, String content);
 	NoticeVO selectRecentNotice();
+	AdminVO selectByNo(int adminNo); 
 
 }

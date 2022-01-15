@@ -113,7 +113,7 @@ public class SearchProductController {
 		map.put("screenSize", screenSizeList);
 		map.put("cpu", cpuList);
 		map.put("memory", memoryList);
-		System.out.println(cpuList.size());
+		//System.out.println(cpuList.size());
 		
 		List<SearchProductVO> voList = searchProductService.selectByOption(map);
 //		for(SearchProductVO vo : voList) {
@@ -156,7 +156,7 @@ public class SearchProductController {
 		Collections.sort(pdList);
 		
 		//다나와에서 이미지 추출
-		System.out.println("code: " + vo.getCode());
+		//System.out.println("code: " + vo.getCode());
 		List<String> imgLinkList = new GetImgFromDanawa().getImg(vo.getCode());
 		
 		
