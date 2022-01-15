@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
@@ -44,16 +44,16 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <!-- <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li> -->
+                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
                             <li><i class="fa-brands fa-app-store-ios"></i></li>
                         </ul>
-                          <c:if test="${empty sessionScope.email}">
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                       <%--  <c:if test="${empty sessionScope.email}">
+                        	<div class="header__cart__price">item: <span>$150.00</span></div>
+                        </c:if> --%>
+                        <c:if test="${!empty sessionScope.email}">
+                        	<div class="header__cart__price">${sessionScope.name} 님💻</div>
                         </c:if>
-                         <c:if test="${!empty sessionScope.email}">
-                          <div class="header__cart__price">${sessionScope.name} 님💻</div>
-                         </c:if>
                     </div>
                 </div>
             </div>
@@ -71,6 +71,7 @@
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
                             <span>카테고리</span>
+                            <span id="cat_cnt">${sessionScope.brandSize}</span>
                         </div>
                         <ul>
                         	<li><a href="<c:url value="/searchpd/list"/>" >노트북 전체</a></li>
@@ -82,15 +83,15 @@
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="<c:url value="/searchpd/list" />">
-                                <div class="hero__search__categories">
-                                    All Categories
+                               <!--  <div class="hero__search__categories">
+                                    전체카테고리
                                     <span class="arrow_carrot-down"></span>
-                                </div>
+                                </div> -->
                                 <input type="text" name="keyword" placeholder="검색">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
-                        <div class="hero__search__phone">
+                        <!-- <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
                                 <i class="fa fa-phone"></i>
                             </div>
@@ -98,9 +99,11 @@
                                 <h5>+65 11.188.888</h5>
                                 <span>support 24/7 time</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+</body>
+</html>
