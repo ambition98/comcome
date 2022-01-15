@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<c:url value='/resources/css/base/slicknav.min.css' />" type="text/css">
     <link rel="stylesheet" href="<c:url value='/resources/css/base/style.css' />" type="text/css">
        <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent.css'/>" />
+      
     <script src="<c:url value='/resources/js/base/jquery-3.3.1.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/bootstrap.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/jquery.nice-select.min.js' />"></script>
@@ -23,6 +24,15 @@
   		<script src="<c:url value='/resources/js/category.js' />"></script>
 
   	<!-- index끝 -->
+  	<!--index content2   -->
+  	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent2.css'/>" />
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+  	
+  	<!-- index content2 end   -->
+  	<!-- index content3 -->
+  	
+  	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent3.css'/>" />
+  	<!-- index content3 end -->
 
  
 

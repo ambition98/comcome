@@ -522,7 +522,7 @@ public class adminController {
 		//특가 상품 수정 화면 +사이드바
 		//localhost:9091/comcome/admin/sale-product-update
 		@RequestMapping("/sale-product-update")
-		public String saleProductUpdate(@RequestParam(defaultValue = "0") int saleProductNo, Model model) {
+		public String saleProductUpdate( @RequestParam(defaultValue = "0") int saleProductNo, Model model) {
 			logger.info("특가 상품 수정 화면 처리");
 
 			if (saleProductNo == 0) {
@@ -532,8 +532,11 @@ public class adminController {
 				return "/common/message";
 			}
 			
+			
+			SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
 			List<CategoryVO> list = categoryService.selectAllCategory();
 			model.addAttribute("list", list);
+			model.addAttribute("vo", vo);
 			model.addAttribute("saleProductNo", saleProductNo);
 			return "/adminview/updatesaleproductwithmain";
 		}
