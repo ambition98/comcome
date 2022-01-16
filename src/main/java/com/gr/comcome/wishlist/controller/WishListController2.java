@@ -31,7 +31,6 @@ public class WishListController2 {
 		//관심 상품 등록
 		int result = wishlistService.insertWishByNo(email,saleProductNo);
 		
-		
 		if(result>0) {
 			log.info("관심 상품 등록 성공");
 			model.addAttribute("msg", "관심상품 등록에 성공하였습니다");
