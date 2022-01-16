@@ -22,7 +22,7 @@ public class WishListController2 {
 	public String wish(@RequestParam String email, @RequestParam int saleProductNo, Model model) {
 		
 		if( email.equals("1")) {
-			model.addAttribute("msg","관싱 상품 등록은 로그인 후에 가능합니다");
+			model.addAttribute("msg","장바구니 등록은 로그인 후에 가능합니다");
 			model.addAttribute("url","/");
 			return"/common/message";
 		}
@@ -33,10 +33,10 @@ public class WishListController2 {
 		
 		if(result>0) {
 			log.info("관심 상품 등록 성공");
-			model.addAttribute("msg", "관심상품 등록에 성공하였습니다");
+			model.addAttribute("msg", "장바구니에 상품이 담겼습니다");
 			model.addAttribute("url","/");
 		}else {
-			model.addAttribute("msg", "관심상품 등록에 실패하였습니다");
+			model.addAttribute("msg", "장바구니 상품 등록에 실패하였습니다");
 			model.addAttribute("url","/");
 		}
 	
