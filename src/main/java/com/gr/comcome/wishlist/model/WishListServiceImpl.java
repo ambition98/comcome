@@ -37,15 +37,16 @@ import lombok.extern.slf4j.Slf4j;
 		
 		//email 통해서 accountNo가져오기 
 		int accountNo = loginDAO.selectAccountNo(email);
-		
-		// saleProductNo통해서 상품이 이미 담겨있나 확인하기 
-		Integer checkProductExisting = wishlistDao.countProductByNo(saleProductNo);
-		
-		int result = 0;
 		WishListVO wishListVO = new WishListVO();
 		wishListVO.setAccountNo(accountNo);
 	    wishListVO.setSaleProductNo(saleProductNo);
 	    
+		
+		// saleProductNo통해서 상품이 이미 담겨있나 확인하기 
+		Integer checkProductExisting = wishlistDao.countProductByNo(wishListVO);
+		
+		int result = 0;
+		
 		log.info("wishListVO={}",wishListVO.toString());
 		
 		if (checkProductExisting.equals(0)) {

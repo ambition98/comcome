@@ -14,7 +14,7 @@ public interface WishListDAO {
 
 	List<Map<String, Object>> selectAll(int accountNo);
 
-	Integer countProductByNo(int saleProductNo);
+	Integer countProductByNo(WishListVO wishListVO);
 
 	int updateWishByNo(WishListVO wishListVO);
 

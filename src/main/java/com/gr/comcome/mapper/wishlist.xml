@@ -20,10 +20,9 @@
 		order by wishlist_no desc
 	</select>
 	
-	
-	<select id="countProductByNo" parameterType="int" resultType="integer">
+	<select id="countProductByNo" parameterType="wishListVO" resultType="integer">
 				select count(*) from wishlist
-				where sale_product_no=#{saleProductNo}
+				where account_no = #{accountNo} and sale_product_no=#{saleProductNo}
 	</select>
 		
 	<update id="updateWishByNo" parameterType="wishListVO">
