@@ -64,27 +64,27 @@ String name=(String)session.getAttribute("name");
                 </nav>
 <div class="container">
   <h2>프로필 수정</h2>
-  
+  <!--  폼에서 여러가지를 불러올때 한테이블에 있는 정보면 -->
   <form  method="post" action="<c:url value='/mypage/profile/profileEdit'/>">
   	<div class="form-group">
   	
   	<p>수정할 닉네임을 입력해주세요</p>
  			<label for="name">닉네임 수정</label>
-            <input type="text" id="name" name="name" value="<%=name%>" />
+            <input type="text" id="name" name="name" placeholder="<%=name%>" />
     </div>
     <br>
     <br>
-    <p>비밀번호를 입력해주세요</p>
+    <!-- <p>비밀번호를 입력해주세요</p> -->
     <div class="form-group">
-    <%-- <input type ="hidden" id ="email" name ="email" value="<%=email%>"> --%>
-      <label for="pwd">비밀번호:</label>
-      <input type="password" class="form-control" id="password" name="password">
+     <input type ="hidden" id ="email" name ="email" value="<%=email%>">
+     <!--  <label for="pwd">비밀번호:</label> -->
+<!--       <input type="password" class="form-control" id="password" name="password"> -->
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="pwd">비밀번호 확인:</label>
       <input type="password" class="form-control" id="password1" name="password1">
-    </div>
-
+    </div> -->
+ 
     <button type="submit" class="btn btn-primary">수정</button>
   </form>
 </div>

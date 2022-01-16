@@ -71,6 +71,11 @@
 		where rownum<=1
 		]]>
 	</select>
- 
+	
+	<select id="selectByNo" parameterType="Integer" resultType="adminVo">
+		select *
+		from admin
+		where admin_no = #{adminNo}
+	</select>
 
 </mapper>

@@ -34,14 +34,7 @@
   	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/index/indexcontent3.css'/>" />
   	<!-- index content3 end -->
 
- 
-
-
-<%-- <%@ include file="include/category.jsp"%> --%>
-<%-- <%@ include file="inc/body.jsp"%> --%>
-
 <jsp:include page="admin/popup3.jsp"/>
- <%@include file="indexcontent/indexcontent.jsp" %> 
-
+<%@include file="indexcontent/indexcontent.jsp" %> 
 
 <%@ include file="include/footer.jsp"%>

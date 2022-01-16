@@ -10,6 +10,4 @@
 	<c:import url="/mypage/profile/profileDetail"></c:import>
 </article>
 
-<%-- <article id="centerCon">
-	<c:import url="/mypage/messagebox"></c:import>
-</article> --%>
+

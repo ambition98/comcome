@@ -112,15 +112,21 @@
 		border-radius: 10px;
 		color: white;
 	}
+	#lowest_price {
+		font-size: 1.4em;
+	    color: #dd0000;
+	}
+	
 	.hide {
 		display: none;
 	}
 </style>
 <script type="text/javascript">
 	$(function() {
-		var scrollHeight = $('body').prop('scrollHeight');
-		console.log('div: '+$('#others_img').prop('scrollHeight'));
-		console.log('body: '+document.body.scrollHeight);
+		//var scrollHeight = $('body').prop('scrollHeight');
+		var scrollHeight = 50000;
+		//console.log('div: '+$('#others_img').prop('scrollHeight'));
+		//console.log('body: '+document.body.scrollHeight);
 		//console.log($('body').prop('scrollHeight'));
 		
 		var imgTagList = [];
@@ -137,22 +143,23 @@
 		});
 
 		$("#go_to_top").click(function(){
-			$("html, body").animate({scrollTop: 0}, 500);
+			//$("html, body").animate({scrollTop: 0}, 500);
+			$("html, body").scrollTop(0);
 		});
 		
 		$("#go_to_bottom").click(function(){
-			$("html, body").animate({scrollTop: scrollHeight}, 500);
+			//$("html, body").animate({scrollTop: scrollHeight}, 500);
+			$("html, body").scrollTop(scrollHeight);
 		});
 		 
 		$('#showMoreInfo').click(function() {
 			$('#showMoreImgWrap').addClass('hide');
+			
 			imgTagList.forEach(function(e) {
 				$('#others_img').append(e);
 			});
-			//scrollHeight += $('#others_img').prop('scrollHeight');
-			document.getElementById('others_img').style.height = "auto";
-			console.log('div: '+$('#others_img').prop('scrollHeight'));
-			console.log('body: '+document.body.scrollHeight);
+			//console.log('div: '+$('#others_img').prop('scrollHeight'));
+			//console.log('body: '+document.body.scrollHeight);
 		});
 	});
 </script>
@@ -171,14 +178,14 @@
 		<div id="mall_list" class="top_element">
 			<table id="mall_table">
 				<tr id="lowest_price">
-					<td class="mall">최저가</td>
-					<td class="price"><fmt:formatNumber type="number" maxFractionDigits="3" value="${pdList[0].price}"/>원</td>
+					<td class="mall"><b>최저가</b></td>
+					<td class="price"><b><fmt:formatNumber type="number" maxFractionDigits="3" value="${pdList[0].price}"/>원</b></td>
 				</tr>
 				<c:forEach var="pd" items="${pdList}">
-						<tr>
-							<td class="mall"><a href="${pd.link}">${pd.mallName}</a></td>
-							<td class="price"><a href="${pd.link}"><fmt:formatNumber type="number" maxFractionDigits="3" value="${pd.price}"/>원</a></td>
-						</tr>
+					<tr>
+						<td class="mall"><a href="${pd.link}">${pd.mallName}</a></td>
+						<td class="price"><a href="${pd.link}"><fmt:formatNumber type="number" maxFractionDigits="3" value="${pd.price}"/>원</a></td>
+					</tr>
 				</c:forEach>
 			</table>
 		</div>

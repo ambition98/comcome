@@ -7,9 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 //sql과의 연동을 위한 파일
 @Mapper
 public interface AccountDAO {
-	public int insertAccount(AccountVO vo);
-	public int insertPwd(HashVO vo);
-	public int checkEmail(String email);
+	int insertAccount(AccountVO vo);
+	int insertPwd(HashVO vo);
+	int checkEmail(String email);
+	AccountVO selectAccountByNo(int accountNo);
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
 //	public PersonVO selectByNo(int no);
