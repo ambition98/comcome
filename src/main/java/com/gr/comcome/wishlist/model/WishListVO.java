@@ -10,5 +10,6 @@
 	  private int wishlistNo; 
 	  private int accountNo;
 	  private int saleProductNo; 
+	  private int quantity;
 	  }
  
