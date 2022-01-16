@@ -9,7 +9,38 @@
 	</select> -->	
 	
 	<insert id="insertWishByNo" parameterType="wishListVO">
-		insert into wishlist(account_no ,sale_product_no)
-		values(#{accountNo}, #{saleProductNo})
+		insert into wishlist(account_no ,sale_product_no, quantity)
+		values(#{accountNo}, #{saleProductNo},#{quantity})
 	</insert>
+	
+	
+	<select id="selectAll" parameterType="int" resultType="map">
+		select * from cart
+		where account_no=#{accountNo}
+		order by wishlist_no desc
+	</select>
+	
+	
+	<select id="countProductByNo" parameterType="int" resultType="integer">
+				select count(*) from wishlist
+				where sale_product_no=#{saleProductNo}
+	</select>
+		
+	<update id="updateWishByNo" parameterType="wishListVO">
+		update wishlist
+		set  quantity=quantity+1	
+		where account_no = #{accountNo} and sale_product_no=#{saleProductNo}
+	</update>
+	
+	<delete id="deleteWish" parameterType="wishListVO">
+		delete wishlist
+		where account_no = #{accountNo} and sale_product_no=#{saleProductNo}
+	</delete>
+	<update id="updateQuantity" parameterType="wishListVO">
+		update wishlist
+		set  quantity= #{quantity}	
+		where wishlist_no = #{wishlistNo} 
+	</update>
+	
+	
 </mapper>

@@ -17,6 +17,10 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mypage/styles.css'/>" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/mypage/scripts.js"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
+	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
 
 <%--   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
@@ -43,7 +47,7 @@ String email=(String)session.getAttribute("email");
                 <div class="list-group list-group-flush">
                		<a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/pwd/pwd'/>">비밀번호 재설정</a> 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">장바구니</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/cart'/>">장바구니</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/member/memberDelete'/>">회원탈퇴</a>
