@@ -136,10 +136,19 @@
 		/* 카테고리 클릭 시 초기 설정 */
 		const brandNo = '${brandNo}';
 		const screenSizeNo = '${screenSizeNo}';
+		const keyword = '${keyword}';
 		
+		if(brandNo == 0 && screenSizeNo == 0) {
+			var jsonData = {"keyword":"all"}
+			ajax(jsonData);
+		} else if(keyword != '') {
+			var jsonData = {"keyword":keyword}
+		}
 		
 		console.log('brandNo: '+ brandNo);
 		console.log('screenSizeNo: ' + screenSizeNo);
+		console.log('keyword: '+ keyword);
+		
 		if(brandNo != '') {
 			$('#b'+brandNo).trigger('click');
 			console.log('enter1');
@@ -202,20 +211,22 @@
 				}
 			});
 			
-			var object = {
+			var jsonData = {
 				brand:brandList,
 				screenSize:screenSizeList,
 				cpu:cpuList,
 				memory:memoryList
 			}
+			console.log(jsonData);
 			
-			console.log(object);
-			var jsonData = JSON.stringify(object);
-			
+			ajax(jsonData);
+		}
+		
+		function ajax(jsonData){
 			$.ajax({
 				url:"/comcome/searchpd/changelist"
 				,type:"post"
-				,data: jsonData
+				,data: JSON.stringify(jsonData)
 				,dataType:"text"
 				,contentType: "application/json"
 				,success: function(data){
@@ -224,7 +235,7 @@
 					
 					var jsonObject = JSON.parse(data);
 					jsonObject.forEach(function(pd, i) {
-						console.log(pd);
+						//console.log(pd);
 						var detail = JSON.parse(pd.detail);
 						
 						var pdThumbnail = '<div class="pd_thumbnail">'
@@ -326,7 +337,7 @@
 	</div>
 	<div class="search_pd_container">
 		<!-- 검색의 경우에만 해당 구문 실행 (나머진 ajax) -->
-		<c:forEach var="vo" items="${searchPdList}">
+		<%-- <c:forEach var="vo" items="${searchPdList}">
 			<div class="search_pd">
 				<div class="pd_thumbnail">
 					<a href="<c:url value="/searchpd/detail?pdNo=${vo.searchProductNo}" />">
@@ -336,12 +347,21 @@
 				<div class="pd_name">
 					<a href="<c:url value="/searchpd/detail?pdNo=${vo.searchProductNo}" />">${vo.name}</a>
 				</div>
+				<div class="detail">'
+					<table>
+						<tr><th>cpu</th><td>${vo.detail}</td></tr>
+						<tr><th>memory</th><td>'+detail.memory+'</td></tr>
+						<tr><th>gpu</th><td>'+detail.gpu+'</td></tr>
+						<tr><th>무게</th><td>'+detail.weight+'</td></tr>
+						<tr><th>용도</th><td>'+detail.usage+'</td></tr>
+					</table>
+				</div>
 				<div class="pd_price">
 					1,111,111
 				</div>
 				<br>
 			</div>
-		</c:forEach>
+		</c:forEach> --%>
 	</div>
 </section>
 </body>
