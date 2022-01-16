@@ -11,51 +11,25 @@ div#cart {
     height: 0px;
 }
 
+#banner1 {
+	text-align: center;
+	height: 350px;
+}
+
+#banner1 img{
+	height: 100%
+}
+
+#banner2{
+	text-align: center;
+	margin-top: 30px;
+}
+
 img#yourimg {
     width: 500px;
     height: 323px;
 }
 
-
-
-div#banner3 {
-    margin-right: 24px;
-    float: left;
-    width: 301px;
-    margin-left: 241px;
-}
-
-div#banner2 {
-}
-
-div#banner {
-    width: 1049px;
-    margin-top: 13px;
-    margin-left: 239px;
-}
-
-div#banner3 {
-    margin-right: 24px;
-    float: left;
-    width: 410px;
-    margin-left: 191px;
-}
-
-div#banner3 {
-    margin-right: 24px;
-    float: left;
-    width: 410px;
-    margin-left: 191px;
-}
-
-img#banner3 {
-    height: 301px;
-    width: 414px;
-}
-
-div#banner2 {height: 394px;}
-
 section.related-product {
-   
     padding-top: 5%;
 }
