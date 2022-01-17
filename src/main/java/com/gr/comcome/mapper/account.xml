@@ -31,4 +31,10 @@
 		from account
 		where account_no = #{accountNo}
 	</select>
+	
+	<select id="selectAccountByEmail" parameterType="String" resultType="accountVo">
+		select *
+		from account
+		where email = #{account_id}
+	</select>
 </mapper>

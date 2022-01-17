@@ -50,4 +50,13 @@ public class usedBoardServiceImpl implements usedBoardService{
 	public int updateBoardByAdmin(usedBoardVO usedBoardVO) {
 		return usedBoardDao.updateBoardByAdmin(usedBoardVO);
 	}
+	
+	@Override
+	public int insertBoard(usedBoardVO usedBoardVO){
+		return usedBoardDao.insertBoard(usedBoardVO);
+	};
+	@Override
+	public int updateBoard(usedBoardVO usedBoardVO) {
+		return usedBoardDao.updateBoard(usedBoardVO);
+	};
 }

@@ -13,4 +13,6 @@ public interface usedBoardService {
 	int selectTotalRecord(int result);
 	public int deleteBoardByNo(int boardNo);
 	public int updateBoardByAdmin(usedBoardVO usedBoardVO);
+	public int insertBoard(usedBoardVO usedBoardVO);
+	public int updateBoard(usedBoardVO usedBoardVO);
 }

@@ -27,6 +27,11 @@ public class AccountServiceImpl implements AccountService{
 	public AccountVO selectAccountByNo(int accountNo) {
 		return accountDao.selectAccountByNo(accountNo);
 	}
+	
+	@Override
+	public AccountVO selectAccountByEmail(String account_id){
+		return accountDao.selectAccountByEmail(account_id);
+	}
 //	
 //	public List<PersonVO> selectAll(SearchVO searchVo){
 //		return boardDao.selectAll(searchVo);
