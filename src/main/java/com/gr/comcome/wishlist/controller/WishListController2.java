@@ -35,12 +35,10 @@ public class WishListController2 {
 			log.info("관심 상품 등록 성공");
 			model.addAttribute("msg", "장바구니에 상품이 담겼습니다");
 			model.addAttribute("url","/");
-		}else {
+		} else {
 			model.addAttribute("msg", "장바구니 상품 등록에 실패하였습니다");
 			model.addAttribute("url","/");
 		}
-	
-		
 		
 		return "/common/message";
 	}

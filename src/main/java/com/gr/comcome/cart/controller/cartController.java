@@ -1,6 +1,5 @@
 package com.gr.comcome.cart.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,8 +16,6 @@ import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.login.model.LoginService;
 import com.gr.comcome.saleproduct.model.SaleProductService;
-import com.gr.comcome.saleproduct.model.SaleProductVO;
-import com.gr.comcome.wishlist.model.WishListAndProductVO;
 import com.gr.comcome.wishlist.model.WishListService;
 import com.gr.comcome.wishlist.model.WishListVO;
 
@@ -54,7 +49,12 @@ public class cartController {
 
 		List<Map<String, Object>> list = wishlistService.selectAll(accountVo.getAccountNo());
 		log.info("장바구니 목록 조회 결과, list.size={}", list.size());
-
+		for(Map<String, Object> map : list) {
+			map.forEach((k, v) -> {
+				System.out.println(k + ": " + v);
+			});
+			System.out.println("--------------");
+		}
 		model.addAttribute("list", list);
 
 		return "/mypractice/view/cart3";

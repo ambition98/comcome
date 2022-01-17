@@ -100,13 +100,10 @@ public class SearchProductController {
 			String keyword = jObject.getString("keyword");
 			
 			if(keyword.equals("all")) {
-				System.out.println("enter all");
 				voList = searchProductService.selectAll();
 			} else {
-				System.out.println("enter keyword");
 				voList = searchProductService.selectByKeyword(keyword);
 			}
-			System.out.println(voList);
 			
 		} else {
 			// 옵션버블 사용
