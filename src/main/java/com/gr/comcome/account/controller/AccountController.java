@@ -29,13 +29,10 @@ import com.gr.comcome.login.model.LoginService;
 public class AccountController {	
 	private static final Logger logger
 	=LoggerFactory.getLogger(AccountController.class);
-	
+
 	private final AccountService accountService;
 	private HashingUtil hashingUtil;
 	private LoginService loginservice;
-	
-	
-	
 	//DI - 생성자에 의한 종속객체 주입 
 	@Autowired
 	public AccountController(AccountService accountService, HashingUtil hashingUtil) {
@@ -47,21 +44,21 @@ public class AccountController {
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String write_get() {
 		logger.info("등록 화면");
-		
+
 		return "account/register";
 	}
-	
+
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register_post(@ModelAttribute AccountVO accountVo,
-							@ModelAttribute HashVO hashVo,
-							@RequestParam String pwd) {
+			@ModelAttribute HashVO hashVo,
+			@RequestParam String pwd) {
 		//1
 		logger.info("등록 처리, 파라미터 vo={}", accountVo);
-		
+
 		//2
 		int cnt=accountService.insertAccount(accountVo);
 		logger.info("계정 등록 결과, cnt={}", cnt);
-		
+
 		//비밀번호 암호화
 		String salt = hashingUtil.makeNewSalt();
 		//HashVO hashVo = null;
@@ -74,11 +71,11 @@ public class AccountController {
 		}
 		cnt=accountService.insertPwd(hashVo);
 		logger.info("비밀번호 등록 결과, cnt={}", cnt);
-		
+
 		//4
 		return "redirect:/account/register";
 	}
-	
+
 	@RequestMapping(value="/checkUserEmail", method = RequestMethod.GET)
 	public String checkemail_get(@RequestParam(required = false) String email){
 		//request 세션, response 쿠키	
@@ -86,33 +83,33 @@ public class AccountController {
 		logger.info("이메일 파라미터, email={}", email);
 		return "account/checkUserEmail";
 	}
-	
+
 	@RequestMapping(value="/checkUserEmail", method = RequestMethod.POST)
 	public String checkemail_post(@RequestParam String email,Model model) {
-		
+
 		logger.info("이메일 파라미터, email={}", email);
-		
+
 		int cnt=accountService.checkEmail(email);
 		logger.info("이메일 중복체크 결과, cnt={}", cnt);	 
 		model.addAttribute("result", cnt);
 		model.addAttribute("EXIST_EMAIL", accountService.EXIST_EMAIL);
 		model.addAttribute("NON_EXIST_EMAIL", accountService.NON_EXIST_EMAIL);
-		
+
 		return "account/checkUserEmail";
-		
+
 	}
-	
+
 	// 인증번호 생성
-		public String getVerifiedCode() {
-			char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-					'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-			String str = "";
-			int idx = 0;
-			for (int i = 0; i < 10; i++) {
-				idx = (int) (charSet.length * Math.random());
-				str += charSet[idx];
-			}
-			return str;
+	public String getVerifiedCode() {
+		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+		String str = "";
+		int idx = 0;
+		for (int i = 0; i < 10; i++) {
+			idx = (int) (charSet.length * Math.random());
+			str += charSet[idx];
 		}
+		return str;
+	}
 
 }

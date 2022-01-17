@@ -78,6 +78,7 @@ String email=(String)session.getAttribute("email");
     <button type="submit" class="btn btn-primary">탈퇴</button>
   </form>
 </div>
+<p>테스트</p>
 
 </body>
 </html>
