@@ -11,12 +11,13 @@
 
 	
 	
-	<insert id="insertBoard" parameterType="usedboardVo">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select board_seq.nextval from dual
-		</selectKey>
-		insert into board(no, name, pwd, title, email, content)
-		values(#{no}, #{name}, #{pwd}, #{title}, #{email}, #{content})
+	
+	
+	<insert id="insertBoard" parameterType="usedboardVo">		
+		insert into Board(  title, email, content, 
+				group_No,file_Name,file_Size,original_File_Name,sort_No,downCount,step,price,account_no)
+		values(  #{title},#{email}, #{content},
+				#{groupNo},#{fileName},#{fileSize},#{originalFileName},#{sortNo},#{downCount},${step},#{price},#{accountNo})
 	</insert>
 	
 	<select id="selectAll" parameterType="searchVo" resultType="usedBoardVo">
@@ -69,8 +70,9 @@
 	
 	<update id="updateBoard" parameterType="usedboardVo">
 		update board
-		set name=#{name},title=#{title}, email=#{email}, content=#{content}
-		where no=#{no}
+		set name=#{name},title=#{title}, email=#{email}, content=#{content},file_size=#{fileSize}
+		,file_name=#{fileName}, original_file_Name=#{originalFileName}
+		where Board_No=#{boardNo}
 	</update>
 	
 	<select id="selectPwd" parameterType="int" resultType="string">

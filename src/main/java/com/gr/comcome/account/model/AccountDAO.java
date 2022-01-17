@@ -11,6 +11,7 @@ public interface AccountDAO {
 	int insertPwd(HashVO vo);
 	int checkEmail(String email);
 	AccountVO selectAccountByNo(int accountNo);
+	AccountVO selectAccountByEmail(String account_id);
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
 //	public PersonVO selectByNo(int no);

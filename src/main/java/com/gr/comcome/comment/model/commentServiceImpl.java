@@ -28,7 +28,7 @@ public class commentServiceImpl implements commentService {
 	}
 	
 	@Override
-	public int deleteComment(int no) {
-		return commentDao.deleteComment(no);
+	public int deleteComment(commentVO vo) {
+		return commentDao.deleteComment(vo);
 	}
 }

@@ -29,7 +29,11 @@
 	UPDATE usedboard_comment
         SET
             content = #{content}
-            ,regdate = NOW()
         WHERE no= #{no}
 	</update>
+	
+	<delete id="deleteComment" parameterType="commentVo">
+		DELETE usedboard_comment
+        WHERE no= #{no}
+	</delete>
 </mapper>
