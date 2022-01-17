@@ -57,10 +57,28 @@
 
 
 
-
+form#checkout_form {
+    padding-top: 0px;
+    padding-left: 79px;
+    padding-right: none;
+    /* padding: 0px; */
+    /* padding-bottom: 15px; */
+    /* margin-bottom: 13px; */
+    width: 14px;
+    height: 68px;
+    float: none;
+    margin-left: -11px;
+}
 
 
 button.btn {
-    margin-top: 382px;
+    /* margin-top: 382px; */
     margin-right: -92px;
+    margin-top: 35px;
 }
+
+div#price {
+    margin-top: 24px;
+}
+
+

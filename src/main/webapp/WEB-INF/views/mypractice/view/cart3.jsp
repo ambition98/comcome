@@ -103,11 +103,11 @@
 
 						<input type="checkbox" id="S-Agree" class="AllAgree">
 						<!--  <span class="book-voters card-vote">  -->
-						<form action="<c:url value='/mypage/cartEdit'/>" method="post"
+						<form class="book-voters card-vote" action="<c:url value='/mypage/cartEdit'/>" method="post"
 							name="frmCart">
 
 
-							<input name="wishlistNo" class="wishlistNo"
+							<input name="wishlistNo" class="wishlistNo" type="hidden"
 								value="${map['WISHLIST_NO'] }"> <input type="text"
 								id="quantity" name="quantity" size="4"
 								value="${map['QUANTITY'] }">
@@ -115,7 +115,7 @@
 							<button id="updatebutton">수정</button>
 						</form>
 
-						<!-- </span> -->
+						<!--  </span> -->
 						<!-- list2 -->
 					</div>
 
@@ -133,13 +133,14 @@
 		<div id="select2">
 			<input type="checkbox" id="AllAgree"> <label for="AllAgree"
 				id="allsel">전체 선택</label><br>
-		</div>
-
-		<div class="btn-contain">
-			<form id="checkout_form" action="" method="get">
+				<form id="checkout_form" action="" method="get">
 				<input type="hidden" />
 				<button class="btn" id="checkout">구매</button>
 			</form>
+		</div>
+
+		<div class="btn-contain">
+			
 		</div>
 	</c:if>
 	<!-- 장바구니 끝 -->

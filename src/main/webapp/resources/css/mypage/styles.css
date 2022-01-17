@@ -11357,3 +11357,7 @@ select#searchsel {
   margin-top: 1.5rem !important;
 }
 }
+ #page-content-wrapper {
+    min-width: 0;
+    width: 90%;
+  }
