@@ -32,7 +32,7 @@ String name=(String)session.getAttribute("name");
               <%--       <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/profile/profileEdit'/>">기본정보수정</a> --%>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">장바구니</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a>
+             <!--        <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a> -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/member/memberDelete'/>">회원탈퇴</a>
                 </div>

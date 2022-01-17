@@ -336,92 +336,92 @@ public class adminController {
 
 
 
-	//사이드바 + 중고 게시판 글 수정 화면 처리 
-	//localhost:9091/comcome/admin/board-update
-	@RequestMapping("/board-update")
-	public String boardUpdate(@RequestParam(defaultValue = "0") int boardNo, Model model) {
-		logger.info("중고 거래 게시판 글 수정 화면 처리");
-
-			model.addAttribute("vo", vo);
-			
-			return "/adminview/saleproductdetailwithmain";
-		}
+//	//사이드바 + 중고 게시판 글 수정 화면 처리 
+//	//localhost:9091/comcome/admin/board-update
+//	@RequestMapping("/board-update")
+//	public String boardUpdate(@RequestParam(defaultValue = "0") int boardNo, Model model) {
+//		logger.info("중고 거래 게시판 글 수정 화면 처리");
+//
+//			model.addAttribute("vo", vo);
+//			
+//			return "/adminview/saleproductdetailwithmain";
+//		}
 		
-		//특가 상품 수정 화면 +사이드바
-		//localhost:9091/comcome/admin/sale-product-update
-		@RequestMapping("/sale-product-update")
-		public String saleProductUpdate( @RequestParam(defaultValue = "0") int saleProductNo, Model model) {
-			logger.info("특가 상품 수정 화면 처리");
-
-
-		if (boardNo == 0) {
-			model.addAttribute("msg", "잘못된 url입니다.");
-			model.addAttribute("url", "/admin/boardwithmain");
-
-
-				return "/common/message";
-			}
-			
-			
-			SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
-			List<CategoryVO> list = categoryService.selectAllCategory();
-			model.addAttribute("list", list);
-			model.addAttribute("vo", vo);
-			model.addAttribute("saleProductNo", saleProductNo);
-			return "/adminview/updatesaleproductwithmain";
-		}
+//		//특가 상품 수정 화면 +사이드바
+//		//localhost:9091/comcome/admin/sale-product-update
+//		@RequestMapping("/sale-product-update")
+//		public String saleProductUpdate( @RequestParam(defaultValue = "0") int saleProductNo, Model model) {
+//			logger.info("특가 상품 수정 화면 처리");
+//
+//
+//		if (boardNo == 0) {
+//			model.addAttribute("msg", "잘못된 url입니다.");
+//			model.addAttribute("url", "/admin/boardwithmain");
+//
+//
+//				return "/common/message";
+//			}
+//			
+//			
+//			SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
+//			List<CategoryVO> list = categoryService.selectAllCategory();
+//			model.addAttribute("list", list);
+//			model.addAttribute("vo", vo);
+//			model.addAttribute("saleProductNo", saleProductNo);
+//			return "/adminview/updatesaleproductwithmain";
+//		}
 		
-		//특가 상품 수정 Post
-		//localhost:9091/comcome/admin/post-sale-product
-		@PostMapping("/post-sale-product")
-		public String updateproduct_post(@ModelAttribute SaleProductVO saleProductVO, 
-				Model model,HttpServletRequest request) {
-			logger.info("상품 수정 포스트 , 파라미터 vo={}", saleProductVO);
-			
-			//파일 등록
-			List<String> fileName = new ArrayList<String>();
-			List<String> originalFileName = new ArrayList<String>();
-			
-			try {
-				List<Map<String, Object>> fileList 
-					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
-				for(int i=0;i<fileList.size();i++) {
-					 Map<String, Object> map=fileList.get(i);
-					 
-					 fileName.add((String) map.get("fileName"));
-					 originalFileName.add((String) map.get("originFileName"));
-					
-					 			 
-				}
-				
-				logger.info("파일 업로드 성공, fileName={}, originalFileName={}", fileName.get(0), originalFileName.get(0));
-				
-				
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			}
-			saleProductVO.setThumbNailImg(fileName.get(0));
-			saleProductVO.setContentImg(fileName.get(1));
-			
-			int cnt = saleProductService.updateProduct(saleProductVO);
-			logger.info("글쓰기 결과, cnt={}", cnt);
-			String msg ="특가 상품 수정에 실패하였습니다", url ="/admin/allsaleproduct";
-			if(cnt>0) {
-				msg ="특가 상품 수정에 성공하였습니다";
-				
-			}
-			
-			model.addAttribute("msg", msg);
-			model.addAttribute("url", url);
-				
-			
-			//4
-			return "/common/message";
-		}
-
-		model.addAttribute("boardNo", boardNo);
-		return "/adminview/boardupdatewithmain";
-	}
+//		//특가 상품 수정 Post
+//		//localhost:9091/comcome/admin/post-sale-product
+//		@PostMapping("/post-sale-product")
+//		public String updateproduct_post(@ModelAttribute SaleProductVO saleProductVO, 
+//				Model model,HttpServletRequest request) {
+//			logger.info("상품 수정 포스트 , 파라미터 vo={}", saleProductVO);
+//			
+//			//파일 등록
+//			List<String> fileName = new ArrayList<String>();
+//			List<String> originalFileName = new ArrayList<String>();
+//			
+//			try {
+//				List<Map<String, Object>> fileList 
+//					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
+//				for(int i=0;i<fileList.size();i++) {
+//					 Map<String, Object> map=fileList.get(i);
+//					 
+//					 fileName.add((String) map.get("fileName"));
+//					 originalFileName.add((String) map.get("originFileName"));
+//					
+//					 			 
+//				}
+//				
+//				logger.info("파일 업로드 성공, fileName={}, originalFileName={}", fileName.get(0), originalFileName.get(0));
+//				
+//				
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			}
+//			saleProductVO.setThumbNailImg(fileName.get(0));
+//			saleProductVO.setContentImg(fileName.get(1));
+//			
+//			int cnt = saleProductService.updateProduct(saleProductVO);
+//			logger.info("글쓰기 결과, cnt={}", cnt);
+//			String msg ="특가 상품 수정에 실패하였습니다", url ="/admin/allsaleproduct";
+//			if(cnt>0) {
+//				msg ="특가 상품 수정에 성공하였습니다";
+//				
+//			}
+//			
+//			model.addAttribute("msg", msg);
+//			model.addAttribute("url", url);
+//				
+//			
+//			//4
+//			return "/common/message";
+//		}
+//
+//		Model.addAttribute("boardNo", boardNo);
+//		return "/adminview/boardupdatewithmain";
+//	}
 
 	@PostMapping("/updateboard")
 	public String updateboard(@ModelAttribute usedBoardVO usedBoardVO, 

@@ -48,7 +48,7 @@ String email=(String)session.getAttribute("email");
                		<a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/pwd/pwd'/>">비밀번호 재설정</a> 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/cart'/>">장바구니</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a>
+      <!--               <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a> -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/member/memberDelete'/>">회원탈퇴</a>
                 </div>
