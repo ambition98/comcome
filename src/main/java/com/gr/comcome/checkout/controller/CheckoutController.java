@@ -45,9 +45,6 @@ public class CheckoutController {
 			
 			return "/common/message";
 		}
-		/*
-		 * 장바구니에서 체크한 상품만 구매
-		 */
 //		AccountVO accountVo =  accountService.selectAccountByNo((int)accountNo);
 //		log.info(accountVo.toString());
 //		
