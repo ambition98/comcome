@@ -13,13 +13,6 @@
 		values(#{accountNo}, #{saleProductNo},#{quantity})
 	</insert>
 	
-	
-	<select id="selectAll" parameterType="int" resultType="map">
-		select * from cart
-		where account_no=#{accountNo}
-		order by wishlist_no desc
-	</select>
-	
 	<select id="countProductByNo" parameterType="wishListVO" resultType="integer">
 				select count(*) from wishlist
 				where account_no = #{accountNo} and sale_product_no=#{saleProductNo}
@@ -41,5 +34,24 @@
 		where wishlist_no = #{wishlistNo} 
 	</update>
 	
+	<!-- cart view -->
+	<select id="selectAll" parameterType="int" resultType="map">
+		select * from cart
+		where account_no=#{accountNo}
+		order by wishlist_no desc
+	</select>
+	
+	<select id="selectByWishlistNoArr" parameterType="map" resultType="map">
+		select *
+		from cart
+		<where>
+			account_no = #{accountNo}
+			AND 
+			wishlist_no in 
+			<foreach collection="wishNoArr" item="no" separator="," open="(" close=")">
+				#{no}
+			</foreach>
+		</where>
+	</select>
 	
 </mapper>

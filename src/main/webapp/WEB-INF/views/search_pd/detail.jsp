@@ -120,11 +120,11 @@
 </style>
 <script type="text/javascript">
 	$(function() {
-		//var scrollHeight = $('body').prop('scrollHeight');
 		var scrollHeight = 50000;
-		//console.log('div: '+$('#others_img').prop('scrollHeight'));
-		//console.log('body: '+document.body.scrollHeight);
-		//console.log($('body').prop('scrollHeight'));
+		/*
+			ajax로 받아온 데이터를 이용하여 html을 document내에 추가 해도
+			body의 scrollSize가 변화가 없어 기존 설계가 실패
+		*/
 		
 		var imgTagList = [];
 		<c:forEach var="i" begin="2" end="${fn:length(imgLinkList)-2}">

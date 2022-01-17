@@ -83,5 +83,10 @@ import lombok.extern.slf4j.Slf4j;
 		log.info("장바구니 수량 수정 serviceimpl 처리 wishListVo={}",wishListVo.toString());
 		return wishlistDao.updateQuantity(wishListVo);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectByWishlistNoArr(Map<String, Object> map) {
+		return wishlistDao.selectByWishlistNoArr(map);
+	}
 }
  

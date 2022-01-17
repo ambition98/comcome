@@ -110,6 +110,12 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="selectCntByCategoryNo" parameterType="Integer">
+		select count(*)
+		from search_product
+		group by #{categoryNo}
+	</select>
 </mapper>
 
 
