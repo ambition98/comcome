@@ -5,8 +5,6 @@
  <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mypage/cartbutton.css'/>" /> 
 <script type="text/javascript">
 $(function(){
-	
-	
 	$('#AllAgree').click(function(){
 		$('.'+this.id).prop('checked',this.checked);
 		
@@ -54,15 +52,6 @@ $(function(){
 	function priceToString(cur_total) {
 	    return cur_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
-	
-
-
-
-
-	
-	
-	
-	
 });
 
 
@@ -120,7 +109,7 @@ $(function(){
 							method="post" name="frmCart">
 							 
 							
-							<input type="hidden" name="wishlistNo" id="wishlistNo"
+							<input name="wishlistNo" class="wishlistNo"
 								value="${map['WISHLIST_NO'] }">
 							<input type="text" id ="quantity" name="quantity" size="4" 
 								value="${map['QUANTITY'] }">
@@ -147,12 +136,12 @@ $(function(){
     <div class="btn-contain2" id="price">
 </div>
     <div id="select2">
- <input type ="checkbox" id ="AllAgree" onclick="AllAgree(this.id,this.checked);">
+ <input type ="checkbox" id ="AllAgree">
 	<label for ="AllAgree" id="allsel">전체 선택</label><br>   
 </div>
 
 <div class="btn-contain">
-  <button class="btn">구매</button>
+  <button class="btn" id="checkout">구매</button>
   <div class="btn-particles">
   </div>
 </div>
