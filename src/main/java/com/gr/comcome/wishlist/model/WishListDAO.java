@@ -10,7 +10,17 @@ public interface WishListDAO {
   
 	 List<Map<String, Object>> selectWishList(String wisilistNo );
 
-	int insertWishByNo(WishListVO wishListVO); 
+	int insertWishByNo(WishListVO wishListVO);
+
+	List<Map<String, Object>> selectAll(int accountNo);
+
+	Integer countProductByNo(WishListVO wishListVO);
+
+	int updateWishByNo(WishListVO wishListVO);
+
+	int deleteWish(WishListVO wishListVo);
+
+	int updateQuantity(WishListVO wishListVo); 
   
 }
  

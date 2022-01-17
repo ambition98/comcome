@@ -49,33 +49,39 @@ public class SearchProductController {
 		log.info("Enter list()");
 		log.info("keyword: " + keyword);
 //		log.info("vo: " + vo.toString()); //파라미터 전달 안해도 null은 아님
-		List<SearchProductVO> searchPdList = null;
+		//List<SearchProductVO> searchPdList = null;
 		
-		if(vo.getBrandNo() != 0 && vo.getScreenSizeNo() != 0) {
-			log.info("브랜드 & 사이즈 카테고리");
-			log.info(vo.toString());
-			searchPdList = searchProductService.selectByCategoryNo(vo);
-			model.addAttribute("brandNo", vo.getBrandNo());
-			model.addAttribute("screenSizeNo", vo.getScreenSizeNo());
-			//log.info("List size: " + searchPdList.size());
-			
-		} else if(vo.getBrandNo() != 0) {
-			log.info("브랜드 카테고리");
-			searchPdList = searchProductService.selectByBrandNo(vo.getBrandNo());
-			model.addAttribute("brandNo", vo.getBrandNo());
-			//log.info("List size: " + searchPdList.size());
-			
-		} else if(keyword != null) {
-			log.info("검색");
-			searchPdList = searchProductService.selectByKeyword(keyword.toLowerCase());
-			//log.info("List size: " + searchPdList.size());
-		} else {
-			log.info("전체 노트북 카테고리");
-			searchPdList = searchProductService.selectAll(); 
-			//log.info("List size: " + searchPdList.size());
+		model.addAttribute("brandNo", vo.getBrandNo());
+		model.addAttribute("screenSizeNo", vo.getScreenSizeNo());
+		if(keyword != null && !keyword.isBlank()) {
+			model.addAttribute("keyword", keyword);
 		}
 		
-		model.addAttribute("searchPdList", searchPdList);
+//		if(vo.getBrandNo() != 0 && vo.getScreenSizeNo() != 0) {
+//			log.info("브랜드 & 사이즈 카테고리");
+//			log.info(vo.toString());
+//			//searchPdList = searchProductService.selectByCategoryNo(vo);
+//			model.addAttribute("brandNo", vo.getBrandNo());
+//			model.addAttribute("screenSizeNo", vo.getScreenSizeNo());
+//			//log.info("List size: " + searchPdList.size());
+//			
+//		} else if(vo.getBrandNo() != 0) {
+//			log.info("브랜드 카테고리");
+//			//searchPdList = searchProductService.selectByBrandNo(vo.getBrandNo());
+//			model.addAttribute("brandNo", vo.getBrandNo());
+//			//log.info("List size: " + searchPdList.size());
+//			
+//		} else if(keyword != null) {
+//			log.info("검색");
+//			searchPdList = searchProductService.selectByKeyword(keyword.toLowerCase());
+//			//log.info("List size: " + searchPdList.size());
+//		} else {
+//			log.info("전체 노트북 카테고리");
+//			searchPdList = searchProductService.selectAll(); 
+//			//log.info("List size: " + searchPdList.size());
+//		}
+//		
+//		model.addAttribute("searchPdList", searchPdList);
 		
 		return "/search_pd/list";
 	}
@@ -85,43 +91,62 @@ public class SearchProductController {
 	public List<SearchProductVO> changeList(@RequestBody String data) {
 		log.info("Enter changelist()");
 		log.info(data);
-		Map<String, Object> map = new HashMap<>();
-		List<String> brandList = new ArrayList<>();
-		List<String> screenSizeList = new ArrayList<>();
-		List<String> cpuList = new ArrayList<>();
-		List<String> memoryList = new ArrayList<>();
 		
+		List<SearchProductVO> voList = null;
 		JSONObject jObject = new JSONObject(data);
-		JSONArray jBrand = jObject.getJSONArray("brand");
-		JSONArray jScreenSize = jObject.getJSONArray("screenSize");
-		JSONArray jCpu = jObject.getJSONArray("cpu");
-		JSONArray jMemory = jObject.getJSONArray("memory");
 		
-		for(int i=0; i<jBrand.length(); i++)
-			brandList.add(jBrand.getString(i));
-		
-		for(int i=0; i<jScreenSize.length(); i++)
-			screenSizeList.add(jScreenSize.getString(i));
-		
-		for(int i=0; i<jCpu.length(); i++)
-			cpuList.add(jCpu.getString(i));
-		
-		for(int i=0; i<jMemory.length(); i++)
-			memoryList.add(jMemory.getString(i));
-		
-		map.put("brand", brandList);
-		map.put("screenSize", screenSizeList);
-		map.put("cpu", cpuList);
-		map.put("memory", memoryList);
-		//System.out.println(cpuList.size());
-		
-		List<SearchProductVO> voList = searchProductService.selectByOption(map);
-//		for(SearchProductVO vo : voList) {
-//			System.out.println(vo.getName());
-//			System.out.println(vo.getDetail());
-//			System.out.println("---------------------------");
-//		}
-		log.info("vo size: " + voList.size());
+		if(jObject.has("keyword")) {
+			//검색어 or 전체카테고리 선택
+			String keyword = jObject.getString("keyword");
+			
+			if(keyword.equals("all")) {
+				System.out.println("enter all");
+				voList = searchProductService.selectAll();
+			} else {
+				System.out.println("enter keyword");
+				voList = searchProductService.selectByKeyword(keyword);
+			}
+			System.out.println(voList);
+			
+		} else {
+			// 옵션버블 사용
+			Map<String, Object> map = new HashMap<>();
+			List<String> brandList = new ArrayList<>();
+			List<String> screenSizeList = new ArrayList<>();
+			List<String> cpuList = new ArrayList<>();
+			List<String> memoryList = new ArrayList<>();
+			
+			JSONArray jBrand = jObject.getJSONArray("brand");
+			JSONArray jScreenSize = jObject.getJSONArray("screenSize");
+			JSONArray jCpu = jObject.getJSONArray("cpu");
+			JSONArray jMemory = jObject.getJSONArray("memory");
+			
+			for(int i=0; i<jBrand.length(); i++)
+				brandList.add(jBrand.getString(i));
+			
+			for(int i=0; i<jScreenSize.length(); i++)
+				screenSizeList.add(jScreenSize.getString(i));
+			
+			for(int i=0; i<jCpu.length(); i++)
+				cpuList.add(jCpu.getString(i));
+			
+			for(int i=0; i<jMemory.length(); i++)
+				memoryList.add(jMemory.getString(i));
+			
+			map.put("brand", brandList);
+			map.put("screenSize", screenSizeList);
+			map.put("cpu", cpuList);
+			map.put("memory", memoryList);
+			//System.out.println(cpuList.size());
+			
+			voList = searchProductService.selectByOption(map);
+	//		for(SearchProductVO vo : voList) {
+	//			System.out.println(vo.getName());
+	//			System.out.println(vo.getDetail());
+	//			System.out.println("---------------------------");
+	//		}
+			log.info("vo size: " + voList.size());
+		}
 		
 		return voList;
 	}

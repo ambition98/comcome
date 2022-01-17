@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gr.comcome.account.model.AccountService;
+import com.gr.comcome.admin.model.AdminService;
+import com.gr.comcome.search_pd.reply.model.SearchPdReviewReplyService;
+import com.gr.comcome.search_pd.reply.model.SearchPdReviewReplyVO;
 import com.gr.comcome.search_pd.review.model.SearchPdReviewService;
 import com.gr.comcome.search_pd.review.model.SearchPdReviewVO;
 
@@ -26,9 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchPdReviewController {
 	
 	private final SearchPdReviewService searchPdReviewService;
-	
-	public SearchPdReviewController(SearchPdReviewService searchPdReviewService) {
+	private final SearchPdReviewReplyService searchPdReviewReplyService;
+	private final AccountService accountService;
+	private final AdminService adminService;
+
+	public SearchPdReviewController(SearchPdReviewService searchPdReviewService,
+			SearchPdReviewReplyService searchPdReviewReplyService, AccountService accountService,
+			AdminService adminService) {
 		this.searchPdReviewService = searchPdReviewService;
+		this.searchPdReviewReplyService = searchPdReviewReplyService;
+		this.accountService = accountService;
+		this.adminService = adminService;
 	}
 
 	@GetMapping("/review")
@@ -69,7 +81,6 @@ public class SearchPdReviewController {
 	@RequestMapping("/change_review")
 	public List<SearchPdReviewVO> changeReview(@RequestBody String data) {
 		log.info("Enter changeReview()");
-		//log.info(data);
 		
 		Map<String, Object> map = new HashMap<>();
 		JSONObject jObject = new JSONObject(data);
@@ -78,11 +89,21 @@ public class SearchPdReviewController {
 		map.put("searchProductNo", jObject.get("searchProductNo"));
 		
 		List<SearchPdReviewVO> voList = searchPdReviewService.selectByType(map);
-		System.out.println(voList.size());
-		
 		for(SearchPdReviewVO vo : voList) {
-			System.out.println(vo);
+			vo.setAccountVo(accountService.selectAccountByNo(vo.getAccountNo()));
+			vo.setSearchPdReviewReplyVo(searchPdReviewReplyService.selectByReviewNo(vo.getSearchPdReviewNo()));
+			SearchPdReviewReplyVO replyVo = vo.getSearchPdReviewReplyVo(); 
+			if(replyVo != null) {
+				replyVo.setAdminVo(adminService.selectByNo(replyVo.getAdminNo()));
+				vo.setSearchPdReviewReplyVo(replyVo);
+			}
+				
 		}
+		
+//		for(SearchPdReviewVO vo : voList) {
+//			System.out.println(vo.getAccountVo());
+//			System.out.println(vo.getSearchPdReviewReplyVo());
+//		}
 		
 		return voList;
 	}

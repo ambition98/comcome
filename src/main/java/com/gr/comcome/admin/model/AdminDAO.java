@@ -29,5 +29,5 @@ public interface AdminDAO {
 	//notice 최근 것 불러오기 
 	NoticeVO selectRecentNotice();
 	
-		
+	AdminVO selectByNo(int adminNo);
 }

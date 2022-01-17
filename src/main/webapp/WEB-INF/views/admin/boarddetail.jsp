@@ -27,7 +27,7 @@
 										</c:if>
 										</div>
 										<li id="yourli2">내용</li>
-										<li id="yourli3">${vo.content}내용내용내용내용내용내용내용<br>내용내용내용내용내용내용내용</li>
+										<li id="yourli3">${vo.content}</li>
 										
 									</ul>
 								</div>
