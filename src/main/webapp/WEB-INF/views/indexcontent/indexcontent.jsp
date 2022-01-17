@@ -93,7 +93,10 @@ String name=(String)session.getAttribute("name");
         </a>
       </li>
     </ul>
-  </div>
+</div>
+<div id="brandImg">
+	
+</div>  
 <!-- </article> -->
 <!-- index content2 END -->
 
@@ -145,60 +148,52 @@ String name=(String)session.getAttribute("name");
     </section> 
     <!-- Related Product Section End -->
   
-  
-    <div id="banner3">
- <img alt="사진" src="<c:url value='/resources/img/banner4.png'/>" id="banner3">
-</div>
-<div id="banner2">
- <img alt="사진" src="<c:url value='/resources/img/banner2.png'/>">
+<div id="banner1">
+	<img alt="사진" src="<c:url value='/resources/img/banner2.png'/>">
+	<img alt="사진" src="<c:url value='/resources/img/banner4.png'/>">
 </div>
 
  
- <div id="banner">
- <img alt="사진" src="<c:url value='/resources/img/banner3.png'/>">
+<div id="banner2">
+	<img alt="사진" src="<c:url value='/resources/img/banner3.png'/>">
 </div> 
  
  
      <!-- Blog Section Begin -->
-    <section class="from-blog spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title from-blog__title">
-                        <h2>중고 거래 게시판</h2>
-                    </div>
+<section class="from-blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title from-blog__title">
+                    <h2>중고 거래 게시판</h2>
                 </div>
-            </div>
-            <div class="row">
-            	 <c:if test="${!empty list2 }">
-            	 <c:forEach var="vo" items="${list2 }"  begin="0" end="6">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-	                    <c:if test="${!empty vo.fileName }">
-	                    	<div class="blog__item__pic">
-								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
-						    </div>
-						</c:if>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></li>
-                                <li><i class="fa fa-comment-o"></i>${vo.readcount}</li>
-                            </ul>
-                            <h5><a href="#">${vo.title}</a></h5>
-                            <p>${vo.content}</p>
-                        </div>
-                    </div>
-                </div>
-                </c:forEach>
-                </c:if>
-                
-                
-                
-            
-              
             </div>
         </div>
-    </section>
-    <!-- Blog Section End -->
+        <div class="row">
+        	<c:if test="${!empty list2 }">
+	        	<c:forEach var="vo" items="${list2 }"  begin="0" end="6">
+		        	<div class="col-lg-4 col-md-4 col-sm-6">
+		                <div class="blog__item">
+		                 <c:if test="${!empty vo.fileName }">
+		                 	<div class="blog__item__pic">
+								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
+				    		</div>
+						</c:if>
+		                    <div class="blog__item__text">
+		                        <ul>
+		                            <li><i class="fa fa-calendar-o"></i><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd"/></li>
+		                            <li><i class="fa fa-comment-o"></i>${vo.readcount}</li>
+		                        </ul>
+		                        <h5><a href="#">${vo.title}</a></h5>
+		                        <p>${vo.content}</p>
+		                    </div>
+		                </div>
+		            </div>
+	            </c:forEach>
+            </c:if>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
     
    

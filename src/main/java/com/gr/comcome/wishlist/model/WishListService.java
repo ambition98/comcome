@@ -6,6 +6,14 @@ import java.util.Map;
 public interface WishListService {
 	  List<Map<String, Object>> selectWishList(String wisilistNo );
 
-	int insertWishByNo(String email, int saleProductNo); 
+	int insertWishByNo(String email, int saleProductNo);
+
+	List<Map<String, Object>> selectAll(int accountNo);
+
+	int deleteWishByNo(int accountNo, int saleProductNo);
+
+	int updateQuantity(WishListVO wishListVo);
+
+	
   }
  
