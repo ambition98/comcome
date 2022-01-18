@@ -121,25 +121,31 @@
 			
 		});
 		
-			function nicepayStart(){
-				var buyerName = document.getElementById('name').value;
-				var buyerEmail = document.getElementById('email').value;
-				var buyerTel = document.getElementById('tel').value;
-				
-				console.log(buyerName);
-				console.log(buyerEmail);
-				console.log(buyerTel);
-				
-				document.getElementById('b_name').value = buyerName;
-				document.getElementById('b_email').value = buyerEmail;
-				document.getElementById('b_tel').value = buyerTel;
-				
-				goPay(document.payForm);
-			}
+		function nicepayStart(){
+			var buyerName = document.getElementById('name').value;
+			var buyerEmail = document.getElementById('email').value;
+			var buyerTel = document.getElementById('tel').value;
+			var zipcode = document.getElementById('zipcode').value;
+			var address = document.getElementById('address').value;
+			var addressDetail = document.getElementById('address_detail').value;
+			var concatAddress = zipcode + ' ' + address + ' ' + addressDetail;
 			
-			function nicepaySubmit(){
-				document.payForm.submit();
-			}
+			//console.log(buyerName);
+			//console.log(buyerEmail);
+			//console.log(buyerTel);
+			console.log(concatAddress);
+			
+			document.getElementById('b_name').value = buyerName;
+			document.getElementById('b_email').value = buyerEmail;
+			document.getElementById('b_tel').value = buyerTel;
+			document.getElementById('b_address').value = concatAddress;
+			
+			goPay(document.payForm);
+		}
+		
+		function nicepaySubmit(){
+			document.payForm.submit();
+		}
 	</script>
 </head>
 <body>
@@ -220,6 +226,10 @@
 	<!-- 변경 불가능 -->
 	<input type="hidden" name="EdiDate" value="${ediDate}"/>			<!-- 전문 생성일시 -->
 	<input type="hidden" name="SignData" value="${hashString}"/>		<!-- 해쉬값 -->
+	
+	<!-- 기타 정보 -->
+	<input type="hidden" name="accountNo" value="${accountVo.accountNo}"/>
+	<input id="b_address" type="hidden" name="address" value=""/>
 </form>
 </body>
 </html>

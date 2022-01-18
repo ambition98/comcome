@@ -26,6 +26,7 @@ import com.gr.comcome.common.mallapi.NaverAPI;
 import com.gr.comcome.common.mallapi.Product;
 import com.gr.comcome.search_pd.model.SearchProductService;
 import com.gr.comcome.search_pd.model.SearchProductVO;
+import com.gr.comcome.search_pd.pricelog.model.SearchPdPriceLogService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,9 +35,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/searchpd")
 public class SearchProductController {
 	private final SearchProductService searchProductService;
+	private final SearchPdPriceLogService searchPdPriceLogService;
 
-	public SearchProductController(SearchProductService searchProductService) {
+	public SearchProductController(SearchProductService searchProductService,
+			SearchPdPriceLogService searchPdPriceLogService) {
 		this.searchProductService = searchProductService;
+		this.searchPdPriceLogService = searchPdPriceLogService;
 	}
 
 	@RequestMapping("/list")
@@ -54,32 +58,6 @@ public class SearchProductController {
 		if(keyword != null && !keyword.isBlank()) {
 			model.addAttribute("keyword", keyword);
 		}
-		
-//		if(vo.getBrandNo() != 0 && vo.getScreenSizeNo() != 0) {
-//			log.info("브랜드 & 사이즈 카테고리");
-//			log.info(vo.toString());
-//			//searchPdList = searchProductService.selectByCategoryNo(vo);
-//			model.addAttribute("brandNo", vo.getBrandNo());
-//			model.addAttribute("screenSizeNo", vo.getScreenSizeNo());
-//			//log.info("List size: " + searchPdList.size());
-//			
-//		} else if(vo.getBrandNo() != 0) {
-//			log.info("브랜드 카테고리");
-//			//searchPdList = searchProductService.selectByBrandNo(vo.getBrandNo());
-//			model.addAttribute("brandNo", vo.getBrandNo());
-//			//log.info("List size: " + searchPdList.size());
-//			
-//		} else if(keyword != null) {
-//			log.info("검색");
-//			searchPdList = searchProductService.selectByKeyword(keyword.toLowerCase());
-//			//log.info("List size: " + searchPdList.size());
-//		} else {
-//			log.info("전체 노트북 카테고리");
-//			searchPdList = searchProductService.selectAll(); 
-//			//log.info("List size: " + searchPdList.size());
-//		}
-//		
-//		model.addAttribute("searchPdList", searchPdList);
 		
 		return "/search_pd/list";
 	}
@@ -141,6 +119,15 @@ public class SearchProductController {
 	//			System.out.println("---------------------------");
 	//		}
 			log.info("vo size: " + voList.size());
+			
+			for(SearchProductVO vo : voList) {
+				int lowPrice = searchPdPriceLogService.selectNewestPriceByPdNo(vo.getSearchProductNo());
+				if(lowPrice == Integer.MAX_VALUE) {
+					lowPrice = 0;
+				}
+				
+				vo.setPrice(lowPrice);
+			}
 		}
 		
 		return voList;
