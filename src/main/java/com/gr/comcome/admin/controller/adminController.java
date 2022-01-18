@@ -2,8 +2,11 @@ package com.gr.comcome.admin.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.admin.model.AdminService;
 import com.gr.comcome.admin.model.AdminVO;
@@ -57,6 +61,9 @@ public class adminController {
 	
 	@Autowired
 	private SaleProductService saleProductService;
+	
+	@Autowired
+	private AccountService accountService;
 
 	
 	  // http://localhost:9091/comcome/admin/member
@@ -617,8 +624,66 @@ public class adminController {
 		}
 		
 		
-		
-		
+		//localhost:9091/comcome/admin/chart
+		@RequestMapping("/chart") 
+		public String chart_get(Model model) {
+			logger.info("일별 사이트 통계 화면");
+			List<Map<String,Integer>> listAccount = accountService.selectDaysRegister();
+			
+			logger.info("전체조회 결과 list.size={}", listAccount.size());
+			int size = listAccount.size();
+			String[] accountRegdate = new String[size];
+			int[] accountCount =new int[size];
+			int i=0;
+//			int j=0;
+//			for(int i = 0; i < listAccount.size(); i++){
+//		        //arraylist 사이즈 만큼 for문을 실행합니다.
+//		        System.out.println("list 순서 " + i + "번쨰");	        
+//		        
+//		        for(Entry<String, Integer> elem : listAccount.get(i).entrySet() ){
+//		            
+//		        	model.addAttribute("a"+j,elem.getValue());
+//		            j++;
+//		        }
+//		    }
+//			for(int i = 0; i < 12; i++){
+//				System.out.println(ai);
+//			}
+			Map<String, Integer> map1 = new LinkedHashMap<>();
+			
+			for(Map<String, Integer> map : listAccount) {
+//				map.forEach((k, v) -> {
+//					System.out.println("k: " + k);
+//					System.out.println("v: " + v);
+//				});
+				
+				String str = String.valueOf(map.get("REGDATE"));
+				int count = Integer.parseInt(String.valueOf(map.get("COUNT")));
+				String month = str.substring(str.indexOf("-")+1,str.indexOf("-")+3);
+				String day = str.substring(str.lastIndexOf("-")+1,str.lastIndexOf("-")+3);
+				String regdate=month+"/"+day;
+				
+//				System.out.println(str);
+//				System.out.println(regdate);
+//				System.out.println(count);
+//				map1.put(regdate, count);
+				accountRegdate[i]=regdate;
+				accountCount[i]=count;
+				i++;
+			}	
+			System.out.println(1);
+			for(int j = 0; j < accountRegdate.length; j++) { 
+				System.out.println(accountRegdate[j]);
+				System.out.println(accountCount[j]);
+			}
+//			System.out.println(accountRegdate);
+//			System.out.println(accountCount);
+//			model.addAttribute(map1);
+			model.addAttribute("a", accountRegdate);
+			model.addAttribute("b", accountCount);
+			  
+			return "/adminview/chartwithmain"; 
+		}
 		
 	
 	
