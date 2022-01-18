@@ -1,3 +1,5 @@
+<%@page import="java.util.Set"%>
+<%@page import="org.json.JSONObject"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.HashMap" %>
@@ -9,8 +11,6 @@
 <%@ page import="java.net.HttpURLConnection" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.security.MessageDigest" %>
-<%@ page import="org.json.simple.JSONObject" %>
-<%@ page import="org.json.simple.parser.JSONParser" %>
 <%@ page import="org.apache.commons.codec.binary.Hex" %>
 <%
 request.setCharacterEncoding("utf-8"); 
@@ -184,6 +184,26 @@ if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignatu
 			<th>거래 번호</th>
 			<td><%=TID%></td>
 		</tr>
+		<tr>
+			<th>구매자 이름</th>
+			<td>${buyerName}</td>
+		</tr>
+		<tr>
+			<th>구매자 이메일</th>
+			<td>${buyerEmail}</td>
+		</tr>
+		<tr>
+			<th>구매자 휴대폰번호</th>
+			<td>${buyerTel}</td>
+		</tr>
+		<tr>
+			<th>구매자 주소</th>
+			<td>${address}</td>
+		</tr>
+		<tr>
+			<th>accountNo</th>
+			<td>${accountNo}</td>
+		</tr>
 		<!--<%/*if(Signature.equals(paySignature)){%>
 		<tr>
 			<th>Signature</th>
@@ -304,7 +324,16 @@ public String connectToServer(String data, String reqUrl) throws Exception{
 //JSON String -> HashMap 변환
 private static HashMap jsonStringToHashMap(String str) throws Exception{
 	HashMap dataMap = new HashMap();
-	JSONParser parser = new JSONParser();
+	
+	JSONObject mainObj = new JSONObject(str);
+	Set<String> keySet = mainObj.keySet();
+	for(String key : keySet) {
+		Object value = mainObj.getString(key);
+		
+		dataMap.put(key, value);		
+	}
+	
+	/* JSONParser parser = new JSONParser();
 	try{
 		Object obj = parser.parse(str);
 		JSONObject jsonObject = (JSONObject)obj;
@@ -313,12 +342,13 @@ private static HashMap jsonStringToHashMap(String str) throws Exception{
 		while(keyStr.hasNext()){
 			String key = keyStr.next();
 			Object value = jsonObject.get(key);
-			
+			System.out.println("key: " + key);
+			System.out.println("value: " + String.valueOf(value) + "\n");
 			dataMap.put(key, value);
 		}
 	}catch(Exception e){
 		
-	}
+	} */
 	return dataMap;
 }
 %>

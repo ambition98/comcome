@@ -122,7 +122,18 @@ public class CheckoutController {
 	}
 	
 	@RequestMapping("/checkout/result")
-	public String resultPage(Model model) {
+	public String resultPage(Model model
+			,@RequestParam("BuyerName") String buyerName
+			,@RequestParam("BuyerEmail") String buyerEmail
+			,@RequestParam("BuyerTel") String buyerTel
+			,@RequestParam("accountNo") int accountNo
+			,@RequestParam("address") String address) {
+		
+		model.addAttribute("buyerName", buyerName);
+		model.addAttribute("buyerEmail", buyerEmail);
+		model.addAttribute("buyerTel", buyerTel);
+		model.addAttribute("accountNo", accountNo);
+		model.addAttribute("address", address);
 		
 		return "/checkout/result";
 	}
