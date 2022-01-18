@@ -5,8 +5,8 @@
 <mapper namespace="com.gr.comcome.account.model.AccountDAO">	 
 
 	<insert id="insertAccount" parameterType="AccountVo">
-		insert into account(email, name, address, tel, card_no)
-		values(#{email}, #{name}, #{address}, #{tel}, #{cardNo})
+		insert into account(email, name, address, tel, card_no,zipcode,address_detail)
+		values(#{email}, #{name}, #{address}, #{tel}, #{cardNo},#{zipcode},#{addressDetail})
 	</insert>
 	
 	<insert id="insertPwd" parameterType="HashVo">
@@ -32,6 +32,25 @@
 		where account_no = #{accountNo}
 	</select>
 	
+	<select id="selectDaysRegister" resultType="map">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate
+    	 , NVL(SUM(a.cnt),0) count
+  		FROM ( SELECT TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate , COUNT(*) cnt
+         FROM account
+         WHERE regdate BETWEEN to_date(trunc(sysdate)-6,'yy-mm-dd')
+                    AND to_date(trunc(sysdate)+1,'yy-mm-dd')
+         GROUP BY regdate
+         ORDER BY regdate
+        ) a
+    	  , (SELECT to_date(trunc(sysdate)-6,'yy-mm-dd') + LEVEL - 1 AS dt
+        FROM dual 
+        CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
+                           - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
+       WHERE b.dt = a.regdate(+)
+       GROUP BY b.dt
+       ORDER BY b.dt
+  </select>
+  
 	<select id="selectAccountByEmail" parameterType="String" resultType="accountVo">
 		select *
 		from account

@@ -2,7 +2,9 @@ package com.gr.comcome.account.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +27,7 @@ import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.account.model.HashVO;
 import com.gr.comcome.common.HashingUtil;
 import com.gr.comcome.login.model.LoginService;
+import com.gr.comcome.login.service.MailService;
 
 @Controller
 @RequestMapping("/account")
@@ -33,13 +38,17 @@ public class AccountController {
 	private final AccountService accountService;
 	private HashingUtil hashingUtil;
 	private LoginService loginservice;
+	private final MailService mailService;
 	
 	
 	//DI - 생성자에 의한 종속객체 주입 
 	@Autowired
-	public AccountController(AccountService accountService, HashingUtil hashingUtil) {
+	public AccountController(AccountService accountService, HashingUtil hashingUtil,
+				LoginService loginservice,MailService mailService) {
 		this.accountService = accountService;
 		this.hashingUtil = hashingUtil;
+		this.loginservice = loginservice;
+		this.mailService = mailService;
 		logger.info("생성자주입!!");
 	}
 
@@ -112,6 +121,69 @@ public class AccountController {
 				str += charSet[idx];
 			}
 			return str;
+		}
+		
+//		public void sendEmail(String subject,String content, String receiver, String sender) {
+//			MimeMessage msg = JavaMailSender.creteMi
+//		}
+		
+		@RequestMapping("/secdCode")
+		public String sendCode(@RequestParam String email, Model model) {
+			logger.info("이메일 인증 파라미터 , email={}", email);
+
+			// 인증번호 불러오기
+			String veriCode = getVerifiedCode();
+			int cnt = mailService.sendMail2(email, veriCode);
+			
+			logger.info("cnt={}",cnt);
+			logger.info("veriCode={}", veriCode);
+			
+//			String msg = "이메일 전송에 실패하였습니다", url = "/login/find-password";
+//			// 이메일 전송 성공시에
+//			if (result == LoginService.SEND_EMAIL) {
+//				model.addAttribute("msg", "해당 이메일로 인증번호가 전송되었습니다.");
+				model.addAttribute("veriCode", veriCode);
+				model.addAttribute("result", 0);
+				model.addAttribute("code", 0);
+//				model.addAttribute("email", email);
+//				return "login/verifiedCodeForm2";
+//			}
+//
+//			if (result == LoginService.EMAIL_NONE) {
+//				msg = "존재하지 않는 이메일입니다";
+//			} else if (result == LoginService.FAIL_TO_SEND_EMAIL) {
+//				msg = "이메일 전송이 실패하였습니다.";
+//			}
+//
+//			model.addAttribute("msg", msg);
+//			model.addAttribute("url", url);
+
+			return "account/checkUserEmail";
+		}
+		
+		@GetMapping("/confirmCode")
+		public String confirmCode_get() {
+			return "account/checkUserEmail";
+		}
+
+		@PostMapping("/confirmCode")
+		public String confirmCode_post(@RequestParam String yourveriCode, @RequestParam String veriCode,
+				@RequestParam String email, Model model) {
+			
+			logger.info("인증번호 확인 처리, yourveriCode={}, veriCode={}", yourveriCode, veriCode);
+
+			if (yourveriCode.equals(veriCode)) {
+				model.addAttribute("msg", "본인 인증에 성공하였습니다");
+				model.addAttribute("email", email);
+				return "account/checkUserEmail";
+			}
+			String msg = "본인 인증에 실패하였습니다", url = "/login/find-password";
+
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+
+			return "account/checkUserEmail";
+
 		}
 
 }
