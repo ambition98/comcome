@@ -59,9 +59,14 @@ public class usedBoardServiceImpl implements usedBoardService{
 	@Override
 	public int insertBoard(usedBoardVO usedBoardVO){
 		return usedBoardDao.insertBoard(usedBoardVO);
-	};
+	}
 	@Override
 	public int updateBoard(usedBoardVO usedBoardVO) {
 		return usedBoardDao.updateBoard(usedBoardVO);
-	};
+	}
+	
+	@Override
+	public List<Map<String,Integer>> selectDaysBoardCount(){
+		return usedBoardDao.selectDaysBoardCount();
+	}
 }

@@ -13,4 +13,64 @@
 		from pd_order
 		where account_no = #{accountNo}
 	</select>
+	
+	<select id="selectDaysSales" resultType="map">
+	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate
+     , NVL(SUM(a.total),0) total
+  FROM ( SELECT TO_CHAR(order_date, 'YYYY-MM-DD') AS order_date , sum(price) total
+         FROM pd_order
+         WHERE order_date BETWEEN to_date(trunc(sysdate)-6,'yy-mm-dd')
+                    AND to_date(trunc(sysdate)+1,'yy-mm-dd')
+         GROUP BY order_date
+         ORDER BY order_date
+        ) a
+      , (SELECT to_date(trunc(sysdate)-6,'yy-mm-dd') + LEVEL - 1 AS dt
+        FROM dual 
+        CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
+                           - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
+  WHERE b.dt = a.order_date(+)
+  GROUP BY b.dt
+  ORDER BY b.dt
+	</select>
+	
+	<select id="selectDaysSalesCount" resultType="map">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate, NVL(SUM(a.cnt),0) count
+  		FROM ( SELECT TO_CHAR(order_date, 'YYYY-MM-DD') AS order_date ,  COUNT(*) cnt
+         	   FROM pd_order
+               WHERE order_date BETWEEN to_date(trunc(sysdate)-6,'yy-mm-dd')
+               AND to_date(trunc(sysdate)+1,'yy-mm-dd')
+         	   GROUP BY order_date
+         	   ORDER BY order_date
+        	 ) a
+      		,(SELECT to_date(trunc(sysdate)-6,'yy-mm-dd') + LEVEL - 1 AS dt
+        	FROM dual 
+        	CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
+                           - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
+  WHERE b.dt = a.order_date(+)
+  GROUP BY b.dt
+  ORDER BY b.dt
+	</select>
+	<select id="selectAllOrder" parameterType="Integer" resultType="pdOrderVo">
+		select *
+		from
+		(
+		    select rownum as RNUM, A.*
+		    from
+		    (
+		        select * from pd_order
+		        <if test="searchKeyword!=null and searchKeyword!=''">
+	       			where ${searchCondition} like '%' || #{searchKeyword} || '%'
+				</if>
+  				order by order_date desc
+		    )A
+		)
+		<![CDATA[
+		where RNUM>#{firstRecordIndex} 
+			and RNUM<=#{firstRecordIndex}+ #{recordCountPerPage}]]>
+	</select>
+	
+	<select id="selectAllData" resultType="pdOrderVo">
+		select * from pd_order
+  		order by order_date desc
+	</select>
 </mapper>

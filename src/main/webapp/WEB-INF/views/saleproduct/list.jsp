@@ -117,7 +117,7 @@ text-color:black;
 						<c:forEach var="vo" items="${list}">
 							<div class="col-lg-3 col-md-4 col-sm-6">
 								<div class="blog__item">
-									<a href="<c:url value='/saleProduct/Detail?SaleProductNo=${vo.saleProductNo}'/>">
+									<a href="<c:url value='/saleProduct/detail?saleProductNo=${vo.saleProductNo}'/>">
 										<div class="blog__item__pic" >
 											<img src="../resources/user_uploaded_file/testboard/${vo.thumbNailImg}" alt=""
 												style="width:auto; height:auto; max-width:150px; max-height:150px; ">

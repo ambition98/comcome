@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
@@ -60,5 +62,18 @@ public class SaleProductController {
 		
 		
 		return "/saleproduct/list";
+	}
+	
+	@RequestMapping(value="/detail", method = RequestMethod.GET)
+	public String checkemail_get(@RequestParam(required = false) int saleProductNo, Model model){
+		//request 세션, response 쿠키	
+		log.info("특가상품 상세 화면");
+		log.info("특가상품번호 파라미터, saleProductNo={}", saleProductNo);
+		
+		
+		SaleProductVO vo=saleProductService.selectByNo(saleProductNo);
+		log.info("조회상품 정보, vo={}", vo.getThumbNailImg());
+		model.addAttribute("vo", vo);
+		return "/saleproduct/detail";
 	}
 }

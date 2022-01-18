@@ -125,6 +125,25 @@
 		</if>		
 		where board_no=#{boardNo}
 	</update>
+	
+	<select id="selectDaysBoardCount" resultType="map">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate
+     , NVL(SUM(a.cnt),0) count
+  FROM ( SELECT TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate , COUNT(*) cnt
+         FROM board
+         WHERE regdate BETWEEN to_date(trunc(sysdate)-6,'yy-mm-dd')
+                    AND to_date(trunc(sysdate)+1,'yy-mm-dd')
+         GROUP BY regdate
+         ORDER BY regdate
+        ) a
+      , (SELECT to_date(trunc(sysdate)-6,'yy-mm-dd') + LEVEL - 1 AS dt
+        FROM dual 
+        CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
+                           - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
+  WHERE b.dt = a.regdate(+)
+  GROUP BY b.dt
+  ORDER BY b.dt
+	</select>
  
 </mapper>
 
