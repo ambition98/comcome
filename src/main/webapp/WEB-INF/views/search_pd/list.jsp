@@ -267,7 +267,11 @@
 					        			+'<a href="<c:url value="/searchpd/detail?pdNo='+pd.searchProductNo+'" />">'+ pd.name +'</a>'
 					        			+ pdDetail
 					        			+'</div>';
-					    var pdPrice = '<div class="pd_price">1,111,111 원</div>';
+					    if(pd.price == 0) {
+					    	var pdPrice = '<div class="pd_price"> - 원</div>';
+					    } else {
+						    var pdPrice = '<div class="pd_price">'+pd.price.toLocaleString('ko-KR')+' 원</div>';
+					    }
 					    
 					    var pdDiv = '<div class="search_pd">'
 					    			+ pdThumbnail + pdName + pdPrice + '</div>';

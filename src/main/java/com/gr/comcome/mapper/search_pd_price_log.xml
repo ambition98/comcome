@@ -8,4 +8,13 @@
 		values(#{searchProductNo}, #{lowPrice})
 	</insert>
 	
+	<select id="selectNewestPriceByPdNo" parameterType="int" resultType="int">
+		select low_price
+		from (
+		    select low_price, row_number() over(order by regdate desc) as rank
+		    from  search_pd_price_log pd
+		    where search_product_no = #{searchPdNo}
+		)
+		where rank = 1
+	</select>
 </mapper>
