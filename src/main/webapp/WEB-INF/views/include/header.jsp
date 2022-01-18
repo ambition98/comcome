@@ -21,9 +21,9 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="../">Home</a></li>
+                            <li class="active"><a href="/comcome">Home</a></li>
                             <li><a href="/comcome/usedBoard/list">중고거래</a></li>
-                            <li><a href="#">특가상품</a>
+                            <li><a href="/comcome/saleProduct/list">특가상품</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>
                                     <li><a href="./shoping-cart.html">Shoping Cart</a></li>

@@ -8,4 +8,5 @@ public interface MessageBoxService {
 	
 	 int selectTotalRecord(SearchVO searchVo);
 	 public List<MessageBoxVO> selectAll(SearchVO searchVo);
+	 public int insertMessageBox(MessageBoxVO vo);
 }

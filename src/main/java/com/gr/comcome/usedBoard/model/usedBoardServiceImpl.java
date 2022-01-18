@@ -1,6 +1,7 @@
 package com.gr.comcome.usedBoard.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class usedBoardServiceImpl implements usedBoardService{
 	public List<usedBoardVO> selectByGroupNo(String no){
 		return usedBoardDao.selectByGroupNo(no);
 	}
+	public List<usedBoardVO> selectByGroupNo2(Map<String, Object> map){
+		return usedBoardDao.selectByGroupNo2(map);
+	}
+	
 	
 	public usedBoardVO selectByNo(int boardNo){
 		return usedBoardDao.selectByNo(boardNo);

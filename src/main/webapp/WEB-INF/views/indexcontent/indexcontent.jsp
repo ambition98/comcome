@@ -173,10 +173,11 @@ String name=(String)session.getAttribute("name");
         	<c:if test="${!empty list2 }">
 	        	<c:forEach var="vo" items="${list2 }"  begin="0" end="6">
 		        	<div class="col-lg-4 col-md-4 col-sm-6">
+		                <a href="<c:url value='/usedBoard/countUpdate?boardNo=${vo.boardNo}'/>">
 		                <div class="blog__item">
 		                 <c:if test="${!empty vo.fileName }">
 		                 	<div class="blog__item__pic">
-								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
+								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/usedboard/${ vo.fileName }'/>">
 				    		</div>
 						</c:if>
 		                    <div class="blog__item__text">
@@ -188,6 +189,7 @@ String name=(String)session.getAttribute("name");
 		                        <p>${vo.content}</p>
 		                    </div>
 		                </div>
+		                </a>
 		            </div>
 	            </c:forEach>
             </c:if>

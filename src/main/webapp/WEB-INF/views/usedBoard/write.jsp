@@ -62,6 +62,7 @@
 
 </head>
 <body>
+
 <script type="text/javascript">
 	$(function(){
 		$('form[name=frmWrite]').submit(function(){
@@ -71,8 +72,6 @@
 					$(this).focus();
 					event.preventDefault();
 					return false;  //each 탈출
-				}else if(${sessionScope.email}==null){
-					alert("로그인 후에 가능합니다");
 				}
 			});
 		});
@@ -86,11 +85,12 @@
 
 <section class="1">
         <div class="container">
-            
+            <div class="row">
+            <div class="col-lg-1"></div>
             <div class="checkout__form w-75  align-items-center ">
                 <h4>중고게시판 글쓰기</h4>
                 <form action='<c:url value="/usedBoard/write"/>' name="frmWrite" method="post" enctype="multipart/form-data" >
-                    <div class="col-lg-10 ">
+                    <div class="col-lg-11 ">
                         <div class="col-lg-12 col-md-8 ">                   
                             <div class="checkout__input">
                                 <p>제목</p>
@@ -109,17 +109,17 @@
                             </div>
                             <div class="checkout__input" >
                             	<p>가격</p>
-                            	<input type="text" style="color:black;" name="price">
+                            	<input type="text" style="color:black;" name="price" class="infobox">
                             	<hr>
                             </div>      
 					         <div>
 					            <label for="upfile">썸네일 이미지</label>            
-						        <input type="file" name="upfile" id="upfile">(최대 5M)
+						        <input type="file" name="upfile" id="upfile" class="infobox">(최대 5M)
 						        <br>
 						        <hr>
 					        </div>	     
                             <div >
-						        <textarea id="content" name="content" rows="" cols="" style="text-color:black;" ></textarea>
+						        <textarea id="content" name="content" rows="" cols="" style="text-color:black;" class="infobox"></textarea>
 						    </div>
 						    <script>
 						        ClassicEditor
@@ -144,6 +144,7 @@
                     </div>
                 </form>
             </div>
+        </div>
         </div>
     </section>
 </body>
