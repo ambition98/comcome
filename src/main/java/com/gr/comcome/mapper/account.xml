@@ -46,8 +46,14 @@
         FROM dual 
         CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
                            - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
- 	 WHERE b.dt = a.regdate(+)
- 	 GROUP BY b.dt
- 	 ORDER BY b.dt
+       WHERE b.dt = a.regdate(+)
+       GROUP BY b.dt
+       ORDER BY b.dt
+  </select>
+  
+	<select id="selectAccountByEmail" parameterType="String" resultType="accountVo">
+		select *
+		from account
+		where email = #{account_id}
 	</select>
 </mapper>

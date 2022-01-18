@@ -23,9 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 		this.wishlistDao =wishlistDao;
 	}
 
-	
-
-
 	@Override
 	public List<Map<String, Object>> selectWishList(String wisilistNo) {
 		
@@ -86,5 +83,5 @@ import lombok.extern.slf4j.Slf4j;
 		log.info("장바구니 수량 수정 serviceimpl 처리 wishListVo={}",wishListVo.toString());
 		return wishlistDao.updateQuantity(wishListVo);
 	}
-  }
+}
  

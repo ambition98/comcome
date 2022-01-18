@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ComCome 중고게시판</title>
+<title>ComCome 특가게시판</title>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/base/bootstrap.min.css' />"
 	type="text/css">
@@ -66,19 +66,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-2 col-md-5">
-					<div class="sidebar">
-						<div class="blog__sidebar__search">
-							
-						</div>
-						<div class="blog__sidebar__item">
-							<h4>Categories</h4>
-							<div class="panel">
-              					  <input type="button" id="button" name="button" value="노트북" "/>
-              					  <input type="button" id="button" name="button" value="노트북 주변기기"  "/>
-              					  <input type="button" id="button" name="button" value="기타 pc부품"  "/>
-   						    </div> 
-						</div>
-					</div>
+					
 					<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 					<script type="text/javascript">
  
@@ -117,7 +105,7 @@
 					
 							<div class="searchdiv" >
 						<form name="frmSerch" method="post"
-								action='<c:url value="/usedBoard/list"/>'>
+								action='<c:url value="/sale/list"/>'>
 								<hr>
 								 <input type="text" name="searchKeyword" title="검색어 입력"
 									value="${param.searchKeyword}" size="15" style=" margin-bottom:10px;"> 

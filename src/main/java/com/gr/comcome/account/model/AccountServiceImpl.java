@@ -34,6 +34,9 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public List<Map<String, Integer>> selectDaysRegister(){
 		return accountDao.selectDaysRegister();
+  }
+	public AccountVO selectAccountByEmail(String account_id){
+		return accountDao.selectAccountByEmail(account_id);
 	}
 //	
 //	public List<PersonVO> selectAll(SearchVO searchVo){

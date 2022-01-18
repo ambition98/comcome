@@ -13,6 +13,7 @@ public interface AccountService {
 	int checkEmail(String email);
 	AccountVO selectAccountByNo(int accountNo);
 	List<Map<String, Integer>> selectDaysRegister();
+	AccountVO selectAccountByEmail(String account_id);
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
 //	public PersonVO selectByNo(int no) ;

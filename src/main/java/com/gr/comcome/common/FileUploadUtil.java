@@ -1,6 +1,7 @@
 package com.gr.comcome.common;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,5 +96,22 @@ public class FileUploadUtil {
 		log.info("현재시간:{}", str);
 
 		return str;
+	}
+	
+	
+	public String getUploadPath( HttpServletRequest request) {
+		//업로드 경로 구하기
+		String path=ConstUtil.USER_FILE_UPLOAD_ROOT_PATH;
+		
+		
+			//실제 물리적인 경로 구하기
+			//application.getRealPath()
+			//config.getServletContext().getRealPath()
+			path=request.getSession().getServletContext().getRealPath(path);
+		
+		
+		log.info("업로드 경로 : {}", path);
+		
+		return path;
 	}
 }

@@ -20,4 +20,6 @@ public interface usedBoardDAO {
 	int selectTotalRecord(int result);
 	int deleteBoardByNo(int boardNo);
 	public int updateBoardByAdmin(usedBoardVO usedBoardVO);
+	public int insertBoard(usedBoardVO usedBoardVO);
+	public int updateBoard(usedBoardVO usedBoardVO);
 }

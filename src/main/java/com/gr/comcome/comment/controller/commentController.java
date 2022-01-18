@@ -52,17 +52,28 @@ public class commentController {
 		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
 	}
 	
-	@RequestMapping(value = "/{replyNo}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-	public ResponseEntity<String> update(@PathVariable("replyNo") Integer replyNo, @RequestBody commentVO commentVo) {
-	    ResponseEntity<String> entity = null;
-	    try {
-	        commentVo.setNo(replyNo);
-	        commentService.updateComment(commentVo);
-	        entity = new ResponseEntity<>("modSuccess", HttpStatus.OK);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	    }
-	    return entity;
+	@RequestMapping(value = "/edit" , method=RequestMethod.POST)
+	public String edit(commentVO vo){
+		log.info("댓글 수정");
+		
+		commentService.updateComment(vo);
+		log.info("댓글 수정 결과 vo"+vo);
+		
+		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
 	}
+	
+	@RequestMapping(value = "/delete" , method=RequestMethod.POST)
+	public String delete(commentVO vo){
+		log.info("댓글 삭제");
+		
+		commentService.deleteComment(vo);
+		log.info("댓글 삭제 결과 vo"+vo);
+		
+		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
+	}
+	
+	
+	
+	
+	
 }

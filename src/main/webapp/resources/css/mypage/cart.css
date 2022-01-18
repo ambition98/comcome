@@ -419,7 +419,7 @@ h1 {
 .popular-books {
   flex-grow: 1;
   padding: 0 30px 50px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .genre {
@@ -552,16 +552,17 @@ h1 {
 }
 
 .book-card {
-  margin-top: 20px;
-  background-color: #fff;
-  height: 270px;
-  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  padding: 0 0 20px 20px;
-  color: var(--body-color-light);
+	width: 555px;
+	height: 356px;
+	margin-top: 20px;
+	background-color: #fff;
+	box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	padding: 0 0 20px 20px;
+	color: var(--body-color-light);
 }
 
 .book-card-img {
@@ -916,5 +917,13 @@ div#select2 {
     margin-top: 11px;
     font-size: large;
 }
+
+
+.content-wrapper {
+    padding-left: 190px;
+    padding-top: 60px;
+}
+
+/* 시작 */
 
 
