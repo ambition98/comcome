@@ -81,6 +81,10 @@ h2 {
     padding-top: 20px;
     color:#3a3b45 !important;
 }
+
+.click {
+    visibility: hidden;
+}
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/base/jquery-3.6.0.min.js'/>"></script>
 <script type="text/javascript">
@@ -93,11 +97,35 @@ h2 {
 				event.preventDefault(); 
 			}
 		});
+		
+		/* $("#mailSend").click(function(){	
+			$("#code").css("visibility","visible");
+			$("#codeBtn").css("visibility","visible");
+		}); */
+		
+		$("#codeBtn").click(function(){	
+			if($('#code').val().length<1){ 
+				alert("인증문자를 입력하세요"); 
+				$('#code').focus(); 
+				event.preventDefault(); 
+			}else{
+				var code=$('#code').val();
+				//var veri=${veriCode};
+				var veri = "${veriCode}";
+				
+				if(code==veri){
+					$("#btUse").css("visibility","visible");
+					alert("인증에 성공했습니다. 사용하기 버튼을 클릭하세요");
+				}else{
+					alert("인증에 실패했습니다. 인증코드를 확인해주세요")
+				}
+			}
+		});
 
 		$('#btUse').click(function(){
 			$(opener.document).find('#email').val($('#email').val());
 			$(opener.document).find('#chkEmail').val('Y'); //중복확인 완료
-			$(opener.document).find('#email').attr("readonly",true); 
+			//$(opener.document).find('#email').attr("readonly",true); 
 			self.close();
 		});
 	});
@@ -114,20 +142,20 @@ h2 {
 		<input type="submit" id="submit" class="btn btn-primary btn-user btn-user btnbase" value="이메일 확인"/>
 			<%-- OnClick="location.href='<c:url value="/account/checkUserEmail?email="${email}/>'"/> --%>
 		<c:if test="${result==1 || result==0}">
-			<c:if test="${result == EXIST_EMAIL}">		
+			<c:if test="${result == 1}">		
 				<p id="p2">이미 등록된 아이디입니다. 다른 아이디를 입력하세요</p>
 			</c:if>		
-			<c:if test="${result == NON_EXIST_EMAIL}">		
-				<p id="p1">사용가능한 이메일입니다. 인증절차를 진행하세요 <a id="mailSend" class="btn btn-primary btn-user btnbase">인증메일 발송</a></p>
-					
-				<!-- <input type="button" id="submit" class="btn btn-primary btn-user btn-user btnbase" value="인증번호 발송"/> -->
-				
+			<c:if test="${result == 0}">		
+				<p id="p1">사용가능한 이메일입니다. 인증절차를 진행하세요 
+				<a href='<c:url value="/account/secdCode?email=${param.email}"/>' id="mailSend" 
+				class="btn btn-primary btn-user btnbase" >인증메일 발송</a></p>
+				<c:if test="${code == 0}">
+					<input type="text" name="code" id="code" class="form-control form-control-user" placeholder="인증코드 입력">
+					<input type="button" id="codeBtn" class="btn btn-primary btn-user btnbase" value="인증코드 확인"/>
+					<input type="button" value="사용하기" id="btUse" class="btn btn-primary btn-user click">					
+				</c:if>
 			</c:if>
 		</c:if>		
-		<input type="text" name="code" id="code" class="form-control form-control-user" placeholder="인증문자 입력">
-		<input type="submit" id="submit" class="btn btn-primary btn-user btnbase" value="이메일 확인"/>
-		
-		<input type="button" value="사용하기" id="btUse" class="btn btn-primary btn-user">
 	</form>
 	</div>
 </body>

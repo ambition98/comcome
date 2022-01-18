@@ -1,6 +1,7 @@
 package com.gr.comcome.account.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +12,7 @@ public interface AccountDAO {
 	int insertPwd(HashVO vo);
 	int checkEmail(String email);
 	AccountVO selectAccountByNo(int accountNo);
+	List<Map<String,Integer>> selectDaysRegister();
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
 //	public PersonVO selectByNo(int no);

@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>sign up for developer</title>
+<title>sign up</title>
 
 <!-- Custom fonts for this template-->
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/account/sb-admin-2.min.css'/>" />
@@ -37,6 +37,9 @@ form.user .form-control-user {
 .base2 {
 	width: 50%;
 }
+.base3 {
+	width: 160%;
+}
 
 form.user .btn-user {
 	font-size: 0.9rem;
@@ -59,11 +62,13 @@ input#zipcode {
     margin-left: 11px;
 }
 
-input#btnChkAddress {
-    width: 125px;
-    height: 50px;
-    margin-left: 3px;
+#btnChkAddress{
+vertical-align:middle;
+	float: right;
+	width: 50%;
+	height:100%;
 }
+
 
 </style>
 <script type="text/javascript" src="<c:url value='/resources/js/base/jquery-3.6.0.min.js'/>"></script>
@@ -138,16 +143,16 @@ input#btnChkAddress {
 								<h1 class="h4 text-gray-900 mb-4">계정 생성!</h1>
 							</div>
 							<hr>
-							<form class="user" name="frm1" method="post" action="register_ok.jsp">
+							<form class="user" name="frm1" method="post" action="<c:url value='/account/register'/>">
 								<!-- 이메일 -->
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user base"
-										id="email" placeholder="이메일 주소" name="email">
+										id="email" placeholder="이메일 주소" name="email" readonly>
 									</div>
 									<div class="col-sm-6">
 										<input type="button" value="중복확인" id="btnChkEmail" 
-									class="btn btn-primary btn-user btn-block" onclick="emailChk()" title="새창열림">
+									class="btn btn-primary btn-user btn-block base2" onclick="emailChk()" title="새창열림">
 									</div>
 								</div>
 
@@ -171,25 +176,33 @@ input#btnChkAddress {
 								
 								<!-- 주소 -->
 								<div class="form-group row">
-									<input type="email" class="form-control form-control-user base2"
-										id="zipcode" placeholder="우편번호" name="zipcode">
+									<!-- <input type="text" class="form-control form-control-user base2"
+										id="zipcode" placeholder="우편번호" name="zipcode"> -->
 									
 									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="email" class="form-control form-control-user"
-										id="address1" placeholder="주소" name="address">
+										<input type="text" class="form-control form-control-user base"
+										id="address" placeholder="주소" name="address" readonly>
 									</div>
+									<div class="col-sm-6">
 										<input type="button" value="주소찾기" id="btnChkAddress" 
-									class="btn btn-primary btn-user btn-block" onclick="addressChk()" title="새창열림">
+										class="btn btn-primary btn-user btn-block" onclick="addressChk()" title="새창열림">
+									</div>
 								</div>
-								<div class="form-group">
-									<input type="text" class="form-control form-control-user"
-										id="address2" placeholder="주소 상세" name="addressDetale">
+								<div class="form-group row">
+									<input type="text" class="form-control form-control-user base2"
+										id="zipcode" placeholder="우편번호" name="zipcode" readonly>
+										
+									<div class="col-sm-6 mb-3 mb-sm-0">
+									<input type="text" class="form-control form-control-user base3"
+										id="addressDetail" placeholder="주소 상세" name="addressDetail">
+									</div>
+										
 								</div>
 
 								<!-- 연락처 -->
 								<div class="form-group">
 									<input type="number" class="form-control form-control-user"
-										id="phoneNumber" placeholder="연락처(숫자만)" name="phone">
+										id="tel" placeholder="연락처(숫자만)" name="tel">
 								</div>
 
 

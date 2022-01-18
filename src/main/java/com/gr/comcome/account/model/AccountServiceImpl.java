@@ -1,5 +1,8 @@
 package com.gr.comcome.account.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,11 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public AccountVO selectAccountByNo(int accountNo) {
 		return accountDao.selectAccountByNo(accountNo);
+	}
+	
+	@Override
+	public List<Map<String, Integer>> selectDaysRegister(){
+		return accountDao.selectDaysRegister();
 	}
 //	
 //	public List<PersonVO> selectAll(SearchVO searchVo){

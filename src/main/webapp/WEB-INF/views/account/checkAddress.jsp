@@ -18,11 +18,6 @@
 	p{
 		font-size: 1.0em;
 	}
-	
-	#divZip table{
-		width: 430px;
-		margin: 15px 0;
-	}
 	.blue{
 		color:#006AD5;
 	}
@@ -30,7 +25,7 @@
 		text-align: center;
 	}
 	
-	#divBase {
+	.divBase {
     margin: 0;
     background-color: white;
     position: absolute;
@@ -45,31 +40,30 @@
     border-radius: 0.35rem;
 }
 
-input#email {
+input#dong {
     border-radius: 10rem;
     width: 60%;
     margin: 0 0 1rem 7%;
     float: left;
     border: 1px solid #d1d3e2;
     color: #6e707e;
+    margin-bottom: 0;
+    margin-top: 5px;
 }
-
-p#p1 {
-    clear: both;
-    text-align: left;
-    color: #e95c5c;
-    margin: 0 0 1rem 8%;
-}
-
-p#p2 {
-    clear: both;
-    text-align: center; 
-} 
 
 input#submit {
 	border-radius: 10rem;
 	float: right;margin: 0 7% 1rem 0;
 	width: 150px;
+	margin-bottom: 0;
+    margin-top: 5px;
+}
+
+p {
+    text-align: left;
+    margin-left: 5%;
+    margin-bottom: 0;
+    color: black;
 }
 
 
@@ -81,6 +75,41 @@ input#btUse {
 h2 {
     padding-top: 20px;
     color:#3a3b45 !important;
+}
+
+div#divZip {
+    padding-bottom: 1px;
+    background-color: white;
+}
+
+#divZip table{
+		width: 90%;
+		margin: 1px 5%;
+	}
+	
+div#divPage {
+    background-color: white;
+    padding-top: ;
+}
+
+th {
+    background-color: #39484F;
+    color: white;
+    height: 30px;
+    padding-bottom: 1px;
+    border: 1px solid #39484F;
+}
+
+td {
+    border: 1px solid #39484F;
+}
+
+div#divPage {
+    border-radius: 0 0 0.4rem 0.4rem;
+    padding: 5px 0;
+}
+div#divCount {
+	margin: 50px 0 0 0;
 }
 </style>
 	
@@ -208,17 +237,22 @@ h2 {
 </head>
 <body class="bg-gradient-primary">
 <div class="divBase">
-<h1>도로명 주소 검색</h1>
+<h2>도로명 주소 검색</h2>
 <p>도로명주소, 건물명 또는 지번을 입력하세요</p>
-<p class="blue">검색어 예 : 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)</p>
 <form name="frmZip" id="frmZip" method="post">
-	<label for="dong">지역명</label>
-	<input type="text" name="dong" id="dong">
+	<!-- <input type="text" class="form-control form-control-user"
+	id="dong" placeholder="검색어 예 : 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)" name="dong"> -->
+	<!-- <label for="dong">지역명</label>
+	<input type="text" name="dong" id="dong"> -->
+	<!-- <input type="submit" value="찾기"> -->
+	<!-- <input type="submit" class="btn btn-primary btn-user btn-block" id="regbtn" value="찾기"> -->
+	<input type="text" name="dong" id="dong" class="form-control form-control-user" 
+		 placeholder="ex) 도로명(반포대로 58), 지번(삼성동 25)">
+		<input type="submit" id="submit" class="btn btn-primary btn-user btn-user btnbase" value="찾기"/>
 	<input type="hidden" name="currentPage" id="currentPage" value="1"/>				<!-- 요청 변수 설정 (현재 페이지. currentPage : n > 0) -->
   	<input type="hidden" name="countPerPage" id="countPerPage" value="6"/>			<!-- 요청 변수 설정 (페이지당 출력 개수. countPerPage 범위 : 0 < n <= 100) -->
   	<input type="hidden" name="confmKey" value="U01TX0FVVEgyMDE3MTIxODE3Mzc0MTEwNzU1Njg="/> <!-- 요청 변수 설정 (승인키) -->
   	<input type="hidden" name="resultType" value="json"/> 
-	<input type="submit" value="찾기">
 </form>
 
 
