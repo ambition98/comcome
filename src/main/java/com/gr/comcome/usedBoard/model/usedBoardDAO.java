@@ -22,4 +22,5 @@ public interface usedBoardDAO {
 	public int updateBoardByAdmin(usedBoardVO usedBoardVO);
 	public int insertBoard(usedBoardVO usedBoardVO);
 	public int updateBoard(usedBoardVO usedBoardVO);
+	public List<Map<String, Integer>> selectDaysBoardCount();
 }

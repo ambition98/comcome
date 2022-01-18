@@ -17,4 +17,5 @@ public interface usedBoardService {
 	public int updateBoardByAdmin(usedBoardVO usedBoardVO);
 	public int insertBoard(usedBoardVO usedBoardVO);
 	public int updateBoard(usedBoardVO usedBoardVO);
+	List<Map<String,Integer>> selectDaysBoardCount();
 }
