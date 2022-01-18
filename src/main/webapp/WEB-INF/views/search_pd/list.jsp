@@ -23,9 +23,6 @@
     <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
     <script src="<c:url value='/resources/js/base/main.js' />"></script>
-    
-    <link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
-	<script src="<c:url value='/resources/js/category.js' />"></script>
 <style type="text/css">
 	.section {
 		max-width: 1170px;
@@ -104,6 +101,12 @@
 		position: relative;
 		top: 50px;
 	}
+	
+	#list_count {
+		margin-top: 20px;
+		padding: 20px;
+		font-size: 1.1em;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -171,9 +174,6 @@
 		
 		//bubble을 기준으로 데이터를 ajax로 가져오는 메서드
 		function changeList() {
-			var loadingImg = '<div class="loading"><img src="<c:url value="/resources/img/search_pd/common/lodding.gif" />" /></div>';
-			$('.search_pd_container').html(loadingImg);
-			
 			var brandList = [];
 			var screenSizeList = [];
 			var cpuList = [];
@@ -223,6 +223,10 @@
 		}
 		
 		function ajax(jsonData){
+			var loadingImg = '<div class="loading"><img src="<c:url value="/resources/img/search_pd/common/lodding.gif" />" /></div>';
+			$('.search_pd_container').html(loadingImg);
+			$('#list_count').html('');
+			
 			$.ajax({
 				url:"/comcome/searchpd/changelist"
 				,type:"post"
@@ -232,8 +236,10 @@
 				,success: function(data){
 					//console.log(data);
 					$('.search_pd_container').html('');
-					
 					var jsonObject = JSON.parse(data);
+					var listSize = jsonObject.length;
+					
+					$('#list_count').html(listSize + '건 검색되었습니다.');
 					jsonObject.forEach(function(pd, i) {
 						//console.log(pd);
 						var detail = JSON.parse(pd.detail);
@@ -334,6 +340,9 @@
 		</div>
 	</div>
 	<div class="option_container">
+	</div>
+	<div id="list_count">
+		
 	</div>
 	<div class="search_pd_container">
 		<!-- 검색의 경우에만 해당 구문 실행 (나머진 ajax) -->

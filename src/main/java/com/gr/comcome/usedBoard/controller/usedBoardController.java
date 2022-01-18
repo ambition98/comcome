@@ -459,7 +459,7 @@ public class usedBoardController {
 		int cnt2=messageRecvService.insertMessageRecv(vo2);
 		logger.info("쪽지 보내기 결과, cnt={}", cnt);
 		return null;
-		
+	
 	}
 	
 }

@@ -177,7 +177,7 @@
 </style>
 <script type="text/javascript">
 	$(function() {
-		console.log($('#textarea').text());
+		//console.log($('#textarea').text());
 		$('#textarea').text('');
 		
 		$('#textarea').on('focus', function() {
@@ -323,6 +323,7 @@
 				}
 			});
 		});
+		$('.type_block:first').trigger('click');
 	});
 </script>
 </head>
@@ -339,7 +340,7 @@
 				<input class="hide" type="text" name="searchProductNo" value="${vo.searchProductNo}" />
 				<input class="hide" type="text" name="accountNo" value="${sessionScope.accountNo}" />
 				<div id="radio_btn_area">
-					<span><input type="radio" name="type" value="opinion"/> 의견</span>
+					<span><input type="radio" name="type" value="opinion" checked="checked"/> 의견</span>
 					<span><input type="radio" name="type" value="question"/> 질문</span>
 					<span><input type="radio" name="type" value="review"/> 후기</span>
 				</div>

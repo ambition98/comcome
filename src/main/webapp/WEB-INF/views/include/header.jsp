@@ -8,6 +8,25 @@
 <head>
 	<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/img/com_logo.png'/>">
 	<title>ComCome</title>
+	
+	<link rel="stylesheet" href="<c:url value='/resources/css/category.css' />" type="text/css">
+	<script src="<c:url value='/resources/js/category.js' />"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+			$('#shopping_bag_ico').click(function() {
+				var accountNo = '${sessionScope.accountNo}';
+				if(accountNo == null || accountNo == '') {
+					if(confirm('로그인 후 이용가능합니다. 로그인하시겠습니까?')) {
+						location.href = '<c:url value="/login/login-form" />';
+					}
+				} else {
+					location.href = '<c:url value="/mypage/cart" />';
+				}
+			});
+		});
+	</script>
 </head>
 <body>
     <header class="header">
@@ -22,6 +41,7 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/comcome">Home</a></li>
+                            <li class="active"><a href="<c:url value="/"/>">Home</a></li>
                             <li><a href="/comcome/usedBoard/list">중고거래</a></li>
                             <li><a href="/comcome/saleProduct/list">특가상품</a>
                                 <ul class="header__menu__dropdown">
@@ -45,7 +65,17 @@
                     <div class="header__cart">
                         <ul>
                             <!-- <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li> -->
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
+                            <li>
+                            	<a href="#"><i id="shopping_bag_ico" class="fa fa-shopping-bag"></i>
+                             	<span>
+                             		<c:if test="${empty sessionScope.email}">
+                        				0
+                        			</c:if>
+                             		<c:if test="${not empty sessionScope.email}">
+                        				
+                        			</c:if>
+                             	</span></a>
+                            </li>
                             <li><i class="fa-brands fa-app-store-ios"></i></li>
                         </ul>
                        <%--  <c:if test="${empty sessionScope.email}">

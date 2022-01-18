@@ -13,13 +13,8 @@ public class SaleProductVO {
 	private int categoryNo;
 	private String name;
 	private int price;
-	 private int quantity;
-	
-	
+	private int quantity;
 	private String thumbNailImg;
 	private String contentImg;
 	private String content;
-	
-	
-
 }

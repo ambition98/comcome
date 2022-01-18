@@ -42,8 +42,6 @@ public String cartList(HttpSession session, ModelMap model) {
 	
 	model.addAttribute("list", list);
 	
-	 
-	
 	return "mypage/wishlist/wishlistList";
 }
  

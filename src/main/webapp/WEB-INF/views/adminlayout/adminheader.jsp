@@ -16,7 +16,7 @@
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/bootstrap.min.css'/>" />
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/font-awesome.min.css'/>" />
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/style.css'/>" />
-	 <%-- <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/chartist-custom.css'/>" /> --%>
+	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/chartist-custom.css'/>" />
 	<!-- MAIN CSS -->
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/assets/main.css'/>" />
 	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
@@ -35,7 +35,7 @@ String email=(String)session.getAttribute("emailadmin");
 	<script src="<c:url value='/resources/js/assets/bootstrap.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/assets/jquery.slimscroll.min.js'/>"></script>
 	<script src="<c:url value='/resources/js/assets/jquery.easypiechart.min.js'/>"></script>
-	<%-- <script src="<c:url value='/resources/js/assets/chartist.min.js'/>"></script> --%>
+	<script src="<c:url value='/resources/js/assets/chartist.min.js'/>"></script>
 	<%-- <script src="<c:url value='/resources/js/assets/klorofil-common.js'/>"></script> --%>
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/admincss2.css'/>" />
 	
@@ -210,9 +210,9 @@ String email=(String)session.getAttribute("emailadmin");
 							<a href="#subPages" data-toggle="collapse" class="collapsed"><span>매출통계</span></a>
 							<div id="subPages" class="collapse ">
 								<ul class="nav">
-									<li><a href="page-profile.html" class="">하나</a></li>
-									<li><a href="page-login.html" class="">둘</a></li>
-									<li><a href="page-lockscreen.html" class="">셋</a></li>
+									<li><a href="<c:url value='/admin/chart'/>" >일별</a></li>
+									<li><a href="/admin/chart2" >월별</a></li>
+									<li><a href="/admin/allsaleproduct" class="">기간별</a></li>
 								</ul>
 							</div>
 						</li>

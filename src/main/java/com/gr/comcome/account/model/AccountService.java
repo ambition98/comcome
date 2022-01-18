@@ -1,5 +1,8 @@
 package com.gr.comcome.account.model;
 
+import java.util.List;
+import java.util.Map;
+
 public interface AccountService {
 	//아이디 중복확인시 필요한 상수
 	public static final int EXIST_EMAIL=1;  //해당 아이디가 이미 존재함
@@ -9,6 +12,7 @@ public interface AccountService {
 	int insertPwd(HashVO vo);
 	int checkEmail(String email);
 	AccountVO selectAccountByNo(int accountNo);
+	List<Map<String, Integer>> selectDaysRegister();
 	AccountVO selectAccountByEmail(String account_id);
 //	public List<PersonVO> selectAll(SearchVO searchVo);
 //	int selectTotalRecord(SearchVO searchVo);
