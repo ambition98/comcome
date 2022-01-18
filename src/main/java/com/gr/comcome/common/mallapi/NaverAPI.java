@@ -100,8 +100,9 @@ public class NaverAPI {
 					
 					String mallName = item.getString("mallName");
 					String productId = item.getString("productId");
-					String naverLink = "https://search.shopping.naver.com/product/" + productId;
-					String realLink = getRealLink(naverLink);
+//					String naverLink = "https://search.shopping.naver.com/product/" + productId;
+//					String realLink = getRealLink(naverLink);
+					String realLink = item.getString("link");
 					int price = Integer.parseInt(item.getString("lprice"));
 					Product newPd = new Product(mallName, realLink, price);
 					
@@ -132,7 +133,7 @@ public class NaverAPI {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("link: " + link);
 		String data = doc.getElementById("__NEXT_DATA__").html();
 		JSONObject mainObj = new JSONObject(data);
 //		System.out.println(mainObj.toString(4));

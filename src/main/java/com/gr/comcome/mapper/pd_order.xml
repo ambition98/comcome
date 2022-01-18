@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gr.comcome.pd_order.model.PdOrderDAO">
+	<insert id="insertNewOrder">
+		insert into pd_order(account_no, sale_product_no, price)
+		values(#{accountNo}, #{saleProductNo}, #{price})
+	</insert>
+	
+	<select id="selectByAccountNo" parameterType="Integer" resultType="pdOrderVo">
+		select *
+		from pd_order
+		where account_no = #{accountNo}
+	</select>
+</mapper>
