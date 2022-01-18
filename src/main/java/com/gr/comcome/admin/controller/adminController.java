@@ -370,7 +370,7 @@ public class adminController {
 			
 			try {
 				List<Map<String, Object>> fileList 
-					= fileUploadUtil.fileUpload(request, "testboard");//fileupload 경로는 "/testboard"(폴더이름)
+					= fileUploadUtil.fileUpload(request, "usedboard");//fileupload 경로는 "/testboard"(폴더이름)
 				for(int i=0;i<fileList.size();i++) {
 					 Map<String, Object> map=fileList.get(i);
 					 
