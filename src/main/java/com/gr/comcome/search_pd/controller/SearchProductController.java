@@ -34,11 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/searchpd")
 public class SearchProductController {
 	private final SearchProductService searchProductService;
-	private final NaverAPI naverApi;
 
-	public SearchProductController(SearchProductService searchProductService, NaverAPI naverApi) {
+	public SearchProductController(SearchProductService searchProductService) {
 		this.searchProductService = searchProductService;
-		this.naverApi = naverApi;
 	}
 
 	@RequestMapping("/list")
@@ -163,6 +161,7 @@ public class SearchProductController {
 		}
 		
 		//네이버에서 검색결과 가져오기
+		NaverAPI naverApi = new NaverAPI();
 		Map<String, Product> pdMap = null;
 		List<Product> pdList = new ArrayList<Product>();
 		try {

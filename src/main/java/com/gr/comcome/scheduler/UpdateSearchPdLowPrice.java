@@ -11,19 +11,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gr.comcome.common.mallapi.NaverAPI;
 import com.gr.comcome.common.mallapi.Product;
 import com.gr.comcome.search_pd.model.SearchProductService;
 
 @Component
 public class UpdateSearchPdLowPrice {
-	private final SearchProductService searchProductService;
-	private final NaverAPI naverApi;
-
-	public UpdateSearchPdLowPrice(SearchProductService searchProductService, NaverAPI naverApi) {
-		this.searchProductService = searchProductService;
-		this.naverApi = naverApi;
-	}
 	
 	@Scheduled(cron = "* * * * * *")
 	public void update() {

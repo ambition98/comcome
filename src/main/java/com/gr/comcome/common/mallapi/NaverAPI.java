@@ -28,7 +28,7 @@ import com.gr.comcome.common.MyHttpRequest;
  * @param start    - 검색 시작 위치, default 1, max 100
  * @param sort     - 정렬옵션 sim(유사도순), default date(날짜순) asc(가격 오름차순) dsc(가격 내림차순)
  */
-@Component
+
 public class NaverAPI {
 	private final String URL = "https://openapi.naver.com/v1/search/shop.json?query=";
 	private final String ID = "TxHTr7MUAWXGUkPBeGwD";
