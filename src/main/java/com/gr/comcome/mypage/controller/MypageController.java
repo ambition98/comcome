@@ -34,7 +34,7 @@ import com.gr.comcome.mypage.model.MypageVO;
 
 
 @Controller
-@RequestMapping("mypage")
+@RequestMapping("/mypage")
 public class MypageController {
 	private static final
 	Logger logger =LoggerFactory.getLogger(MessageBoxController.class);

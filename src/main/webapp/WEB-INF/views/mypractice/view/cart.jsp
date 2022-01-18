@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="../../mypageinc/mypageheader.jsp"%>
-<link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/mypage/cart.css'/>" />
-<link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/mypage/cartbutton.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mypage/cart.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mypage/cartbutton.css'/>" />
 <script type="text/javascript">
 	$(function() {
 		$('#AllAgree').click(function() {
@@ -53,6 +51,20 @@
 		function priceToString(cur_total) {
 			return cur_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		}
+		
+		$('#checkout_form').submit(function() {
+			var wishlistNoList = [];
+			$('.book-card').each(function() {
+				if($(this).find('#S-Agree').is(':checked')) {
+					var no = $(this).find('.wishlistNo').val();
+					wishlistNoList.push(no);
+				}
+				
+			});
+			$('#wishlist_no_list').val(wishlistNoList);
+			$(this).submit();
+		});
+		
 	});
 </script>
 
@@ -105,11 +117,9 @@
 						<!--  <span class="book-voters card-vote">  -->
 						<form class="book-voters card-vote" action="<c:url value='/mypage/cartEdit'/>" method="post"
 							name="frmCart">
-
-
 							<input name="wishlistNo" class="wishlistNo" type="hidden"
-								value="${map['WISHLIST_NO'] }"> <input type="text"
-								id="quantity" name="quantity" size="4"
+								value="${map['WISHLIST_NO'] }">
+							<input type="text" id="quantity" name="quantity" size="4"
 								value="${map['QUANTITY'] }">
 
 							<button id="updatebutton">수정</button>
@@ -120,8 +130,7 @@
 					</div>
 
 					<div class="book-sum card-sum">
-						<a
-							href="<c:url value='/mypage/delete-cart?accountNo=${ map["ACCOUNT_NO"] }&saleProductNo=${ map["SALE_PRODUCT_NO"]}'/>">
+						<a href="<c:url value='/mypage/delete-cart?accountNo=${ map["ACCOUNT_NO"] }&saleProductNo=${ map["SALE_PRODUCT_NO"]}'/>">
 							삭제 </a>
 					</div>
 				</div>
@@ -131,16 +140,12 @@
 
 		<div class="btn-contain2" id="price"></div>
 		<div id="select2">
-			<input type="checkbox" id="AllAgree"> <label for="AllAgree"
-				id="allsel">전체 선택</label><br>
-				<form id="checkout_form" action="" method="get">
-				<input type="hidden" />
-				<button class="btn" id="checkout">구매</button>
+			<input type="checkbox" id="AllAgree">
+			<label for="AllAgree" id="allsel">전체 선택</label><br>
+			<form id="checkout_form" action="<c:url value="/cart/checkout" />" method="get">
+				<input id="wishlist_no_list" name="wishNoList" type="hidden" />
+				<button type="submit" class="btn" id="checkout">구매</button>
 			</form>
-		</div>
-
-		<div class="btn-contain">
-			
 		</div>
 	</c:if>
 	<!-- 장바구니 끝 -->

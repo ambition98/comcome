@@ -28,7 +28,7 @@ import com.gr.comcome.common.MyHttpRequest;
  * @param start    - 검색 시작 위치, default 1, max 100
  * @param sort     - 정렬옵션 sim(유사도순), default date(날짜순) asc(가격 오름차순) dsc(가격 내림차순)
  */
-@Component
+
 public class NaverAPI {
 	private final String URL = "https://openapi.naver.com/v1/search/shop.json?query=";
 	private final String ID = "TxHTr7MUAWXGUkPBeGwD";
@@ -100,8 +100,9 @@ public class NaverAPI {
 					
 					String mallName = item.getString("mallName");
 					String productId = item.getString("productId");
-					String naverLink = "https://search.shopping.naver.com/product/" + productId;
-					String realLink = getRealLink(naverLink);
+//					String naverLink = "https://search.shopping.naver.com/product/" + productId;
+//					String realLink = getRealLink(naverLink);
+					String realLink = item.getString("link");
 					int price = Integer.parseInt(item.getString("lprice"));
 					Product newPd = new Product(mallName, realLink, price);
 					
@@ -132,7 +133,7 @@ public class NaverAPI {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("link: " + link);
 		String data = doc.getElementById("__NEXT_DATA__").html();
 		JSONObject mainObj = new JSONObject(data);
 //		System.out.println(mainObj.toString(4));

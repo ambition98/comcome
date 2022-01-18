@@ -29,7 +29,7 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
-@import url('https://fonts.googleapis.com/css?family=Numans%27');
+/* @import url('https://fonts.googleapis.com/css?family=Nanums%27'); */
 
 html,
 body {
@@ -48,7 +48,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: 'Numans', sans-serif;
+	font-family: 'Nanums', sans-serif;
 }
 
 h1 {
