@@ -11,6 +11,12 @@
 <head>
 <meta charset="UTF-8">
 <title>ComCome 중고게시판</title>
+<style type="text/css">
+a{
+text-decoration: none;
+color:black;
+}
+</style>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/base/bootstrap.min.css' />"
 	type="text/css">
@@ -42,6 +48,12 @@
 <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
 <script src="<c:url value='/resources/js/base/main.js' />"></script>
 </head>
+<style>
+ul{color:black;
+font: italic bold;}
+
+</style>
+
 <body>
 	<%-- <%@ include file="include/category.jsp"%> --%>
 	<%-- <%@ include file="inc/body.jsp"%> --%>
@@ -65,6 +77,7 @@
 	<section class="product spad">
 		<div class="container">
 			<div class="row">
+			
 				<div class="col-lg-2 col-md-5">
 					<div class="sidebar">
 						<div class="blog__sidebar__search">
@@ -72,10 +85,13 @@
 						</div>
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
-							<div class="panel">
-              					  <input type="button" id="button" name="button" value="노트북" "/>
-              					  <input type="button" id="button" name="button" value="노트북 주변기기"  "/>
-              					  <input type="button" id="button" name="button" value="기타 pc부품"  "/>
+							<div class="panel">             			
+              					  <a href="/comcome/usedBoard/list_ajax2?groupNo=노트북" value="노트북" name="노트북"><h5><b>노트북</b></b></h5></a>
+              					  <br>
+              					  <a href="/comcome/usedBoard/list_ajax2?groupNo=노트북 주변기기" value="노트북 주변기기" name="노트북 주변기기"><h5><b>노트북 주변기기</b></h5></a>
+              					  <br>
+              					  <a href="/comcome/usedBoard/list_ajax2?groupNo=기타 pc부품" value="기타 pc부품" name="기타 pc부품"><h5><b>기타 pc부품</b></h5></a>
+              					  <br>
    						    </div> 
 						</div>
 					</div>
@@ -85,7 +101,7 @@
 				
 					$(function(){
 					    
-					    $("input:button[name='button']").on('click',function(){
+					    $("input:button[name='button1']").on('click',function(){
 					        var kind = $(this).val();       //버튼이 클릭 되었을 시, 개별 버튼의 값이 kind 변수에 담겨집니다.
 					        $.ajax({
 					            url : "/comcome/usedBoard/list_ajax",
@@ -142,7 +158,7 @@
 						<div>
 						<hr>
 						<c:if test="${sessionScope.email!=null}">
-						<a href="/comcome/usedBoard/write" style="float:right;"><h5><b>글쓰기</b></h5></a>
+						<a href="/comcome/usedBoard/write" ><h5><b>글쓰기</b></h5></a>
 						</c:if>	
 						</div>
 				</div>
@@ -151,7 +167,7 @@
 
 				<div class="col-lg-9 col-md-9">
 					<div class="row">
-
+						
 						<!--게시판 내용 반복문 시작  -->
 						<c:forEach var="vo" items="${list}">
 							<div class="col-lg-3 col-md-4 col-sm-6">
@@ -162,12 +178,12 @@
 												style="width:auto; height:auto; max-width:150px; max-height:100px; ">
 										</div>
 										<div class="blog__item__text">
-											<h5> ${vo.title}</h5>
+											<h5> <b>${vo.title}</b></h5>
 											<ul>
-												<li><i class="fa category"></i>${vo.groupNo}</li>
-												<li><i class="calendar"></i> <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
-												<li><i class="price"></i><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
-												<li><i class="count "></i> 조회수 : ${vo.readcount}</li>
+												<li>${vo.groupNo}												</li>
+												<li><fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
+												<li><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
+												<li>조회수 : ${vo.readcount}</li>
 											</ul>
 											
 										</div>

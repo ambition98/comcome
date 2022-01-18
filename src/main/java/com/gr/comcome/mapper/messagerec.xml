@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gr.comcome.messageBoxRec.model.MessageBoxRecDAO">
+<mapper namespace="com.gr.comcome.messagebox.model.MessageRecvDAO">
 	<sql id="searchWhere">
       <if test="searchKeyword!=null and searchKeyword!=''">
              where ${searchCondition} like '%' || #{searchKeyword} || '%'
@@ -29,5 +29,19 @@
       select count(*) from message_recv
       <include refid="searchWhere"></include>   
    </select>
+   
+     <insert id="insertMessageRecv">
+     <selectKey keyProperty="messageNo" resultType="int" order="BEFORE">
+			select "COMCOME"."ISEQ$$_78758".CURRVAL from dual
+		</selectKey>
+		INSERT INTO message_recv(	
+		message_no,
+		account_no	
+		)
+		VALUES( 
+		#{messageNo}	,
+		#{accountNo}		
+		)
+	</insert>
 	
 </mapper>

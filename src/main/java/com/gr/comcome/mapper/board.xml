@@ -63,6 +63,23 @@
 		
 	</select>
 	
+	<select id="selectByGroupNo2" parameterType="map" resultType="usedBoardVo">
+		select *
+		from
+		(
+		    select rownum as RNUM, A.*
+		    from
+		    (
+		        select * from board 
+		        
+		        order by board_no desc
+		    )A
+		)
+		
+		where group_no=#{groupNo}	
+	</select>
+	
+	
 	<update id="updateReadCount" parameterType="int">
 		update board set readcount=readcount+1					
 		where board_no=#{boardNo}
@@ -70,8 +87,8 @@
 	
 	<update id="updateBoard" parameterType="usedboardVo">
 		update board
-		set name=#{name},title=#{title}, email=#{email}, content=#{content},file_size=#{fileSize}
-		,file_name=#{fileName}, original_file_Name=#{originalFileName}
+		set title=#{title}, email=#{email}, content=#{content},file_size=#{fileSize}
+		,file_Name=#{fileName}, original_file_Name=#{originalFileName}
 		where Board_No=#{boardNo}
 	</update>
 	

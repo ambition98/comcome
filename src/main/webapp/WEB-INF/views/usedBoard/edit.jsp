@@ -62,34 +62,14 @@
 
 </head>
 <body>
-<script type="text/javascript">
-	$(function(){
-		$('form[name=frmWrite]').submit(function(){
-			$('.infobox').each(function(idx, item){
-				if($(this).val().length<1){
-					alert($(this).prev().html() + "을(를) 입력하세요");
-					$(this).focus();
-					event.preventDefault();
-					return false;  //each 탈출
-				}else if(${sessionScope.email}==null){
-					alert("로그인 후에 가능합니다");
-				}
-			});
-		});
-		
-		$('#btList').click(function(){
-			location.href="<c:url value='/reBoard/list.do'/>";	
-		});
-		
-	});
-</script>
+
 
 <section class="1">
         <div class="container">
             
             <div class="checkout__form w-75  align-items-center ">
                 <h4>중고게시판 글수정</h4>
-                <form action='<c:url value="/usedBoard/write"/>' name="frmWrite" method="post" enctype="multipart/form-data" >
+                <form action='<c:url value="/usedBoard/edit"/>' name="frmWrite" method="post" enctype="multipart/form-data" >
                     <div class="col-lg-10 ">
                         <div class="col-lg-12 col-md-8 ">                   
                             <div class="checkout__input">
@@ -99,7 +79,7 @@
                             </div>
                             <div class="checkout__input">
                                 <p>분류</p>
-                                  <select class="form-select" name="groupNo" aria-label="Default select example" value="${vo.groupNo}">
+                                  <select class="form-select infobox" name="groupNo" aria-label="Default select example" value="${vo.groupNo}">
                                   
 								    <option>노트북</option>
 								    <option>노트북 주변기기</option>
@@ -109,17 +89,17 @@
                             </div>
                             <div class="checkout__input" >
                             	<p>가격</p>
-                            	<input type="text" style="color:black;" name="price" value="${vo.price }">
+                            	<input type="text" style="color:black;" name="price" value="${vo.price }" class="infobox">
                             	<hr>
                             </div>      
 					         <div>
 					            <label for="upfile">썸네일 이미지</label>            
-						        <input type="file" name="upfile" id="upfile" >(최대 5M)
+						        <input type="file" name="upfile" id="upfile" class="infobox" >(최대 5M)
 						        <br>
 						        <hr>
 					        </div>	     
                             <div >
-						        <textarea id="content" name="content" rows="" cols="" style="text-color:black;" >${vo.content}</textarea>
+						        <textarea id="content" name="content" rows="" cols="" style="text-color:black;" class="infobox">${vo.content}</textarea>
 						    </div>
 						    <script>
 						        ClassicEditor
@@ -130,11 +110,14 @@
 						    </script>
 						    <hr>						  
 						    <div>
-						    	<button type="submit" class="btn btn-primary">제출</button>
+						    	<button type="submit" class="btn btn-primary" id="submit">제출</button>
 						    	
 						    </div>
 						    <input type="hidden" name="accountNo" value="${sessionScope.accountNo}">
-						    					   
+						    
+						    <input type="hidden" name="boardNo" value="${vo.boardNo }">
+						    
+						    <input type="hidden" name="oldFileName" value="${vo.fileName}">					   
 						    <br><br><br><br><br>
 						    
 						    <input type="hidden" name="email" id="email" value="${sessionScope.email}">	
@@ -146,7 +129,25 @@
             </div>
         </div>
     </section>
-    
+ <script type="text/javascript">
+	$(function(){
+		$('form[name=frmWrite]').submit(function(){
+			$('.infobox').each(function(idx, item){
+				if($(this).val().length<1){
+					alert($(this).prev().html() + "을(를) 입력하세요");
+					$(this).focus();
+					event.preventDefault();
+					return false;  //each 탈출
+				}
+			});
+		});
+		
+		$('#btList').click(function(){
+			location.href="<c:url value='/reBoard/list.do'/>";	
+		});
+		
+	});
+</script>
     
 </body>
 </html>

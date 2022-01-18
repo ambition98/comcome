@@ -52,6 +52,7 @@ a{ color: black; text-decoration: none;}
 a:hover { color: blue; text-decoration: none;}
 a:active{color:black; text-decoration: none;}
 a:visited{color:black; text-decoration: none;}
+p{color:black;}
 </style>
 <script>
 $(function(){
@@ -128,58 +129,59 @@ a:focus{
 	</section>
 	<!-- Breadcrumb Section End -->
 
-
+	 <!-- Product Details Section Begin -->
+    <section class="product-details spad ">
+        <div class="container">
+            <div class="row"   >
+            <div class="col-lg-1 col-md-1"></div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img src="../resources/user_uploaded_file/usedboard/${vo.fileName}" alt=""
+					style="width: auto; height: auto;">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-imgbigurl="img/product/details/product-details-2.jpg"
+                                src="img/product/details/thumb-1.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-3.jpg"
+                                src="img/product/details/thumb-2.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-5.jpg"
+                                src="img/product/details/thumb-3.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-4.jpg"
+                                src="img/product/details/thumb-4.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4" >
+                    <div class="product__details__text">
+                        <h3>${vo.title }</h3>
+                        
+                        <div class="product__details__price"><fmt:formatNumber value="${vo.price }" pattern="#,###" /> 원</div>
+                     
+                        
+                        <ul>
+                       	    <li><b>작성자</b> <span><a href='' id="profile">${vo.email}</a></span></li>
+                            <li><b>등록일</b> <span><fmt:formatDate
+							value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm" /></span></span></li>
+                            <li><b>조회수</b> <span>${vo.readcount }</span></li>
+                            
+                         
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+	
 	<div class="col-lg-10  text-center" style="float: none; margin: 0 auto;">
-		<h2>글 상세보기</h2>
-		<div class="divForm">
-			<br>
-			<br>
-			<div class="col-lg-3" style="float: none; margin: 0 auto;">
-				<div class="firstDiv">
-					<span class="sp1">제목 : </span> <span>${vo.title}</span>
-				</div>
-				<hr>
-				<div>
-					<span class="sp1">작성자 : </span> <span>${vo.email}</span>
-				</div>
-				<hr>
-				<div>
-					<span class="sp1">등록일 : </span> <span><fmt:formatDate
-							value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm" /></span>
-				</div>
-				<hr>
-
-				<div>
-					<span class="price">가격 : <fmt:formatNumber
-							value="${vo.price }" pattern="#,###" /></span>
-				</div>
-				<hr>
-				<div>
-					<span class="sp1">조회수</span> <span>${vo.readcount}</span>
-				</div>
-				<hr>
-			</div>
-			<div id="context-menu" style="display: none">
-				<ul class="dropdown-menu">
-					<li><a href="#">Action 1</a></li>
-					<li><a href="#">Action 2</a></li>
-					<li><a href="#">Action 3</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Action 4</a></li>
-					<li><a href="#">Action 5</a></li>
-					<li><a href="#">Action 6</a></li>
-				</ul>
-			</div>
-
-
-
+		
 			<%
 			pageContext.setAttribute("newLine", "\r\n");
 			%>
 
 			<div class="lastDiv">
-				<img src="../resources/user_uploaded_file/usedboard/${vo.fileName}" alt=""
-					style="width: auto; height: auto;">
 				<p class="content">${fn:replace(vo.content, newLine, "<br>")} </p>
 			</div>
 
@@ -369,7 +371,7 @@ a:focus{
 
 				        },
 				        items: {
-				            "massage": {name: "쪽지보내기", icon: "edit"},
+				           "massage": {name: "쪽지보내기", icon: "edit"},
 				            "profile": {name: "프로필보기", icon: "paste"},
 				            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
 				        }
