@@ -23,7 +23,7 @@
 									<ul class="list-unstyled list-justify">
 										<div id="forimg">
 										<c:if test="${!empty vo.fileName }">
-										<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
+										<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/usedboard/${ vo.fileName }'/>">
 										</c:if>
 										</div>
 										<li id="yourli2">내용</li>

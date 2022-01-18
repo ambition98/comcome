@@ -176,7 +176,7 @@ String name=(String)session.getAttribute("name");
 		                <div class="blog__item">
 		                 <c:if test="${!empty vo.fileName }">
 		                 	<div class="blog__item__pic">
-								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/testboard/${ vo.fileName }'/>">
+								<img id ="yourimg" src="<c:url value='/resources/user_uploaded_file/usedboard/${ vo.fileName }'/>">
 				    		</div>
 						</c:if>
 		                    <div class="blog__item__text">
