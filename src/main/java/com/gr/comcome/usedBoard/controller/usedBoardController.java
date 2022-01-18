@@ -29,6 +29,10 @@ import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.FileUploadUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
+import com.gr.comcome.messagebox.model.MessageBoxService;
+import com.gr.comcome.messagebox.model.MessageBoxVO;
+import com.gr.comcome.messagebox.model.MessageRecvService;
+import com.gr.comcome.messagebox.model.MessageRecvVO;
 import com.gr.comcome.usedBoard.model.usedBoardService;
 import com.gr.comcome.usedBoard.model.usedBoardVO;
 
@@ -44,17 +48,23 @@ public class usedBoardController {
 	=LoggerFactory.getLogger(usedBoardController.class);
 	
 	private final usedBoardService usedBoardService;
-	
 	private final commentService commentService;
 	private final FileUploadUtil fileUploadUtil;
 	private final AccountService accountService;
+	private final MessageBoxService messageBoxService;
+	private final MessageRecvService messageRecvService;
+	
 	
 	@Autowired
-	public usedBoardController(usedBoardService boardService,commentService commentService,FileUploadUtil fileUploadUtil, AccountService accountService) {
+	public usedBoardController(usedBoardService boardService,commentService commentService
+			,FileUploadUtil fileUploadUtil, AccountService accountService
+			,MessageBoxService boxService,MessageRecvService recvService) {
 		this.usedBoardService=boardService;
 		this.commentService=commentService;
 		this.fileUploadUtil=fileUploadUtil;
 		this.accountService=accountService;
+		this.messageBoxService=boxService;
+		this.messageRecvService=recvService;
 		logger.info("생성자주입!");
 	}
 
@@ -159,11 +169,11 @@ public class usedBoardController {
 	
 	
 	@RequestMapping(value ="/list_ajax")
-    public String list_expertmb_ajax(@ModelAttribute SearchVO searchVo,          //여기서는 ModelAndView를 사용하는게 중요 포인트입니다.
+    public String list_expertmb_ajax(@ModelAttribute SearchVO searchVo,         
     		@RequestParam(defaultValue = "0") String kind,
             Model model) {
         
-              //request에서 getParameter를 사용하여 kind 값을 불러옵니다.
+             
         
         logger.info("파라미터 kind = {}",kind);
         logger.info("파라미터 searchVo = {}",searchVo);
@@ -189,6 +199,47 @@ public class usedBoardController {
         model.addAttribute("list",list);
       
         return "/usedBoard/board";
+    }
+	
+	@RequestMapping(value ="/list_ajax2" , method = RequestMethod.GET)
+    public String list_expertmb_ajax2(@ModelAttribute SearchVO searchVo,          
+    		@RequestParam(defaultValue = "0") String groupNo,
+            Model model) {
+        
+  
+        logger.info("파라미터 groupNo = {}",groupNo);
+      	logger.info("글목록, 파라미터 searchVo={},", searchVo);
+      		
+      		
+      		//[1]paginnationInfo 객체 생성 - 계산해줌
+      		PaginationInfo paginationInfo=new PaginationInfo();
+      		paginationInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+      		paginationInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT2);
+      		paginationInfo.setCurrentPage(searchVo.getCurrentPage());
+      		
+      		//[2]searchVo에 값 세팅
+      		searchVo.setRecordCountPerPage(ConstUtil.RECORD_COUNT2);
+      		searchVo.setFirstRecordIndex(paginationInfo.getFirstRecordIndex());
+      		logger.info("값 세팅 후 searchVo={}",searchVo);
+      		
+      		Map<String,Object>map = new HashMap<String,Object>();
+      		map.put("groupNo", groupNo);
+      		map.put("recordCountPerPage",8);
+      		map.put("firstRecordIndex",1);
+      		
+      		
+      		List<usedBoardVO> list=usedBoardService.selectByGroupNo2(map);
+      		logger.info("전체조회 결과 list.size={}",list.size());
+      		
+      		//[3]
+      		int totalRecord=usedBoardService.selectTotalRecord(searchVo);
+      		paginationInfo.setTotalRecord(totalRecord);
+      		
+      		//3.model에 결과 저장
+      		model.addAttribute("list",list);
+      		model.addAttribute("pagingInfo",paginationInfo);
+      
+        return "usedBoard/board";
     }
 	
 	@RequestMapping(value="/write", method = RequestMethod.GET)
@@ -264,38 +315,48 @@ public class usedBoardController {
 		return "usedBoard/edit";
 	}
 	
-	@PostMapping(value="/edit")
+	@RequestMapping(value="/edit" , method = RequestMethod.POST)
 	public String edit_post(@ModelAttribute usedBoardVO vo, 
 			@RequestParam String oldFileName,
 			HttpServletRequest request, Model model) {
 		//1
 		logger.info("글수정 처리, 파라미터 vo={}, oldFileName={}", vo, oldFileName);
-		String path="/usedboard";
-		//업로드 처리
-		String fileName="";
 		
-		try {
-			List<Map<String, Object>> fileList
-			=fileUploadUtil.fileUpload(request, path);
-			
-			for(Map<String, Object> fileMap: fileList) {
-				fileName=(String)fileMap.get("fileName");
+		//파일 업로드 처리
+				String fileName="", originName="";
+				long fileSize=0;
+				String path="/usedboard";
+				try {
+					List<Map<String, Object>> fileList 
+						= fileUploadUtil.fileUpload(request, path);
+					for(int i=0;i<fileList.size();i++) {
+						 Map<String, Object> map=fileList.get(i);
+						 
+						 fileName=(String) map.get("fileName");
+						 originName=(String) map.get("originFileName");
+						 fileSize=(long) map.get("fileSize");				 
+					}
+					
+					logger.info("파일 업로드 성공, fileName={}", fileName);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} 
+				
+				//2
 				vo.setFileName(fileName);
-				vo.setOriginalFileName((String)fileMap.get("originalFileName"));
-				vo.setFileSize((Long)fileMap.get("fileSize"));				
-			}//for
-			
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} 
-		
+				vo.setOriginalFileName(originName);
+				vo.setFileSize(fileSize);
+				
+				
+				int cnt=usedBoardService.updateBoard(vo);
+				logger.info("글수정 결과, cnt={}", cnt);
 		//2
 		String msg="글수정 실패", url="/usedBoard/edit?BoardNo="+vo.getBoardNo();
 		
-			int cnt=usedBoardService.updateBoard(vo);
+			
 			if(cnt>0) {
 				msg="글수정되었습니다.";
-				url="/usedBoard/detail.do?BoardNo="+vo.getBoardNo();
+				url="/usedBoard/detail?BoardNo="+vo.getBoardNo();
 				
 				//새로 업로드하는 경우, 기존파일이 있다면 기존파일 삭제처리
 				if(fileName!=null && !fileName.isEmpty() 
@@ -316,7 +377,7 @@ public class usedBoardController {
 		model.addAttribute("url", url);
 		
 		//4
-		return "common/message";
+		return "redirect:/usedBoard/boardDetail?boardNo="+vo.getBoardNo();
 	}
 	
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
@@ -373,14 +434,32 @@ public class usedBoardController {
 	
 	@RequestMapping(value = "/message" , method=RequestMethod.GET)
 	public String message(String account_id,Model model){
-		log.info("[/profile] account_id args : {"+account_id+"}");
+		log.info("메세지 보내기 컨트롤러");
 		
 		AccountVO vo= accountService.selectAccountByEmail(account_id);
 		
 		
 		model.addAttribute("vo",vo);
+		return "usedBoard/message";
+		
+	}
+	
+	@RequestMapping(value = "/message" , method=RequestMethod.POST)
+	public String message_ok(@ModelAttribute MessageBoxVO boxVo
+			,HttpServletRequest request){
+		log.info("MessageBoxVO = "+boxVo+"}");
+		
+		
+		MessageRecvVO vo2=new MessageRecvVO();
+		
+		vo2.setAccountNo(boxVo.getAccountno());
+		vo2.setMessageNo(boxVo.getMessageno());
+		
+		int cnt=messageBoxService.insertMessageBox(boxVo);
+		int cnt2=messageRecvService.insertMessageRecv(vo2);
+		logger.info("쪽지 보내기 결과, cnt={}", cnt);
 		return null;
-		//return "redirect:/usedBoard/boardDetail?boardNo="+1;
+	
 	}
 	
 }

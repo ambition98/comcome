@@ -9,7 +9,8 @@ import com.gr.comcome.common.SearchVO;
 
 @Mapper
 public interface MessageBoxDAO {
- int selectTotalRecord(SearchVO searchVo);
-public List<MessageBoxVO> selectAll(SearchVO searchVo);
+    int selectTotalRecord(SearchVO searchVo);
+	public List<MessageBoxVO> selectAll(SearchVO searchVo);
+	public int insertMessageBox(MessageBoxVO vo);
 
 }

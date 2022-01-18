@@ -16,7 +16,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>비밀번호 재설정</title>
+<style type="text/css">
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 30%;
+}
+
+
+</style>
 </head>
 <body>
 <%
@@ -29,8 +41,8 @@ String email=(String)session.getAttribute("email");
                 <div class="list-group list-group-flush">
               <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/pwd/pwd'/>">비밀번호 재설정</a> 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">장바구니</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/cart'/>">장바구니</a>
+        <!--             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a> -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/member/memberDelete'/>">회원탈퇴</a>
                 </div>
@@ -59,8 +71,9 @@ String email=(String)session.getAttribute("email");
                             </ul>
                         </div>
                     </div>
-                </nav>
-                
+                </nav><br><br>
+                <p>비밀번호 재설정</p>
+                <b id ="yourhp">비밀번호 입력</b>
                 <form name="frm1" method="post" action="<c:url value='/mypage/pwd/pwd'/>">
 					<div class="input-group form-group">
 						<input type ="hidden" id ="email" name ="email" value="<%=email%>">
@@ -76,7 +89,7 @@ String email=(String)session.getAttribute("email");
 					</div>
 					<div class="form-group">
 						
-						<input type="submit" value="Find" class="btn float-right login_btn">
+						<input type="submit" value="수정" class="btn float-right login_btn">
 					</div>
 				</form>
 <!-- <div class="container">
