@@ -37,7 +37,7 @@ public class UpdateSearchPdLowPrice {
 	int lowPrice = Integer.MAX_VALUE;
 	
 	//@Scheduled(fixedRate = 1000 * 60 * 30)
-	//@Scheduled(cron = "0 0 0/6 * * *")
+	//@Scheduled(cron = "0 0 3 * * *")
 	public void insertLog() {
 		/*
 		 * 1. 모든 search_pd의 name 가져오기

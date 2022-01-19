@@ -127,6 +127,9 @@ public class NaverAPI {
 	}
 	
 	private String getRealLink(String link) throws JSONException {
+		/*
+		 * 네이버측의 차단으로 사용 안함
+		 */
 		Document doc = null;
 		try {
 			doc = new MyHttpRequest().getHttpDocument(link);
@@ -142,8 +145,6 @@ public class NaverAPI {
 								.getJSONObject("product")
 								.getString("productUrl");
 		
-//		System.out.println("--- realLink ---");
-//		System.out.println(realLink);
 		return realLink;
 	}
 }
