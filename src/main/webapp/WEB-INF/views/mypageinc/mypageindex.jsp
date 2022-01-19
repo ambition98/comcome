@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@include file="../mypageinc/mypageheader.jsp" %>
 <style>
-<<<<<<< HEAD
 div#allall {
     background: white;
     width: 95%;
@@ -62,4 +61,3 @@ a.btn.btn-primary {
 <div id="allall">
 <%@include file="../mypage/profile/profileDetail.jsp" %>
 </div>
-
