@@ -39,7 +39,7 @@ String email=(String)session.getAttribute("emailadmin");
 	<%-- <script src="<c:url value='/resources/js/assets/klorofil-common.js'/>"></script> --%>
 	 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/admin/admincss2.css'/>" />
 	
-	<!-- <script>
+	 <script>
 	$(function() {
 		var data, options;
 
@@ -156,7 +156,7 @@ String email=(String)session.getAttribute("emailadmin");
 		}
 
 	});
-	</script> -->
+	</script> 
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
