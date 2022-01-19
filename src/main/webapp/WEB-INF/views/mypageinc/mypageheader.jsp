@@ -46,7 +46,7 @@ String email=(String)session.getAttribute("email");
                 <div class="sidebar-heading border-bottom bg-light">마이페이지</div>
                 <div class="list-group list-group-flush">
                		<a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/pwd/pwd'/>">비밀번호 재설정</a> 
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/order/orderList'/>">구매목록</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/cart'/>">장바구니</a>
       <!--               <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a> -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>

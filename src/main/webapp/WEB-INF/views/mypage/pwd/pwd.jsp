@@ -18,13 +18,63 @@
 <meta charset="UTF-8">
 <title>비밀번호 재설정</title>
 <style type="text/css">
-
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: 1px;
+   /*  border-top-left-radius: 0; */
+   /*  border-bottom-left-radius: 0; */
+}
 .input-group {
     position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
     width: 30%;
+    border-radius: 10px;
+}
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: 0px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: solid 2px black;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: solid 2px black;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #0d6efd;
+    border-color: #0a58ca;
+    color: #fff;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 
@@ -66,13 +116,12 @@ String email=(String)session.getAttribute("email");
                                         <a class="dropdown-item" href="#!">프로필</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="<c:url value='/login/logout'/>">로그아웃</a>
-                                    </div>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
                 </nav><br><br>
-                <p>비밀번호 재설정</p>
+                
                 <b id ="yourhp">비밀번호 입력</b>
                 <form name="frm1" method="post" action="<c:url value='/mypage/pwd/pwd'/>">
 					<div class="input-group form-group">

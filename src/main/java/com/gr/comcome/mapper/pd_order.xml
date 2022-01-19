@@ -14,6 +14,12 @@
 		where account_no = #{accountNo}
 	</select>
 	
+	<select id="selectOrder" parameterType="int" resultType="pdOrderVo">
+		select * from pd_order
+		where account_no =#{accountNo}
+		order by pd_order_no desc
+	</select>
+
 	<select id="selectDaysSales" resultType="map">
 	SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate
      , NVL(SUM(a.total),0) total

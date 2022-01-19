@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gr.comcome.messagebox.model.MessageRecvDAO">
+<mapper namespace="com.gr.comcome.messageBoxRec.model.MessageBoxRecDAO">
 	<sql id="searchWhere">
       <if test="searchKeyword!=null and searchKeyword!=''">
              where ${searchCondition} like '%' || #{searchKeyword} || '%'

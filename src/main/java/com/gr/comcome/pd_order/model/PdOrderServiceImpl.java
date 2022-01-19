@@ -26,7 +26,13 @@ public class PdOrderServiceImpl implements PdOrderService {
 	public List<PdOrderVO> selectByAccountNo(int accountNo) {
 		return pdOrderDao.selectByAccountNo(accountNo);
 	}
-	
+  
+	@Override
+	public List<Map<String, Object>> selectOrder(int accountNo) {
+		
+		return pdOrderDao.selectOrder(accountNo);
+	}
+  
 	@Override
 	public List<Map<String,Integer>> selectDaysSales(){
 		return pdOrderDao.selectDaysSales();

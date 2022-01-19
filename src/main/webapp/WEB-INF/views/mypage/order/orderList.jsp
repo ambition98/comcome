@@ -36,6 +36,12 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 </style>
+<script type="text/javascript">
+	
+
+		
+	
+</script>
 <%
 String email=(String)session.getAttribute("email");
 
@@ -46,7 +52,7 @@ String email=(String)session.getAttribute("email");
                 <div class="sidebar-heading border-bottom bg-light" >ComCome</div>
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/profile/profileEdit'/>">기본정보수정</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/order/orderList'/>">구매목록</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">구매목록</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/cart'/>">장바구니</a>
 <!--                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">관심상품</a> -->
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="<c:url value='/mypage/messageboxrec'/>">쪽지함</a>
@@ -78,24 +84,8 @@ String email=(String)session.getAttribute("email");
                         </div>
                     </div>
                 </nav>
-                <br><br>
-<div class="container">
-  <h2>회원탈퇴</h2>
-  
-  <form  method="post" action="<c:url value='/mypage/member/memberDelete'/>">
-    <div class="form-group">
-    <input type ="hidden" id ="email" name ="email" value="<%=email%>">
-    
-      <label for="pwd">비밀번호:</label>
-      <input type="password" class="form-control" id="password" name="password">
-    </div>
-    <div class="form-group">
-      <label for="pwd">비밀번호 확인:</label>
-      <input type="password" class="form-control" id="password1" name="password1">
-    </div>
-
-    <button type="submit" class="btn btn-primary">탈퇴</button>
-  </form>
+                
+</div>
 </div>
 
 </body>
