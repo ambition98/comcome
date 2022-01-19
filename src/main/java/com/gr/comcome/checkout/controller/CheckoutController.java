@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
 import com.gr.comcome.account.model.PaymentEncrypt;
+import com.gr.comcome.saleproduct.model.SaleProductService;
+import com.gr.comcome.saleproduct.model.SaleProductVO;
 import com.gr.comcome.wishlist.model.WishListService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,14 +29,16 @@ public class CheckoutController {
 	private final AccountService accountService;
 	private final WishListService wishListService;
 	private final PaymentEncrypt paymentEncrypt;
+	private final SaleProductService saleProductService;
 
 	public CheckoutController(AccountService accountService, WishListService wishListService,
-			PaymentEncrypt paymentEncrypt) {
+			PaymentEncrypt paymentEncrypt, SaleProductService saleProductService) {
 		this.accountService = accountService;
 		this.wishListService = wishListService;
 		this.paymentEncrypt = paymentEncrypt;
+		this.saleProductService = saleProductService;
 	}
-	
+
 	@GetMapping("/cart/checkout")
 	public String cartCheckout(HttpServletRequest request, Model model
 			,@RequestParam("wishNoList") String wishNoList) {
@@ -64,14 +68,6 @@ public class CheckoutController {
 		
 		
 		List<Map<String, Object>> cartMapList = wishListService.selectByWishlistNoArr(map);
-		
-//		for(Map<String, Object> m : cartMapList) {
-//			m.forEach((k, v) -> {
-//				log.info("k: " + k);
-//				log.info("v: " + v);
-//			});
-//			log.info("--------------");
-//		}
 		
 		log.info("size: " + cartMapList.size());
 		model.addAttribute("accountVo", accountVo);
@@ -112,10 +108,32 @@ public class CheckoutController {
 			return "/common/message";
 		}
 		
-		//SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
-		//log.info("saleProductVo: " + vo);
+		SaleProductVO saleProductVo = saleProductService.selectByNo(saleProductNo);
 		
-		//model.addAttribute("vo", vo);
+		model.addAttribute("saleProductVo", saleProductVo);
+		
+		String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
+		String merchantID = "nicepay00m";
+		String goodsName = "테스트 노트북";
+		String price = "100";
+		String moid = "order_1234567890";
+		String ediDate = getyyyyMMddHHmmss();
+		String hashString = paymentEncrypt.encrypt(ediDate + merchantID + price + merchantKey);
+		
+		model.addAttribute("merchantKey", merchantKey);
+		model.addAttribute("merchantID", merchantID);
+		model.addAttribute("goodsName", goodsName);
+		model.addAttribute("price", price);
+		model.addAttribute("moid", moid);
+		model.addAttribute("ediDate", ediDate);
+		model.addAttribute("hashString", hashString);
+		
+		
+		
+		SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
+		log.info("saleProductVo: " + vo);
+		
+		model.addAttribute("vo", vo);
 		
 		
 		return "/checkout/checkout";
