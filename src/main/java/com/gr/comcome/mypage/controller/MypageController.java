@@ -69,6 +69,13 @@ public class MypageController {
 		return "mypageinc/mypageMain";
 	}
 	
+	//localhost:9091/comcome/mypage/index2
+	@GetMapping("/index2")
+	public String index2 () {
+		return "/index2";
+	}
+	
+	
 	@GetMapping("/mypageEdit")
 	public String profileEdit(HttpSession session, Model model) {
 		String name=(String) session.getAttribute("name");
