@@ -29,5 +29,19 @@
       select count(*) from message_recv
       <include refid="searchWhere"></include>   
    </select>
+   
+     <insert id="insertMessageRecv">
+     <selectKey keyProperty="messageNo" resultType="int" order="BEFORE">
+			select "COMCOME"."ISEQ$$_78758".CURRVAL from dual
+		</selectKey>
+		INSERT INTO message_recv(	
+		message_no,
+		account_no	
+		)
+		VALUES( 
+		#{messageNo}	,
+		#{accountNo}		
+		)
+	</insert>
 	
 </mapper>

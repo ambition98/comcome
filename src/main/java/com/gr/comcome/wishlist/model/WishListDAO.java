@@ -1,14 +1,14 @@
 package com.gr.comcome.wishlist.model;
-  
- import java.util.List;
+
+import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;  
-  
- @Mapper 
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
 public interface WishListDAO {
-  
-	 List<Map<String, Object>> selectWishList(String wisilistNo );
+
+	List<Map<String, Object>> selectWishList(String wisilistNo);
 
 	int insertWishByNo(WishListVO wishListVO);
 
@@ -20,7 +20,7 @@ public interface WishListDAO {
 
 	int deleteWish(WishListVO wishListVo);
 
-	int updateQuantity(WishListVO wishListVo); 
-  
+	int updateQuantity(WishListVO wishListVo);
+	
+	List<Map<String, Object>> selectByWishlistNoArr(Map<String, Object> map);
 }
- 

@@ -41,6 +41,11 @@
 <script src="<c:url value='/resources/js/base/mixitup.min.js' />"></script>
 <script src="<c:url value='/resources/js/base/owl.carousel.min.js' />"></script>
 <script src="<c:url value='/resources/js/base/main.js' />"></script>
+<style type="text/css">
+i{
+text-color:black;
+}
+</style>
 </head>
 <body>
 	<%-- <%@ include file="include/category.jsp"%> --%>
@@ -53,7 +58,7 @@
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
 					
-						<h2 style="color: black;">중고 장터</h2>
+						<h2 style="color: black;">특가 상품</h2>
 					</div>
 				</div>
 			</div>
@@ -68,36 +73,6 @@
 				<div class="col-lg-2 col-md-5">
 					
 					<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-					<script type="text/javascript">
- 
-				
-					$(function(){
-					    
-					    $("input:button[name='button']").on('click',function(){
-					        var kind = $(this).val();       //버튼이 클릭 되었을 시, 개별 버튼의 값이 kind 변수에 담겨집니다.
-					        $.ajax({
-					            url : "/comcome/usedBoard/list_ajax",
-					            type : "post",
-					            cache : false,
-					            headers : {"cache-control":"no-cache","pragma":"no-cache"},
-					            data : {
-					                 id : $(this).val(),
-					                "kind":kind    // 버튼의 value값에 따라 작동합니다.
-					                
-					            },
-					            success : function(data){
-					                console.log(data);
-					               $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
-					            },
-					            error:function(request, status, error) {
-					                alert("status : " + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-					               }
-					        })//ajax
-					    });//button click
-					    
-					}); 
-					 
-					</script>
 					
 					
 					
@@ -105,15 +80,15 @@
 					
 							<div class="searchdiv" >
 						<form name="frmSerch" method="post"
-								action='<c:url value="/sale/list"/>'>
+								action='<c:url value="/saleProduct/list"/>'>
 								<hr>
 								 <input type="text" name="searchKeyword" title="검색어 입력"
 									value="${param.searchKeyword}" size="15" style=" margin-bottom:10px;"> 
 									
 								<select name="searchCondition">
 									
-									<option value="title"
-										<c:if test="${param.searchCondition=='title' }">            	
+									<option value="name"
+										<c:if test="${param.searchCondition=='name' }">            	
   							          		selected="selected"
           							  	</c:if>>제목</option>
 									<option value="content"
@@ -129,9 +104,7 @@
 						</div>	
 						<div>
 						<hr>
-						<c:if test="${sessionScope.email!=null}">
-						<a href="/comcome/usedBoard/write" style="float:right;"><h5><b>글쓰기</b></h5></a>
-						</c:if>	
+						
 						</div>
 				</div>
 					
@@ -144,18 +117,16 @@
 						<c:forEach var="vo" items="${list}">
 							<div class="col-lg-3 col-md-4 col-sm-6">
 								<div class="blog__item">
-									<a href="<c:url value='/usedBoard/countUpdate?boardNo=${vo.boardNo}'/>">
+									<a href="<c:url value='/saleProduct/detail?saleProductNo=${vo.saleProductNo}'/>">
 										<div class="blog__item__pic" >
-											<img src="../resources/user_uploaded_file/usedboard/${vo.fileName}" alt=""
-												style="width:auto; height:auto; max-width:150px; max-height:100px; ">
+											<img src="../resources/user_uploaded_file/testboard/${vo.thumbNailImg}" alt=""
+												style="width:auto; height:auto; max-width:150px; max-height:150px; ">
 										</div>
 										<div class="blog__item__text">
-											<h5> ${vo.title}</h5>
-											<ul>
-												<li><i class="fa category"></i>${vo.groupNo}</li>
-												<li><i class="calendar"></i> <fmt:formatDate value="${vo.regdate}" pattern="yyyy-MM-dd HH:mm"/></li>
-												<li><i class="price"></i><fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
-												<li><i class="count "></i> 조회수 : ${vo.readcount}</li>
+											<h5> ${vo.name}</h5>
+											<ul>							
+												<li><i class="price"></i>가격 :   <fmt:formatNumber value="${vo.price }" pattern="#,###" /></li><br>
+												<li><i class="quantity"></i> 개수 : ${vo.quantity}</li>
 											</ul>
 											
 										</div>

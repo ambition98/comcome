@@ -103,10 +103,11 @@ $(function(){
                                         <input type="submit" id="deletevo" value="로그인" class="btn btn-primary btn-user btn-block">
                                         <input type="button" value="카카오 로그인" id="kakaoLogin" class="btn btn-primary btn-user btn-block" 
                                         onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://localhost:9091/comcome/login/auth/kakao/callback&response_type=code' ">
+                                        <!-- onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=228cb11c8786e83ab545482f006fefe1&redirect_uri=http://danyleee.com:9090/comcome/login/auth/kakao/callback&response_type=code' -->
 									</form>
 									<hr>
 									<div class="text-center">
-										<a class="small" href="#">회원가입</a>
+										<a class="small" href="<c:url value="/account/register" />">회원가입</a>
 									</div>
 									<div class="text-center">
 										<a class="small" href="<c:url value='/login/find-email'/>">이메일 찾기</a>
@@ -122,8 +123,5 @@ $(function(){
 		</div>
 
 	</div>
-
-
-
 </body>
 </html>

@@ -62,7 +62,7 @@ public class AccountController {
 	@RequestMapping(value="/register", method = RequestMethod.POST)
 	public String register_post(@ModelAttribute AccountVO accountVo,
 							@ModelAttribute HashVO hashVo,
-							@RequestParam String pwd) {
+							@RequestParam String pwd, Model model, HttpServletRequest request) {
 		//1
 		logger.info("등록 처리, 파라미터 vo={}", accountVo);
 		
@@ -83,8 +83,21 @@ public class AccountController {
 		cnt=accountService.insertPwd(hashVo);
 		logger.info("비밀번호 등록 결과, cnt={}", cnt);
 		
+		String msg = "회원가입되었습니다.";
+		String url = "/";
+		
+		request.getSession().setAttribute("email", accountVo.getEmail());
+		request.getSession().setAttribute("accountNo", accountVo.getAccountNo());
+		request.getSession().setAttribute("name", accountVo.getName());
+		request.getSession().setAttribute("address", accountVo.getAddress());
+		request.getSession().setAttribute("tel", accountVo.getTel());
+		request.getSession().setAttribute("cardNo", accountVo.getCardNo());
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
 		//4
-		return "redirect:/account/register";
+		return "common/message";
 	}
 	
 	@RequestMapping(value="/checkUserEmail", method = RequestMethod.GET)

@@ -30,4 +30,16 @@
       <include refid="searchWhere"></include>   
    </select>
    
+   <insert id="insertMessageBox">
+		INSERT INTO message(	
+		account_no
+		,title
+		,content
+		)
+		VALUES( 
+		#{accountno}
+		,#{title}
+		, #{content} )
+	</insert>
+   
 </mapper>

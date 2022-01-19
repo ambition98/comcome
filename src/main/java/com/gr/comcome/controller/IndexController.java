@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gr.comcome.admin.model.AdminService;
 import com.gr.comcome.admin.model.NoticeVO;
+import com.gr.comcome.comment.model.commentService;
 import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
@@ -34,8 +35,11 @@ public class IndexController {
 	
 	@Autowired
 	private usedBoardService usedBoardService;
-    
-	 @Autowired
+	
+	@Autowired
+	private commentService commentService;
+	
+	@Autowired
 	public IndexController(AdminService adminService) {
 		this.adminService = adminService;
 	}
@@ -98,6 +102,7 @@ public class IndexController {
 	//localhost:9091/comcome/indexcontent/indexcontent
 	@GetMapping("/indexcontent")
 	public String indexcontent() {
+		
 		return "/indexcontent/indexcontent";
 	}
 	

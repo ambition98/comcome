@@ -42,22 +42,26 @@ public class cartController {
 	@RequestMapping("/cart")
 	public String cartList(HttpSession session, Model model) {
 		String email = (String) session.getAttribute("email");
-		log.info("장바구니 목록, email={}", email);
-
+		log.info("email={}", email);
+		
+		if(email == null) {
+			String msg = "로그인이 필요한 서비스입니다.";
+			String url = "/login/login-form";
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			
+			return "/common/message";
+		}
+		
 		AccountVO accountVo = loginService.selectByEmail(email);
 		log.info("장바구니 목록, email={}, accountVo={}", email, accountVo);
 
 		List<Map<String, Object>> list = wishlistService.selectAll(accountVo.getAccountNo());
 		log.info("장바구니 목록 조회 결과, list.size={}", list.size());
-		for(Map<String, Object> map : list) {
-			map.forEach((k, v) -> {
-				System.out.println(k + ": " + v);
-			});
-			System.out.println("--------------");
-		}
 		model.addAttribute("list", list);
 
-		return "/mypractice/view/cart3";
+		return "/mypractice/view/cart";
 	}
 
 	@RequestMapping("/delete-cart")

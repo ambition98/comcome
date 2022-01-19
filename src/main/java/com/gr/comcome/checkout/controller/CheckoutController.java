@@ -1,5 +1,8 @@
 package com.gr.comcome.checkout.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gr.comcome.account.model.AccountService;
 import com.gr.comcome.account.model.AccountVO;
+import com.gr.comcome.account.model.PaymentEncrypt;
+import com.gr.comcome.saleproduct.model.SaleProductService;
+import com.gr.comcome.saleproduct.model.SaleProductVO;
 import com.gr.comcome.wishlist.model.WishListService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,19 +28,26 @@ import lombok.extern.slf4j.Slf4j;
 public class CheckoutController {
 	private final AccountService accountService;
 	private final WishListService wishListService;
+	private final PaymentEncrypt paymentEncrypt;
+	private final SaleProductService saleProductService;
 
-	public CheckoutController(AccountService accountService, WishListService wishListService) {
+	public CheckoutController(AccountService accountService, WishListService wishListService,
+			PaymentEncrypt paymentEncrypt, SaleProductService saleProductService) {
 		this.accountService = accountService;
 		this.wishListService = wishListService;
+		this.paymentEncrypt = paymentEncrypt;
+		this.saleProductService = saleProductService;
 	}
 
-	/*
-	 * 장바구니에서 체크한 상품만 구매
-	 */
 	@GetMapping("/cart/checkout")
-	public String cartCheckout(HttpServletRequest request, Model model) {
+	public String cartCheckout(HttpServletRequest request, Model model
+			,@RequestParam("wishNoList") String wishNoList) {
 		
 		log.info("Enter cartCheckout()");
+		log.info("wishNoList: " + wishNoList);
+		
+		String[] wishNoArr = wishNoList.split(",");
+		
 		Object accountNo = request.getSession().getAttribute("accountNo");
 		
 		if(accountNo == null) {
@@ -45,23 +59,49 @@ public class CheckoutController {
 			
 			return "/common/message";
 		}
-//		AccountVO accountVo =  accountService.selectAccountByNo((int)accountNo);
-//		log.info(accountVo.toString());
-//		
-//		List<Map<String, Object>> mapList = wishListService.selectAll((int)accountNo);
-//		
-//		model.addAttribute("accountVo", accountVo);
-//		model.addAttribute("mapList", mapList);
 		
-		return "checkout/checkout";
+		AccountVO accountVo = accountService.selectAccountByNo((int)accountNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("accountNo", accountNo);
+		map.put("wishNoArr", wishNoArr);
+		
+		
+		List<Map<String, Object>> cartMapList = wishListService.selectByWishlistNoArr(map);
+		
+		log.info("size: " + cartMapList.size());
+		model.addAttribute("accountVo", accountVo);
+		model.addAttribute("cartMapList", cartMapList);
+		
+		String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
+		String merchantID = "nicepay00m";
+		String goodsName = "테스트 노트북";
+		String price = "100";
+		String moid = "order_1234567890";
+		String ediDate = getyyyyMMddHHmmss();
+		String hashString = paymentEncrypt.encrypt(ediDate + merchantID + price + merchantKey);
+		
+		model.addAttribute("merchantKey", merchantKey);
+		model.addAttribute("merchantID", merchantID);
+		model.addAttribute("goodsName", goodsName);
+		model.addAttribute("price", price);
+		model.addAttribute("moid", moid);
+		model.addAttribute("ediDate", ediDate);
+		model.addAttribute("hashString", hashString);
+		
+		return "/checkout/checkout";
 	}
 	
 	@GetMapping("/direct/checkout")
 	public String directCheckout(
 			@RequestParam(value = "saleProductNo"
 						, required = false
-						, defaultValue = "-1") int saleProductNo, Model model) {
+						, defaultValue = "-1") int saleProductNo
+						, Model model
+						, HttpServletRequest request) {
 		
+		log.info("Enter directCheckout()");
+		Object accountNo = request.getSession().getAttribute("accountNo");
 		if(saleProductNo == -1) {
 			String msg = "잘못된 접근입니다.";
 			String url = "/";
@@ -72,11 +112,69 @@ public class CheckoutController {
 			return "/common/message";
 		}
 		
-		//SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
-		//log.info("saleProductVo: " + vo);
+		if(accountNo == null) {
+			String msg = "로그인이 필요한 서비스입니다.";
+			String url = "/login/login-form";
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			
+			return "/common/message";
+		}
 		
-		//model.addAttribute("vo", vo);
+		SaleProductVO saleProductVo = saleProductService.selectByNo(saleProductNo);
 		
-		return "checkout/checkout";
+		AccountVO accountVo = accountService.selectAccountByNo((int)accountNo);
+		System.out.println("saleProductVo: " + accountNo);
+		System.out.println("accountVo: " + accountVo);
+		
+		model.addAttribute("saleProductVo", saleProductVo);
+		model.addAttribute("accountVo", accountVo);
+		
+		String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
+		String merchantID = "nicepay00m";
+		String goodsName = "테스트 노트북";
+		String price = "100";
+		String moid = "order_1234567890";
+		String ediDate = getyyyyMMddHHmmss();
+		String hashString = paymentEncrypt.encrypt(ediDate + merchantID + price + merchantKey);
+		
+		model.addAttribute("merchantKey", merchantKey);
+		model.addAttribute("merchantID", merchantID);
+		model.addAttribute("goodsName", goodsName);
+		model.addAttribute("price", price);
+		model.addAttribute("moid", moid);
+		model.addAttribute("ediDate", ediDate);
+		model.addAttribute("hashString", hashString);
+		
+		SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
+		log.info("saleProductVo: " + vo);
+		
+		model.addAttribute("vo", vo);
+		
+		
+		return "/checkout/checkout";
+	}
+	
+	@RequestMapping("/checkout/result")
+	public String resultPage(Model model
+			,@RequestParam("BuyerName") String buyerName
+			,@RequestParam("BuyerEmail") String buyerEmail
+			,@RequestParam("BuyerTel") String buyerTel
+			,@RequestParam("accountNo") int accountNo
+			,@RequestParam("address") String address) {
+		
+		model.addAttribute("buyerName", buyerName);
+		model.addAttribute("buyerEmail", buyerEmail);
+		model.addAttribute("buyerTel", buyerTel);
+		model.addAttribute("accountNo", accountNo);
+		model.addAttribute("address", address);
+		
+		return "/checkout/result";
+	}
+	
+	public final synchronized String getyyyyMMddHHmmss(){
+		SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss");
+		return yyyyMMddHHmmss.format(new Date());
 	}
 }

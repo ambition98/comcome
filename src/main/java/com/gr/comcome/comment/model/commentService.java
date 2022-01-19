@@ -8,4 +8,5 @@ public interface commentService {
 	public int updateComment(commentVO vo);
 	public int insertComment(commentVO vo);
 	public int deleteComment(commentVO vo);
+	int selectCntByNo(int no);
 }

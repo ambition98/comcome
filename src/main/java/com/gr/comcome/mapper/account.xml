@@ -5,8 +5,8 @@
 <mapper namespace="com.gr.comcome.account.model.AccountDAO">	 
 
 	<insert id="insertAccount" parameterType="AccountVo">
-		insert into account(email, name, address, tel, card_no,zipcode,address_detail)
-		values(#{email}, #{name}, #{address}, #{tel}, #{cardNo},#{zipcode},#{addressDetail})
+		insert into account(email, name, address, tel,zipcode,address_detail)
+		values(#{email}, #{name}, #{address}, #{tel},#{zipcode},#{addressDetail})
 	</insert>
 	
 	<insert id="insertPwd" parameterType="HashVo">

@@ -8,11 +8,6 @@
 		where account_no=#{account_no}
 	</select>
 	
-<!-- 	<update id="updateMypage" parameterType="mypageVo">
-		update ACCOUNT set name=#{name}
-		where ACCOUNT_NO=#{ACCOUNT_NO}
-	</update> -->
-	
 	<select id="selectMainNotice" resultType="mypageVo">
 	select * from 
 	(

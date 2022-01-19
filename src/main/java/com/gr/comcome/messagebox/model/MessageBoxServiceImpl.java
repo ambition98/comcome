@@ -16,13 +16,18 @@ public class MessageBoxServiceImpl implements MessageBoxService {
 		this.messgeboxDao=messgeboxDao;
 	}
 	
-@Override
-public List<MessageBoxVO> selectAll(SearchVO searchVo) {	
-	return messgeboxDao.selectAll(searchVo);
-}
-@Override
-public int selectTotalRecord(SearchVO searchVo) {
-	
-	return messgeboxDao.selectTotalRecord(searchVo);
-}
+	@Override
+	public List<MessageBoxVO> selectAll(SearchVO searchVo) {	
+		return messgeboxDao.selectAll(searchVo);
+	}
+	@Override
+	public int selectTotalRecord(SearchVO searchVo) {
+		
+		return messgeboxDao.selectTotalRecord(searchVo);
+	}
+	@Override
+	public int insertMessageBox(MessageBoxVO vo) {
+		return messgeboxDao.insertMessageBox(vo);
+	};
+
 }

@@ -19,6 +19,7 @@
 	                    <li>주소 : 서울시 강남구 강남대로 6<br> 호은빌딩 12345</li>
 	                    <li>대표전화 : 1234-5677</li>
 	                    <li>Email: comcome123@comcome.com</li>
+	                    <li><a href="<c:url value="/admin/login-with-main" />">관리자 페이지</a></li>
 	                </ul>
 	            </div>
 	        </div>

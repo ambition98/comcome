@@ -57,37 +57,37 @@ String name=(String)session.getAttribute("name");
   <div class="team">
     <ul class="auto-grid" role="list">
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=1" />" target=_blank" class="profile">
           <h2 class="profile__name">SAMSUNG</h2>
           <img alt="Anita Simmons" src="<c:url value='/resources/img/sam_lo2.png'/>" />
         </a>
       </li>
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=2" />" target=_blank" class="profile">
           <h2 class="profile__name">APPLE</h2>
           <img alt="Profile shot for Celina Harris" src="<c:url value='/resources/img/apple_lo2.PNG'/>" />
         </a>
       </li>
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=3" />" target=_blank" class="profile">
           <h2 class="profile__name">LG</h2>
           <img alt="Profile shot for Ruby Morris" src="<c:url value='/resources/img/lg_lo.jpg'/>" />
         </a>
       </li>
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=7" />" target=_blank" class="profile">
           <h2 class="profile__name">HANSUNG</h2>
           <img alt="Profile shot for Nicholas Castro" src="<c:url value='/resources/img/han_lo.jpg'/>" />
         </a>
       </li>
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=5" />" target=_blank" class="profile">
           <h2 class="profile__name">MSI</h2>
           <img alt="Profile shot for Marc Dixon" src="<c:url value='/resources/img/msi_lo.png'/>" />
         </a>
       </li>
       <li>
-        <a href="https://swop.link/cool" target=_blank" class="profile">
+        <a href="<c:url value="/searchpd/list?brandNo=6" />" target=_blank" class="profile">
           <h2 class="profile__name">LENOVO</h2>
           <img alt="Profile shot for Chad" src="<c:url value='/resources/img/leno_lo.png'/>" />
         </a>
@@ -173,6 +173,7 @@ String name=(String)session.getAttribute("name");
         	<c:if test="${!empty list2 }">
 	        	<c:forEach var="vo" items="${list2 }"  begin="0" end="6">
 		        	<div class="col-lg-4 col-md-4 col-sm-6">
+		                <a href="<c:url value='/usedBoard/countUpdate?boardNo=${vo.boardNo}'/>">
 		                <div class="blog__item">
 		                 <c:if test="${!empty vo.fileName }">
 		                 	<div class="blog__item__pic">
@@ -188,6 +189,7 @@ String name=(String)session.getAttribute("name");
 		                        <p>${vo.content}</p>
 		                    </div>
 		                </div>
+		                </a>
 		            </div>
 	            </c:forEach>
             </c:if>

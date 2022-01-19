@@ -8,10 +8,6 @@
 	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
 		</if>		
 	</sql>
-
-	
-	
-	
 	
 	<insert id="insertBoard" parameterType="usedboardVo">		
 		insert into Board(  title, email, content, 
@@ -63,6 +59,23 @@
 		
 	</select>
 	
+	<select id="selectByGroupNo2" parameterType="map" resultType="usedBoardVo">
+		select *
+		from
+		(
+		    select rownum as RNUM, A.*
+		    from
+		    (
+		        select * from board 
+		        
+		        order by board_no desc
+		    )A
+		)
+		
+		where group_no=#{groupNo}	
+	</select>
+	
+	
 	<update id="updateReadCount" parameterType="int">
 		update board set readcount=readcount+1					
 		where board_no=#{boardNo}
@@ -70,8 +83,8 @@
 	
 	<update id="updateBoard" parameterType="usedboardVo">
 		update board
-		set name=#{name},title=#{title}, email=#{email}, content=#{content},file_size=#{fileSize}
-		,file_name=#{fileName}, original_file_Name=#{originalFileName}
+		set title=#{title}, email=#{email}, content=#{content},file_size=#{fileSize}
+		,file_Name=#{fileName}, original_file_Name=#{originalFileName}
 		where Board_No=#{boardNo}
 	</update>
 	
@@ -108,6 +121,25 @@
 		</if>		
 		where board_no=#{boardNo}
 	</update>
+	
+	<select id="selectDaysBoardCount" resultType="map">
+		SELECT TO_CHAR(b.dt, 'YYYY-MM-DD') AS regdate
+     , NVL(SUM(a.cnt),0) count
+  FROM ( SELECT TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate , COUNT(*) cnt
+         FROM board
+         WHERE regdate BETWEEN to_date(trunc(sysdate)-6,'yy-mm-dd')
+                    AND to_date(trunc(sysdate)+1,'yy-mm-dd')
+         GROUP BY regdate
+         ORDER BY regdate
+        ) a
+      , (SELECT to_date(trunc(sysdate)-6,'yy-mm-dd') + LEVEL - 1 AS dt
+        FROM dual 
+        CONNECT BY LEVEL <![CDATA[ <= ]]> to_date(trunc(sysdate)+1,'yy-mm-dd')      
+                           - to_date(trunc(sysdate)-6,'yy-mm-dd')) b
+  WHERE b.dt = a.regdate(+)
+  GROUP BY b.dt
+  ORDER BY b.dt
+	</select>
  
 </mapper>
 

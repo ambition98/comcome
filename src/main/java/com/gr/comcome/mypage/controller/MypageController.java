@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ import com.gr.comcome.mypage.model.MypageVO;
 
 
 @Controller
-@RequestMapping("mypage")
+@RequestMapping("/mypage")
 public class MypageController {
 	private static final
 	Logger logger =LoggerFactory.getLogger(MessageBoxController.class);
@@ -222,7 +223,7 @@ public class MypageController {
 	//회원탈퇴 처리 
 	@PostMapping("/member/memberDelete")
 	public String Delete (@RequestParam String email, @RequestParam(required = false) String password,
-			@RequestParam(required = false) String password1, Model model) throws NoSuchAlgorithmException {
+			@RequestParam(required = false) String password1, Model model, HttpServletRequest request) throws NoSuchAlgorithmException {
 		String msg ="회원탈퇴 실패", url="/mypage/member/memberDelete";
 
 		if (password == null || password.isEmpty() || password1 == null || password1.isEmpty()) {
@@ -249,7 +250,7 @@ public class MypageController {
 				if(result > 0){
 					msg ="회원 탈퇴에 성공했습니다 ";
 					url = "/"; //인덱스로 돌아가기
-
+					request.getSession().invalidate();
 					//7. 비밀번호 삭제에 실패했으면                    
 				}else if(result < 0){
 					msg ="회원 탈퇴에 실패했습니다";
