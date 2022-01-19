@@ -5361,6 +5361,7 @@ textarea.form-control-lg {
 .list-group-item-light {
   color: #636464;
   background-color: #fefefe;
+/*  background-color: #2B333E; */
 }
 .list-group-item-light.list-group-item-action:hover, .list-group-item-light.list-group-item-action:focus {
   color: #636464;
@@ -11283,6 +11284,7 @@ textarea.form-control-lg {
   min-height: 100vh;
   margin-left: -15rem;
   transition: margin 0.25s ease-out;
+  background-color: #2B333E;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -11361,3 +11363,26 @@ select#searchsel {
     min-width: 0;
     width: 90%;
   }
+
+/* #sidebar-wrapper {
+    margin-left: 0;
+}
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin 0.25s ease-out;
+}
+.bg-white {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
+}
+.border-end {
+    border-right: 1px solid #dee2e6 !important;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+div {
+    display: block;
+} */
+  

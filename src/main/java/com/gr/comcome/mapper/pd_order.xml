@@ -13,4 +13,12 @@
 		from pd_order
 		where account_no = #{accountNo}
 	</select>
+	
+	<select id="selectOrder" parameterType="int" resultType="pdOrderVo">
+		select * from pd_order
+		where account_no =#{accountNo}
+		order by pd_order_no desc
+	</select>
+	
+	
 </mapper>
