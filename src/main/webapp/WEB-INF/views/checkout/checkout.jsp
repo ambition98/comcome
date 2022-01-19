@@ -121,25 +121,31 @@
 			
 		});
 		
-			function nicepayStart(){
-				var buyerName = document.getElementById('name').value;
-				var buyerEmail = document.getElementById('email').value;
-				var buyerTel = document.getElementById('tel').value;
-				
-				console.log(buyerName);
-				console.log(buyerEmail);
-				console.log(buyerTel);
-				
-				document.getElementById('b_name').value = buyerName;
-				document.getElementById('b_email').value = buyerEmail;
-				document.getElementById('b_tel').value = buyerTel;
-				
-				goPay(document.payForm);
-			}
+		function nicepayStart(){
+			var buyerName = document.getElementById('name').value;
+			var buyerEmail = document.getElementById('email').value;
+			var buyerTel = document.getElementById('tel').value;
+			var zipcode = document.getElementById('zipcode').value;
+			var address = document.getElementById('address').value;
+			var addressDetail = document.getElementById('address_detail').value;
+			var concatAddress = zipcode + ' ' + address + ' ' + addressDetail;
 			
-			function nicepaySubmit(){
-				document.payForm.submit();
-			}
+			//console.log(buyerName);
+			//console.log(buyerEmail);
+			//console.log(buyerTel);
+			console.log(concatAddress);
+			
+			document.getElementById('b_name').value = buyerName;
+			document.getElementById('b_email').value = buyerEmail;
+			document.getElementById('b_tel').value = buyerTel;
+			document.getElementById('b_address').value = concatAddress;
+			
+			goPay(document.payForm);
+		}
+		
+		function nicepaySubmit(){
+			document.payForm.submit();
+		}
 	</script>
 </head>
 <body>
@@ -147,10 +153,12 @@
     <div id="form_wrap">
     	<h3>받는 사람 정보</h3>
     	<hr>
-    	<div id="check_wrap">
-    		<input id="order_info_checked" type="checkbox">
-    		회원 정보와 동일합니다.
-    	</div>
+    	<c:if test="${not empty sessionScope.email }">
+	    	<div id="check_wrap">
+	    		<input id="order_info_checked" type="checkbox">
+	    		회원 정보와 동일합니다.
+	    	</div>
+    	</c:if>
    		<div class="input_wrap">
    			<div class="input_label">이름</div>
    			<input class="order_input" id="name" type="text" placeholder="이름"  name="buyerName"/>
@@ -171,28 +179,49 @@
    			<input class="order_input" id="tel" type="text" placeholder="- 제외"/>
    		</div>
     </div>
+    
     <div id="bill_warp">
     	<h3>주문 상품 정보</h3>
     	<hr>
     	<c:set var="totalPrice" value="0"/>
-    	<c:forEach items="${cartMapList}" var="map">
-	    	<div class="pd_block">
+    	<c:if test="${not empty saleProductVo }">
+    		<div class="pd_block">
 	    		<div class="pd_img">
-	    			<img src="<c:url value='/resources/user_uploaded_file/testboard/${map.THUMB_NAIL_IMG}'/>">
+	    			<img src="<c:url value='/resources/user_uploaded_file/testboard/${saleProductVo.thumbNailImg}'/>">
 	    		</div>
 	    		<div class="pd_name">
-	    			${map.NAME}
+	    			${saleProductVo.name}
 	    		</div>
 	    		<div class="quantity">
-	    			${map.QUANTITY}개
+	    			1개
 	    		</div>
 	    		<div class="pd_price">
-	    			<fmt:formatNumber type="number" maxFractionDigits="3" value="${map.PRICE * map.QUANTITY}"/>
+	    			<fmt:formatNumber type="number" maxFractionDigits="3" value="${saleProductVo.price}"/>
 	    			원
-	    			<c:set var="totalPrice" value="${ totalPrice + (map.PRICE * map.QUANTITY) }"/>
+	    			<c:set var="totalPrice" value="${ saleProductVo.price }"/>
 	    		</div>
 	    	</div>
-    	</c:forEach>
+    	</c:if>
+    	<c:if test="${not empty cartMapList }">>
+	    	<c:forEach items="${cartMapList}" var="map">
+		    	<div class="pd_block">
+		    		<div class="pd_img">
+		    			<img src="<c:url value='/resources/user_uploaded_file/testboard/${map.THUMB_NAIL_IMG}'/>">
+		    		</div>
+		    		<div class="pd_name">
+		    			${map.NAME}
+		    		</div>
+		    		<div class="quantity">
+		    			${map.QUANTITY}개
+		    		</div>
+		    		<div class="pd_price">
+		    			<fmt:formatNumber type="number" maxFractionDigits="3" value="${map.PRICE * map.QUANTITY}"/>
+		    			원
+		    			<c:set var="totalPrice" value="${ totalPrice + (map.PRICE * map.QUANTITY) }"/>
+		    		</div>
+		    	</div>
+	    	</c:forEach>
+    	</c:if>
     	<div>
     		<fmt:formatNumber type="number" maxFractionDigits="3" value="${totalPrice}"/>원
     	</div>
@@ -220,6 +249,10 @@
 	<!-- 변경 불가능 -->
 	<input type="hidden" name="EdiDate" value="${ediDate}"/>			<!-- 전문 생성일시 -->
 	<input type="hidden" name="SignData" value="${hashString}"/>		<!-- 해쉬값 -->
+	
+	<!-- 기타 정보 -->
+	<input type="hidden" name="accountNo" value="${accountVo.accountNo}"/>
+	<input id="b_address" type="hidden" name="address" value=""/>
 </form>
 </body>
 </html>

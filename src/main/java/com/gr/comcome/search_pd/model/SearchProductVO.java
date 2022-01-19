@@ -14,4 +14,5 @@ public class SearchProductVO {
 	private String code;
 	private String detail;
 	private String thumbnail;
+	private int price;
 }

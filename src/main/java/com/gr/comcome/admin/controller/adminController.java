@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,8 @@ import com.gr.comcome.common.ConstUtil;
 import com.gr.comcome.common.FileUploadUtil;
 import com.gr.comcome.common.PaginationInfo;
 import com.gr.comcome.common.SearchVO;
+import com.gr.comcome.pd_order.model.PdOrderService;
+import com.gr.comcome.pd_order.model.PdOrderVO;
 import com.gr.comcome.saleproduct.model.SaleProductService;
 import com.gr.comcome.saleproduct.model.SaleProductVO;
 import com.gr.comcome.usedBoard.model.usedBoardService;
@@ -64,6 +71,10 @@ public class adminController {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private PdOrderService pdorderService;
+	
 
 	
 	  // http://localhost:9091/comcome/admin/member
@@ -627,67 +638,141 @@ public class adminController {
 		//localhost:9091/comcome/admin/chart
 		@RequestMapping("/chart") 
 		public String chart_get(Model model) {
-			logger.info("일별 사이트 통계 화면");
+			logger.info("사이트 통계 화면");
 			List<Map<String,Integer>> listAccount = accountService.selectDaysRegister();
+			List<Map<String,Integer>> listOrderSale = pdorderService.selectDaysSales();
+			List<Map<String,Integer>> listOrderSaleCount = pdorderService.selectDaysSalesCount();
+			List<Map<String,Integer>> listboardCount = usedBoardService.selectDaysBoardCount();
 			
-			logger.info("전체조회 결과 list.size={}", listAccount.size());
+			
 			int size = listAccount.size();
+			
 			String[] accountRegdate = new String[size];
 			int[] accountCount =new int[size];
-			int i=0;
-//			int j=0;
-//			for(int i = 0; i < listAccount.size(); i++){
-//		        //arraylist 사이즈 만큼 for문을 실행합니다.
-//		        System.out.println("list 순서 " + i + "번쨰");	        
-//		        
-//		        for(Entry<String, Integer> elem : listAccount.get(i).entrySet() ){
-//		            
-//		        	model.addAttribute("a"+j,elem.getValue());
-//		            j++;
-//		        }
-//		    }
-//			for(int i = 0; i < 12; i++){
-//				System.out.println(ai);
-//			}
-			Map<String, Integer> map1 = new LinkedHashMap<>();
+			int[] orderSalesSum =new int[size];
+			int[] orderSalesCount =new int[size];
+			int[] usedBoardCount =new int[size];
 			
-			for(Map<String, Integer> map : listAccount) {
-//				map.forEach((k, v) -> {
-//					System.out.println("k: " + k);
-//					System.out.println("v: " + v);
-//				});
-				
+			
+			int i=0;
+			
+			
+			for(Map<String, Integer> map : listAccount) {				
 				String str = String.valueOf(map.get("REGDATE"));
+				if(i==6) {
+					model.addAttribute("date", str);
+				}
 				int count = Integer.parseInt(String.valueOf(map.get("COUNT")));
 				String month = str.substring(str.indexOf("-")+1,str.indexOf("-")+3);
 				String day = str.substring(str.lastIndexOf("-")+1,str.lastIndexOf("-")+3);
 				String regdate=month+"/"+day;
 				
-//				System.out.println(str);
-//				System.out.println(regdate);
-//				System.out.println(count);
-//				map1.put(regdate, count);
 				accountRegdate[i]=regdate;
 				accountCount[i]=count;
 				i++;
-			}	
-			System.out.println(1);
-			for(int j = 0; j < accountRegdate.length; j++) { 
-				System.out.println(accountRegdate[j]);
-				System.out.println(accountCount[j]);
 			}
-//			System.out.println(accountRegdate);
-//			System.out.println(accountCount);
-//			model.addAttribute(map1);
+			
+			i=0;
+			for(Map<String, Integer> map : listOrderSale) {				
+				int sum = Integer.parseInt(String.valueOf(map.get("TOTAL")));
+				orderSalesSum[i]=sum;
+				i++;
+			}
+			i=0;
+			for(Map<String, Integer> map : listOrderSaleCount) {				
+				int sum = Integer.parseInt(String.valueOf(map.get("COUNT")));
+				orderSalesCount[i]=sum;
+				i++;
+			}
+			i=0;
+			for(Map<String, Integer> map : listboardCount) {				
+				int sum = Integer.parseInt(String.valueOf(map.get("COUNT")));
+				usedBoardCount[i]=sum;
+				i++;
+			}
+			
+			int sum =(int) (orderSalesSum[6]*0.05) ;
+			
 			model.addAttribute("a", accountRegdate);
 			model.addAttribute("b", accountCount);
+			model.addAttribute("c", orderSalesSum);
+			model.addAttribute("d", orderSalesCount);
+			model.addAttribute("e", usedBoardCount);
+			model.addAttribute("sum", sum);
+			
 			  
 			return "/adminview/chartwithmain"; 
 		}
 		
 	
-	
-	
+		@RequestMapping("/order") 
+		public String order_get(@ModelAttribute SearchVO searchVO,Model model) {
+			logger.info("주문정보 조회 화면");
+			
+			// 2
+			PaginationInfo pagingInfo = new PaginationInfo();
+			pagingInfo.setBlockSize(ConstUtil.BLOCK_SIZE);
+			pagingInfo.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			pagingInfo.setCurrentPage(searchVO.getCurrentPage());
+
+			// 3
+			searchVO.setRecordCountPerPage(ConstUtil.RECORD_COUNT);
+			searchVO.setFirstRecordIndex(pagingInfo.getFirstRecordIndex());
+			logger.info("값 셋팅 후 searchVo={}", searchVO);
+
+			List<PdOrderVO> list = pdorderService.selectAllOrder(searchVO);
+			logger.info("전체조회 결과 list.size={}", list.size());
+			for (PdOrderVO vo : list) {
+				logger.info(vo.toString());
+			}
+			// 4
+			int totalRecord = adminService.selectTotalRecord(searchVO);
+			pagingInfo.setTotalRecord(totalRecord);
+
+			model.addAttribute("list", list);
+			model.addAttribute("pagingInfo", pagingInfo);
+			return "/adminview/orderwithmain"; 
+		}
+		
+		@RequestMapping("/excelDownload")
+	    public String excelDownload(HttpServletResponse response) throws IOException {
+	        
+	        Workbook wb = new XSSFWorkbook();
+	        Sheet sheet = wb.createSheet("첫번째 시트");
+	        Row row = null;
+	        Cell cell = null;
+	        int rowNum = 0;
+
+	        // Header
+	        row = sheet.createRow(rowNum++);
+	        cell = row.createCell(0);
+	        cell.setCellValue("번호");
+	        cell = row.createCell(1);
+	        cell.setCellValue("이름");
+	        cell = row.createCell(2);
+	        cell.setCellValue("제목");
+
+	        // Body
+	        for (int i=0; i<3; i++) {
+	            row = sheet.createRow(rowNum++);
+	            cell = row.createCell(0);
+	            cell.setCellValue(i);
+	            cell = row.createCell(1);
+	            cell.setCellValue(i+"_name");
+	            cell = row.createCell(2);
+	            cell.setCellValue(i+"_title");
+	        }
+
+	        // 컨텐츠 타입과 파일명 지정
+	        response.setContentType("ms-vnd/excel");
+	        response.setHeader("Content-Disposition", "attachment;filename=orderData.xlsx");
+
+	        // Excel File Output
+	        wb.write(response.getOutputStream());
+	        wb.close();
+	        
+	        return "/adminview/orderwithmain"; 
+	    }
 	
 
 }

@@ -17,4 +17,9 @@ public class SearchPdPriceLogServiceImpl implements SearchPdPriceLogService {
 		return (cnt > 0) ? true : false;
 	}
 
+	@Override
+	public int selectNewestPriceByPdNo(int searchPdNo) {
+		return searchPdPriceLogDao.selectNewestPriceByPdNo(searchPdNo);
+	}
+
 }

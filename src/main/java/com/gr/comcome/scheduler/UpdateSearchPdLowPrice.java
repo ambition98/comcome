@@ -1,8 +1,6 @@
 package com.gr.comcome.scheduler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +35,8 @@ public class UpdateSearchPdLowPrice {
 	String lowMall = "";
 	int lowPrice = Integer.MAX_VALUE;
 	
-	//@Scheduled(fixedRate = 1000 * 60)
+	//@Scheduled(fixedRate = 1000 * 60 * 30)
+	//@Scheduled(cron = "0 0 3 * * *")
 	public void insertLog() {
 		/*
 		 * 1. 모든 search_pd의 name 가져오기
@@ -46,7 +45,6 @@ public class UpdateSearchPdLowPrice {
 		 */
 		List<SearchProductVO> searchPdVoList = searchProductService.selectAll();
 		Map<String, Product> pdMap = null;
-		List<Product> pdList = new ArrayList<Product>();
 		NaverAPI naverApi = new NaverAPI();
 		try {
 			for(SearchProductVO vo : searchPdVoList) {

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.gr.comcome.common.SearchVO;
+
 @Service
 public class PdOrderServiceImpl implements PdOrderService {
 	private final PdOrderDAO pdOrderDao;
@@ -24,18 +26,30 @@ public class PdOrderServiceImpl implements PdOrderService {
 	public List<PdOrderVO> selectByAccountNo(int accountNo) {
 		return pdOrderDao.selectByAccountNo(accountNo);
 	}
-
-//	@Override
-//	public List<Map<String, Object>> selectOrder(String pdOrderNo) {
-//		
-//		return pdOrderDao.selectOrder(pdOrderNo);
-//	}
-
+  
 	@Override
 	public List<Map<String, Object>> selectOrder(int accountNo) {
 		
 		return pdOrderDao.selectOrder(accountNo);
 	}
-
-
+  
+	@Override
+	public List<Map<String,Integer>> selectDaysSales(){
+		return pdOrderDao.selectDaysSales();
+	}
+	
+	@Override
+	public List<Map<String,Integer>> selectDaysSalesCount(){
+		return pdOrderDao.selectDaysSalesCount();
+	}
+	
+	@Override
+	public List<PdOrderVO> selectAllOrder(SearchVO searchVo){
+		return pdOrderDao.selectAllOrder(searchVo);
+	}
+	
+	@Override
+	public List<PdOrderVO> selectAllData(){
+		return pdOrderDao.selectAllData();
+	}
 }

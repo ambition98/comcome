@@ -86,11 +86,11 @@ public class NaverAPI {
 		}
 		//System.out.println(sb);
 		
-		JSONObject MainObj;
+		JSONObject mainObj;
 		Map<String, Product> productMap = new HashMap<>();
 		try {
-			MainObj = new JSONObject(sb.toString());
-			JSONArray items = MainObj.getJSONArray("items");
+			mainObj = new JSONObject(sb.toString());
+			JSONArray items = mainObj.getJSONArray("items");
 			
 			for(int i=0; i<items.length(); i++) {
 //			for(int i=0; i<1; i++) {
@@ -106,7 +106,7 @@ public class NaverAPI {
 					int price = Integer.parseInt(item.getString("lprice"));
 					Product newPd = new Product(mallName, realLink, price);
 					
-					if(newPd.getPrice() >= 200000) {
+					if(newPd.getPrice() >= 600000) {
 						//key가 이미 존재하면 해당 value반환, 존재하지 않으면 null후 newPd삽입
 						Product mapPd = productMap.putIfAbsent(mallName, newPd);
 						if(mapPd != null && (mapPd.getPrice() > newPd.getPrice())) {
@@ -127,6 +127,9 @@ public class NaverAPI {
 	}
 	
 	private String getRealLink(String link) throws JSONException {
+		/*
+		 * 네이버측의 차단으로 사용 안함
+		 */
 		Document doc = null;
 		try {
 			doc = new MyHttpRequest().getHttpDocument(link);
@@ -142,8 +145,6 @@ public class NaverAPI {
 								.getJSONObject("product")
 								.getString("productUrl");
 		
-//		System.out.println("--- realLink ---");
-//		System.out.println(realLink);
 		return realLink;
 	}
 }
