@@ -36,4 +36,10 @@
 		DELETE usedboard_comment
         WHERE no= #{no}
 	</delete>
+	
+	<select id="selectCntByNo" parameterType="int">
+		select count(*)
+		from usedboard_comment
+		where no = #{no}
+	</select>
 </mapper>
