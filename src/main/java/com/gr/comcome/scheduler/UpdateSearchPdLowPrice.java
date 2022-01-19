@@ -1,7 +1,6 @@
 package com.gr.comcome.scheduler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +45,6 @@ public class UpdateSearchPdLowPrice {
 		 */
 		List<SearchProductVO> searchPdVoList = searchProductService.selectAll();
 		Map<String, Product> pdMap = null;
-		List<Product> pdList = new ArrayList<Product>();
 		NaverAPI naverApi = new NaverAPI();
 		try {
 			for(SearchProductVO vo : searchPdVoList) {
