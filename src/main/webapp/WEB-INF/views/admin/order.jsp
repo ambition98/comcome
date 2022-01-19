@@ -15,6 +15,7 @@
 	    font-weight: bold;
 	    padding: 6px;
 	    border-radius: 5px;
+	    margin-left: 200px;
 	}
   </style>
 	<!-- pagination design -->

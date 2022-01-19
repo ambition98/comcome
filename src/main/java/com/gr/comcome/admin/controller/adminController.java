@@ -1,6 +1,8 @@
 package com.gr.comcome.admin.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -742,26 +744,39 @@ public class adminController {
 	        Row row = null;
 	        Cell cell = null;
 	        int rowNum = 0;
-
+	        
+	        
 	        // Header
 	        row = sheet.createRow(rowNum++);
 	        cell = row.createCell(0);
-	        cell.setCellValue("번호");
+	        cell.setCellValue("주문번호");
 	        cell = row.createCell(1);
-	        cell.setCellValue("이름");
+	        cell.setCellValue("회원번호");
 	        cell = row.createCell(2);
-	        cell.setCellValue("제목");
+	        cell.setCellValue("특가상품번호");
+	        cell = row.createCell(3);
+	        cell.setCellValue("주문일");
+	        cell = row.createCell(4);
+	        cell.setCellValue("가격");
 
-	        // Body
-	        for (int i=0; i<3; i++) {
-	            row = sheet.createRow(rowNum++);
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	        DecimalFormat df=new DecimalFormat("#,###");
+	        
+	        List<PdOrderVO> list = pdorderService.selectAllData();
+	        for (PdOrderVO vo : list) {
+				logger.info(vo.toString());
+				row = sheet.createRow(rowNum++);
 	            cell = row.createCell(0);
-	            cell.setCellValue(i);
+	            cell.setCellValue(vo.getPdOrderNo());
 	            cell = row.createCell(1);
-	            cell.setCellValue(i+"_name");
+	            cell.setCellValue(vo.getAccountNo());
 	            cell = row.createCell(2);
-	            cell.setCellValue(i+"_title");
-	        }
+	            cell.setCellValue(vo.getSaleProductNo());
+	            cell = row.createCell(3);
+	            cell.setCellValue(sdf.format(vo.getOrderDate()));
+	            cell = row.createCell(4);
+	            cell.setCellValue(df.format(vo.getPrice()));
+			}
 
 	        // 컨텐츠 타입과 파일명 지정
 	        response.setContentType("ms-vnd/excel");
