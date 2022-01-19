@@ -112,7 +112,7 @@
 					$('#email').val(email);
 					$('#zipcode').val(zipcode);
 					$('#address').val(address);
-					$('#addressDetail').val(addressDetail);
+					$('#address_detail').val(addressDetail);
 					$('#tel').val(tel);
 				} else {
 					$('#order_form input').val('');

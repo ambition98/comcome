@@ -205,14 +205,6 @@ vertical-align:middle;
 										id="tel" placeholder="연락처(숫자만)" name="tel">
 								</div>
 
-
-								<!-- 카드번호 -->
-								<div class="form-group" id="bn">
-									<input type="text" class="form-control form-control-user"
-										id="cardNo" placeholder="신용카드 번호"
-										name="cardNo">
-								</div>
-
 								<!-- 등록버튼 -->
 								<input type="submit" class="btn btn-primary btn-user btn-block" id="regbtn" value="계정 등록">
 								

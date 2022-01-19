@@ -2,6 +2,8 @@ package com.gr.comcome.saleproduct.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,7 +71,6 @@ public class SaleProductController {
 		//request 세션, response 쿠키	
 		log.info("특가상품 상세 화면");
 		log.info("특가상품번호 파라미터, saleProductNo={}", saleProductNo);
-		
 		
 		SaleProductVO vo=saleProductService.selectByNo(saleProductNo);
 		log.info("조회상품 정보, vo={}", vo.getThumbNailImg());

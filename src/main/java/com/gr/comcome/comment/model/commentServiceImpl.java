@@ -31,4 +31,9 @@ public class commentServiceImpl implements commentService {
 	public int deleteComment(commentVO vo) {
 		return commentDao.deleteComment(vo);
 	}
+
+	@Override
+	public int selectCntByNo(int no) {
+		return commentDao.selectCntByNo(no);
+	}
 }

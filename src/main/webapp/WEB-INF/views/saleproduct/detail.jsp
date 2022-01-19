@@ -87,7 +87,7 @@
                         <h3>${vo.name }</h3>
                         <div class="product__details__price"><fmt:formatNumber value="${vo.price }" pattern="#,###" /> \</div>
                         <p>${vo.content}</p>
-                        <a href='<c:url value="/event/wish?email=${email}&saleProductNo=${vo.saleProductNo}"/>' class="primary-btn">장바구니 추가</a>
+                        <a href='<c:url value="/event/saleProduct/wish?email=${email}&saleProductNo=${vo.saleProductNo}"/>' class="primary-btn">장바구니 추가</a>
                         <a href='<c:url value="/direct/checkout?saleProductNo=${vo.saleProductNo}"/>' class="primary-btn">바로구매</a>
                         <ul>
                             <li><b>재고 여부</b> <span>주문 가능</span></li>

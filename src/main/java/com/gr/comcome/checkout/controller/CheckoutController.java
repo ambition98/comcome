@@ -96,8 +96,12 @@ public class CheckoutController {
 	public String directCheckout(
 			@RequestParam(value = "saleProductNo"
 						, required = false
-						, defaultValue = "-1") int saleProductNo, Model model) {
+						, defaultValue = "-1") int saleProductNo
+						, Model model
+						, HttpServletRequest request) {
 		
+		log.info("Enter directCheckout()");
+		Object accountNo = request.getSession().getAttribute("accountNo");
 		if(saleProductNo == -1) {
 			String msg = "잘못된 접근입니다.";
 			String url = "/";
@@ -108,9 +112,24 @@ public class CheckoutController {
 			return "/common/message";
 		}
 		
+		if(accountNo == null) {
+			String msg = "로그인이 필요한 서비스입니다.";
+			String url = "/login/login-form";
+			
+			model.addAttribute("msg", msg);
+			model.addAttribute("url", url);
+			
+			return "/common/message";
+		}
+		
 		SaleProductVO saleProductVo = saleProductService.selectByNo(saleProductNo);
 		
+		AccountVO accountVo = accountService.selectAccountByNo((int)accountNo);
+		System.out.println("saleProductVo: " + accountNo);
+		System.out.println("accountVo: " + accountVo);
+		
 		model.addAttribute("saleProductVo", saleProductVo);
+		model.addAttribute("accountVo", accountVo);
 		
 		String merchantKey = "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
 		String merchantID = "nicepay00m";
@@ -127,8 +146,6 @@ public class CheckoutController {
 		model.addAttribute("moid", moid);
 		model.addAttribute("ediDate", ediDate);
 		model.addAttribute("hashString", hashString);
-		
-		
 		
 		SaleProductVO vo = saleProductService.selectByNo(saleProductNo);
 		log.info("saleProductVo: " + vo);

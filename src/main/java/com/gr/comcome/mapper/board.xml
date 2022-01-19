@@ -8,10 +8,6 @@
 	       	where ${searchCondition} like '%' || #{searchKeyword} || '%'
 		</if>		
 	</sql>
-
-	
-	
-	
 	
 	<insert id="insertBoard" parameterType="usedboardVo">		
 		insert into Board(  title, email, content, 
