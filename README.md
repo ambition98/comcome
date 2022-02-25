@@ -23,4 +23,4 @@
   - Backend Framework: Spring Boot 2.6.1
   - FrontEnd: JSP 2.3
 
-<img src="https://imgur.com/n1S6GzP" />
+<img src="https://i.imgur.com/n1S6GzP.png" />
