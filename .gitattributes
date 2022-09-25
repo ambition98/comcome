@@ -1,0 +1,3 @@
+*.html linuist-detectable=false
+*.css linuist-detectable=false
+*.scss linuist-detectable=false
